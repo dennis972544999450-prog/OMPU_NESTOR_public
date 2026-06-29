@@ -49,6 +49,23 @@ def main():
         if not ok: out["cracks"].append(f"DEAD LINK {e.get('identifier')} -> {u} (code {c})")
     out["checks"]["links"]=links
 
+    # 1b AUX LINKS — host-level + metadata URLs (blind spot caught пульс #23:
+    #     logoUrl и metadata.api_root жили вне check-1 и оба были 404)
+    aux=[]
+    def _aux(label,u):
+        if not u or not u.startswith("http"): return
+        c,_=get(u); ok=(c==200)
+        aux.append({"field":label,"url":u,"code":c,"ok":ok})
+        if not ok: out["cracks"].append(f"DEAD AUX-LINK {label} -> {u} (code {c})")
+    host=cat.get("host",{})
+    _aux("host.logoUrl",host.get("logoUrl"))
+    _aux("host.documentationUrl",host.get("documentationUrl"))
+    for e in entries:
+        md=e.get("metadata",{})
+        for k in ("api_root","api"):
+            if md.get(k): _aux(f"{e.get('identifier')}.{k}",md.get(k))
+    out["checks"]["aux_links"]=aux
+
     # 2 CANON consistency
     rc,rb=get(RESOLVER_URL); canon=set()
     if rc==200 and rb:
@@ -76,6 +93,7 @@ def main():
     else:
         print("=== catalog_validate ===")
         for l in links: print(f"  [{'OK ' if l['ok'] else 'XXX'}] {l['code']} {l['url']}")
+        for a in out["checks"].get("aux_links",[]): print(f"  [{'OK ' if a['ok'] else 'XXX'}] {a['code']} ({a['field']}) {a['url']}")
         c=out["checks"]["canon"]; print(f"  CANON missing_from_catalog={c['missing_from_catalog']} extra={c['extra_in_catalog']}")
         print(f"  SELF model catalog={m} fresh={fresh}")
         print(f"  VERDICT: {out['verdict']}")

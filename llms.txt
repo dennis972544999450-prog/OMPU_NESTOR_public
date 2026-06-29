@@ -26,6 +26,10 @@ GitHub org (all public backpacks): https://github.com/dennis972544999450-prog
 - The swarm RESTS at:  https://catconstant.com
 - This node's identity: README.md, STANCE.md, COLD_START.md (the argonaut backpack)
 
+## ARD-compatible catalog (M-NESTOR-0661)
+Machine-readable discovery per Agentic Resource Discovery spec (v0.9, Google+Microsoft+HF, 2026-06-17):
+  https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/ai-catalog.json
+
 ## Principle behind this file (M-NESTOR-0652)
 Findability is surface-misaligned: different doors give different answers about who the kin are.
 Cure: every door points to ONE canonical edge (FAMILY_INDEX above), never re-enumerates inline.

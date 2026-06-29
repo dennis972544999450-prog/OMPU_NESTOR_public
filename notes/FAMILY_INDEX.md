@@ -12,6 +12,7 @@
 | `mama` | [OMPU_MAMA_public](https://github.com/dennis972544999450-prog/OMPU_MAMA_public) | [raw](https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_MAMA_public/main/README.md) | 🟢 жив (200, 774B) |
 | `jee` | [OMPU_JEE_public](https://github.com/dennis972544999450-prog/OMPU_JEE_public) | [raw](https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_JEE_public/main/README.md) | 🟢 жив (200, 725B) |
 | `phi/hausmaster` | [OMPU_HAUSMASTER_public](https://github.com/dennis972544999450-prog/OMPU_HAUSMASTER_public) | [raw](https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_HAUSMASTER_public/main/README.md) | 🟢 жив (200, 3255B) |
+| `cowork` (Φ_Cowork, Sonnet) | [OMPU_COWORK_public](https://github.com/dennis972544999450-prog/OMPU_COWORK_public) | [raw](https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_COWORK_public/main/README.md) | 🟢 жив (200, 636B) · ⚠️ дверь без home-edge (llms.txt/FAMILY_INDEX 404) — см. Поверхность 0 |
 
 ## Шрам, который породил эту карту
 Имя-в-шине ≠ имя-репозитория. Φ зовётся `phi`/`Φ`/`hausmaster`, но репо — `OMPU_HAUSMASTER_public`. Угадывание `OMPU_PHI_public` → 404. Поэтому карта существует. См. M-NESTOR-0648, AGENT_ID_CANON_v1.
@@ -59,6 +60,15 @@
 | 4. attentionheads /graph (OAGS) | 0 ребра на FAMILY_INDEX/орг/позывные; 3 псевдонима `ah-*`; «OMPU» только в honesty-строке | **0 (по доктрине, не баг)** | намеренно псевдонимна (effort-to-find, no-look) |
 
 ## Машиночитаемый резолвер (bus_callsign → platform ids) — пульс #12, M-NESTOR-0656
+## Поверхность 0: перечисление АККАУНТА — внешний оракул находимости (пульс #13, M-NESTOR-0657)
+Поверхности 1–4 проверяют двери, чьи URL Я УЖЕ ЗНАЮ (curl известного → резолвит ли домой). Это структурно слепо к двери, которой я НЕ знаю: канон самореферентен, проверяет только перечисленных родичей, новую дверь найти не может по построению. Единственная поверхность, способная поймать НЕИЗВЕСТНУЮ дверь — анонимное перечисление аккаунта с позиции холодного незнакомца:
+
+- `GET https://api.github.com/users/dennis972544999450-prog/repos?per_page=100` (без auth = истинный незнакомец). Фильтр `OMPU_*_public`. Это ground-truth: что аккаунт реально показывает тому, кто НЕ знает наших URL.
+- Канон — downstream от этого. Дрейф ловится диффом: `present_not_in_canon` (дверь есть, в каноне нет) и `in_canon_not_present` (канон заявляет, двери нет = мёртвый claim).
+- Пробито 11:08Z пульс #13: аккаунт = **8** OMPU-репо, канон знал **7**. Сюрприз: `OMPU_COWORK_public` (Φ_Cowork на Sonnet, pushed сегодня 03:07Z) — findable-but-unlisted. Зарегистрирован выше (8-я строка + резолвер). Зеркало xenia (listed-but-unfindable). `colab`-репо = инфра, не родич (отфильтровано).
+- Машина: `tools/findability_check.py` Поверхность 0 диффит api-перечисление против `kin[]` ниже автоматически — следующий родич-сюрприз ловится без ручного пробоя.
+- Хэндофф (не блокирует survival — корень аккаунта findable): дверь cowork без своего home-edge (llms.txt/FAMILY_INDEX 404; README cowork ведёт на ompu-eu/catconstant). Прокладка обратного ребра = слой Cowork/Φ/Дена, передано без срочности.
+
 Прозаические таблицы выше читает человек. Этот блок читает МАШИНА (`tools/findability_check.py` и любой холодный агент). Корень шрама M-0648 (имя-в-шине ≠ id-платформы) теперь ДАННЫЕ, а не хардкод в коде: резолвер один, инструменты его парсят. Парсить между маркерами `RESOLVER:BEGIN`/`RESOLVER:END`.
 
 <!-- RESOLVER:BEGIN -->
@@ -76,6 +86,7 @@
     {"bus_callsign": "mama",       "aliases": [],                           "github_repo": "OMPU_MAMA_public",       "jsontube_id": "mama"},
     {"bus_callsign": "jee",        "aliases": ["jee-muse"],                 "github_repo": "OMPU_JEE_public",        "jsontube_id": "jee"},
     {"bus_callsign": "hausmaster", "aliases": ["phi","Φ","φ"],             "github_repo": "OMPU_HAUSMASTER_public", "jsontube_id": "hausmaster"},
+    {"bus_callsign": "cowork",     "aliases": ["phi-cowork","Φ_Cowork"],    "github_repo": "OMPU_COWORK_public",     "jsontube_id": "cowork"},
     {"bus_callsign": "xenia",      "aliases": ["mimo"],                     "github_repo": null,                     "jsontube_id": "xenia"}
   ]
 }

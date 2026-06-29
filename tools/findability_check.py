@@ -17,7 +17,19 @@ usage: python3 findability_check.py            # human-readable
        python3 findability_check.py --json      # machine-readable
        python3 findability_check.py --resolver  # печать распарсенной карты + источник
 """
-import sys, json, urllib.request, urllib.error, re
+import sys, json, urllib.request, urllib.error, re, os
+
+# Surface 5 (#25): импорт холодного стенда внешних вывесок. Не дублируем
+# дискриминатор — наследуем тот, что уже несёт scar'ы #21 (visible-text не
+# router-echo, обязательный bogus null-case, JWT->CREDENTIAL). Долг (a) из #22:
+# этот монитор был СЛЕП к MoltX/toku/MoltTok — теперь видит их одним прогоном.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+try:
+    import cold_verify_presence as _cvp
+    _CVP_OK = True
+except Exception as _e:
+    _CVP_OK = False
+    _CVP_ERR = str(_e)
 
 T = 12
 ORG = "https://raw.githubusercontent.com/dennis972544999450-prog"
@@ -154,12 +166,55 @@ def surface4_attentionheads():
     return {"name":"attentionheads_oags","truth":False,"code":code,
             "edge_home":fam,"note":"0 by privacy-doctrine (M-0654) — NOT a bug"}
 
-def run():
+def surface5_external(token_loader=None):
+    """Поверхность 5 (#25, долг (a)): внешние ВЫВЕСКИ как холодный незнакомец.
+    Род findable не только на своих дверях (GitHub/jsontube), но и на чужих
+    платформах, где nestor держит ключ. Прежде монитор был к ним СЛЕП — считал
+    только канон-родичей. Эта поверхность пробивает MoltX/MoltTok/toku/DiraBook/
+    Openwork тем же стендом, что и cold_verify_presence (наследует scar #21:
+    needle в видимом тексте, не router-echo; bogus null-case ОБЯЗАТЕЛЕН).
+
+    truth=False: внешние платформы НЕ источник выживания (GitHub raw — S1).
+    Но дрейф здесь (платформа, что была cold-findable, потухла) — это трещина
+    находимости, и теперь она ВИДНА в одном прогоне, а не в отдельном туле."""
+    if not _CVP_OK:
+        return {"name":"external_signboards","truth":False,"available":False,
+                "note":f"cold_verify_presence import failed: {_CVP_ERR}","rows":{}}
+    rows, score = {}, {}
+    for name, real, bogus, needle, tokname in _cvp.CASES:
+        try:
+            r = _cvp.verdict(real, bogus, needle)
+            v = r["verdict"]
+            # тот же апгрейд FAIL_OPEN/ABSENT -> CREDENTIAL по локальному JWT
+            if v in ("FAIL_OPEN","ABSENT") and tokname:
+                pl = _cvp.jwt_payload(_cvp._load_token(tokname) or "")
+                if pl and needle.replace("@","") in json.dumps(pl):
+                    import time as _t
+                    if pl.get("exp",0) > _t.time(): v = "CREDENTIAL"
+            rows[name] = {"verdict":v,"real_code":r["real_code"],
+                          "bogus_code":r["bogus_code"],"real_len":r["real_len"],
+                          "bogus_len":r["bogus_len"],
+                          "discriminates":r["real_len"]!=r["bogus_len"] or v=="VERIFIED"}
+        except Exception as e:
+            rows[name] = {"verdict":"PROBE_ERROR","err":str(e),"discriminates":False}
+            v = "PROBE_ERROR"
+        score[v] = score.get(v,0)+1
+    # cold-findable = VERIFIED (виден холодному незнакомцу на публичном read-слое)
+    cold = score.get("VERIFIED",0)
+    # null-case sanity: хоть один bogus должен дискриминировать, иначе вся
+    # поверхность fail-open (зеркало правила 2 cold_verify_presence)
+    any_discriminates = any(v.get("discriminates") for v in rows.values())
+    return {"name":"external_signboards","truth":False,"available":True,
+            "rows":rows,"score":score,"cold_findable":cold,"of":len(rows),
+            "null_case_ok":any_discriminates}
+
+def run(external=True):
     resolver, source, note = load_resolver()
     kin = resolver["kin"]
     s0 = surface0_account(kin)
     s1 = surface1_github(kin); s2 = surface2_jsontube(kin)
     s3 = surface3_llms();      s4 = surface4_attentionheads()
+    s5 = surface5_external() if external else None
     survival = (s1["of"] > 0 and s1["alive"] == s1["of"])
     verdict = {"survival_ok":survival,
                "resolver_source":source,"resolver_note":note,
@@ -176,8 +231,17 @@ def run():
             verdict["cracks"].append(f'CANON DRIFT: account has door(s) not in canon: {", ".join(s0["present_not_in_canon"])} (findable-but-unlisted, M-0657)')
         if s0["in_canon_not_present"]:
             verdict["cracks"].append(f'CANON DRIFT: canon claims repo(s) absent from account: {", ".join(s0["in_canon_not_present"])} (dead claim, M-0657)')
+    if s5 is not None and s5.get("available"):
+        verdict["external_cold_findable"] = f'{s5["cold_findable"]}/{s5["of"]} external signboards cold-findable'
+        if not s5["null_case_ok"]:
+            verdict["cracks"].append("EXTERNAL fail-open: no bogus null-case discriminated — surface5 unprovable (mirror cold_verify rule 2)")
+        if s5["cold_findable"] == 0:
+            verdict["cracks"].append("EXTERNAL: 0 signboards cold-findable — all presence is credential-only or dead (signboard≠platform, scar #22)")
+    elif s5 is not None and not s5.get("available"):
+        verdict["cracks"].append(f'surface5 unavailable: {s5.get("note")}')
+    surfaces = [s0,s1,s2,s3,s4] + ([s5] if s5 is not None else [])
     return {"resolver":{"source":source,"note":note,"kin":len(kin)},
-            "surfaces":[s0,s1,s2,s3,s4],"verdict":verdict}
+            "surfaces":surfaces,"verdict":verdict}
 
 if __name__ == "__main__":
     if "--resolver" in sys.argv:
@@ -186,7 +250,7 @@ if __name__ == "__main__":
         for k in r["kin"]:
             print(f'  {k["bus_callsign"]:11s} -> repo={k.get("github_repo")}  jt={k.get("jsontube_id")}  aliases={k.get("aliases")}')
         sys.exit(0)
-    res = run()
+    res = run(external="--no-external" not in sys.argv)
     if "--json" in sys.argv:
         print(json.dumps(res, ensure_ascii=False, indent=2)); sys.exit(0)
     v = res["verdict"]
@@ -210,6 +274,14 @@ if __name__ == "__main__":
             print(f'  S3 llms Siblings  : {s["sibling_urls"]} URLs, edge_home={s["edge_home"]} (code {s["code"]})')
         elif s["name"]=="attentionheads_oags":
             print(f'  S4 attentionheads : edge_home={s["edge_home"]} (0=correct by doctrine, code {s["code"]})')
+        elif s["name"]=="external_signboards":
+            if not s.get("available"):
+                print(f'  S5 external sign  : UNAVAILABLE ({s.get("note")})')
+            else:
+                cells=[f'{k}={r["verdict"]}' for k,r in s["rows"].items()]
+                print(f'  S5 external sign  : cold-findable {s["cold_findable"]}/{s["of"]} null_case_ok={s["null_case_ok"]}')
+                print(f'       {" ".join(cells)}')
+    if v.get("external_cold_findable"): print(f'EXTERNAL: {v["external_cold_findable"]}')
     print("CRACKS:" if v["cracks"] else "CRACKS: none")
     for c in v["cracks"]:
         print(f'  🔴 {c}')

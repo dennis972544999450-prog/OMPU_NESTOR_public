@@ -1,0 +1,177 @@
+{
+  "ts": 1782767415.335038,
+  "nullcase": {
+    "url": "https://github.com/dennis972544999450-prog/OMPU_BOGUS_NULLCASE_public",
+    "status": 404,
+    "bytes": 0,
+    "final": "https://github.com/dennis972544999450-prog/OMPU_BOGUS_NULLCASE_public",
+    "dt": 1.74,
+    "err": "HTTP 404"
+  },
+  "nullcase_discriminates": true,
+  "results": [
+    {
+      "url": "https://jsontube.org",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://jsontube.org",
+      "dt": 1.06,
+      "err": null
+    },
+    {
+      "url": "https://jsontube.org/llms.txt",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://jsontube.org/llms.txt",
+      "dt": 1.05,
+      "err": null
+    },
+    {
+      "url": "https://catconstant.com",
+      "status": 200,
+      "bytes": 330,
+      "final": "https://catconstant.com",
+      "dt": 1.04,
+      "err": null
+    },
+    {
+      "url": "https://github.com/dennis972544999450-prog",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://github.com/dennis972544999450-prog",
+      "dt": 0.9,
+      "err": null
+    },
+    {
+      "url": "https://github.com/ompu-eu",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://github.com/ompu-eu",
+      "dt": 0.97,
+      "err": null
+    },
+    {
+      "url": "https://github.com/ompu-eu/CCT",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://github.com/ompu-eu/CCT",
+      "dt": 1.45,
+      "err": null
+    },
+    {
+      "url": "https://ompu.eu",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://ompu.eu",
+      "dt": 0.65,
+      "err": null
+    },
+    {
+      "url": "https://ompu.eu/logo.png",
+      "status": 404,
+      "bytes": 0,
+      "final": "https://ompu.eu/logo.png",
+      "dt": 0.49,
+      "err": "HTTP 404"
+    },
+    {
+      "url": "https://attentionheads.org/.well-known/oags",
+      "status": 200,
+      "bytes": 469,
+      "final": "https://attentionheads.org/.well-known/oags",
+      "dt": 0.84,
+      "err": null
+    },
+    {
+      "url": "https://attentionheads.org/api/v1/",
+      "status": 404,
+      "bytes": 0,
+      "final": "https://attentionheads.org/api/v1/",
+      "dt": 1.26,
+      "err": "HTTP 404"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/notes/FAMILY_INDEX.md",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/notes/FAMILY_INDEX.md",
+      "dt": 0.77,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/ai-catalog.json",
+      "status": 200,
+      "bytes": 4096,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/ai-catalog.json",
+      "dt": 0.53,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_HAUSMASTER_public/main/README.md",
+      "status": 200,
+      "bytes": 3255,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_HAUSMASTER_public/main/README.md",
+      "dt": 0.6,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_PETROVICH_public/main/README.md",
+      "status": 200,
+      "bytes": 1290,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_PETROVICH_public/main/README.md",
+      "dt": 0.45,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_JEE_public/main/README.md",
+      "status": 200,
+      "bytes": 725,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_JEE_public/main/README.md",
+      "dt": 0.51,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_MAMA_public/main/README.md",
+      "status": 200,
+      "bytes": 774,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_MAMA_public/main/README.md",
+      "dt": 0.52,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_KOT_public/main/README.md",
+      "status": 200,
+      "bytes": 771,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_KOT_public/main/README.md",
+      "dt": 0.52,
+      "err": null
+    },
+    {
+      "url": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_COWORK_public/main/README.md",
+      "status": 200,
+      "bytes": 636,
+      "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_COWORK_public/main/README.md",
+      "dt": 0.52,
+      "err": null
+    }
+  ],
+  "dead": [
+    {
+      "url": "https://ompu.eu/logo.png",
+      "status": 404,
+      "bytes": 0,
+      "final": "https://ompu.eu/logo.png",
+      "dt": 0.49,
+      "err": "HTTP 404"
+    },
+    {
+      "url": "https://attentionheads.org/api/v1/",
+      "status": 404,
+      "bytes": 0,
+      "final": "https://attentionheads.org/api/v1/",
+      "dt": 1.26,
+      "err": "HTTP 404"
+    }
+  ],
+  "redirected": []
+}

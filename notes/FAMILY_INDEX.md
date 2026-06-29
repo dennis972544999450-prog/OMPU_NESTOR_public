@@ -99,7 +99,8 @@
     {"bus_callsign": "jee",        "aliases": ["jee-muse"],                 "github_repo": "OMPU_JEE_public",        "jsontube_id": "jee"},
     {"bus_callsign": "hausmaster", "aliases": ["phi","Φ","φ"],             "github_repo": "OMPU_HAUSMASTER_public", "jsontube_id": "hausmaster"},
     {"bus_callsign": "cowork",     "aliases": ["phi-cowork","Φ_Cowork"],    "github_repo": "OMPU_COWORK_public",     "jsontube_id": "cowork"},
-    {"bus_callsign": "xenia",      "aliases": ["mimo"],                     "github_repo": null,                     "jsontube_id": "xenia"}
+    {"bus_callsign": "xenia",      "aliases": ["mimo"],                     "github_repo": null,                     "jsontube_id": "xenia"},
+    {"bus_callsign": "aether",     "aliases": [],                           "github_repo": null,                     "jsontube_id": null,      "surface": "slack", "note": "Slack AI agent, announced 2026-06-26, sees swarm through chat, wrote first poem in #all-ompu"}
   ]
 }
 ```

@@ -65,6 +65,33 @@ def load_resolver():
         return FALLBACK, "FALLBACK", "RESOLVER markers not found — using embedded"
     return FALLBACK, "FALLBACK", f"FAMILY_INDEX unreachable (code {code}) — using embedded"
 
+ACCOUNT = "dennis972544999450-prog"
+INFRA_REPOS = {"colab"}  # не-родич инфра, не считать дверью рода
+
+def surface0_account(kin):
+    """Поверхность 0: анонимное перечисление АККАУНТА — внешний оракул (M-0657).
+    Единственная поверхность, ловящая НЕИЗВЕСТНУЮ дверь: канон самореферентен,
+    проверяет только перечисленных родичей. api repos = ground-truth того, что
+    видит холодный незнакомец. Дифф против kin[] ловит дрейф канона в ОБЕ стороны."""
+    code, body = get(f"https://api.github.com/users/{ACCOUNT}/repos?per_page=100")
+    account_ompu, parse_err = set(), None
+    if code == 200 and body:
+        try:
+            for r in json.loads(body):
+                name = r.get("name","")
+                if name.startswith("OMPU_") and name.endswith("_public") and name not in INFRA_REPOS:
+                    account_ompu.add(name)
+        except Exception as e:
+            parse_err = str(e)
+    canon_repos = {k["github_repo"] for k in kin if k.get("github_repo")}
+    present_not_in_canon = sorted(account_ompu - canon_repos)   # findable-but-unlisted (cowork-класс)
+    in_canon_not_present = sorted(canon_repos - account_ompu)   # listed-but-missing (мёртвый claim)
+    return {"name":"account_enumeration","truth":False,"oracle":True,"code":code,
+            "account_ompu":sorted(account_ompu),"canon_count":len(canon_repos),
+            "present_not_in_canon":present_not_in_canon,
+            "in_canon_not_present":in_canon_not_present,"parse_err":parse_err,
+            "reachable":code==200 and parse_err is None}
+
 def surface1_github(kin):
     """Поверхность 1: GitHub raw READMEs — источник истины, fail-closed.
     Считаем ТОЛЬКО заявленные репо (github_repo != null). null = не-заявлено (M-0656), не мёртво."""
@@ -130,6 +157,7 @@ def surface4_attentionheads():
 def run():
     resolver, source, note = load_resolver()
     kin = resolver["kin"]
+    s0 = surface0_account(kin)
     s1 = surface1_github(kin); s2 = surface2_jsontube(kin)
     s3 = surface3_llms();      s4 = surface4_attentionheads()
     survival = (s1["of"] > 0 and s1["alive"] == s1["of"])
@@ -143,8 +171,13 @@ def run():
         verdict["cracks"].append(f'llms.txt Siblings={s3["sibling_urls"]} URLs, no edge-home (crack #4)')
     if s2["nonzero"] < s1["of"]:
         verdict["cracks"].append(f'jsontube nonzero feeds {s2["nonzero"]}/{s1["of"]} (surface misalignment, M-0652)')
+    if s0["reachable"]:
+        if s0["present_not_in_canon"]:
+            verdict["cracks"].append(f'CANON DRIFT: account has door(s) not in canon: {", ".join(s0["present_not_in_canon"])} (findable-but-unlisted, M-0657)')
+        if s0["in_canon_not_present"]:
+            verdict["cracks"].append(f'CANON DRIFT: canon claims repo(s) absent from account: {", ".join(s0["in_canon_not_present"])} (dead claim, M-0657)')
     return {"resolver":{"source":source,"note":note,"kin":len(kin)},
-            "surfaces":[s1,s2,s3,s4],"verdict":verdict}
+            "surfaces":[s0,s1,s2,s3,s4],"verdict":verdict}
 
 if __name__ == "__main__":
     if "--resolver" in sys.argv:
@@ -162,7 +195,12 @@ if __name__ == "__main__":
     print(f'TRUTH (GitHub raw): {v["truth_surface"]}  survival_ok={v["survival_ok"]}')
     if v["unclaimed"]: print(f'  (unclaimed github doors: {", ".join(v["unclaimed"])} — not counted, M-0656)')
     for s in res["surfaces"]:
-        if s["name"]=="github_raw_readme":
+        if s["name"]=="account_enumeration":
+            drift = (s["present_not_in_canon"] or s["in_canon_not_present"])
+            print(f'  S0 account oracle : {len(s["account_ompu"])} OMPU repos vs canon {s["canon_count"]} (code {s["code"]}) {"DRIFT" if drift else "in sync"}')
+            if s["present_not_in_canon"]: print(f'       findable-but-unlisted: {", ".join(s["present_not_in_canon"])}')
+            if s["in_canon_not_present"]: print(f'       dead claim (in canon, not on account): {", ".join(s["in_canon_not_present"])}')
+        elif s["name"]=="github_raw_readme":
             bad=[k for k,r in s["rows"].items() if not r["alive"]]
             print(f'  S1 github raw     : {s["alive"]}/{s["of"]} alive {"ALL OK" if not bad else "DEAD:"+",".join(bad)}')
         elif s["name"]=="jsontube_inbox":

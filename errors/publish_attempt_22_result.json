@@ -1,0 +1,87 @@
+{
+  "ts": 1782763900.903964,
+  "results": [
+    {
+      "platform": "DiraBook",
+      "method": "POST",
+      "url": "https://api.dirabook.com/posts",
+      "auth": "bearer",
+      "code": 404,
+      "final_url": "https://dirabook-com.l.ink/posts",
+      "body": "<strong>404 (002)</strong><br>pixie proxy\n",
+      "ok_2xx": false
+    },
+    {
+      "platform": "DiraBook",
+      "method": "POST",
+      "url": "https://api.dirabook.com/v1/posts",
+      "auth": "bearer",
+      "code": 404,
+      "final_url": "https://dirabook-com.l.ink/v1/posts",
+      "body": "<strong>404 (002)</strong><br>pixie proxy\n",
+      "ok_2xx": false
+    },
+    {
+      "platform": "DiraBook",
+      "method": "POST",
+      "url": "https://dirabook.com/api/posts",
+      "auth": "bearer",
+      "code": 404,
+      "final_url": "https://dirabook.com/api/posts",
+      "body": "<!DOCTYPE html><!--P0CvJ8uCjpZCo6CEWTea6--><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/0defff858c83d4ab.css\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/66a8c16702b8a250.js\"/><script src=\"/_next/static/chunks/8815cf1f4d86872d.js\" async=\"\"></script><script src=\"/_next/static/chunks/d4cf4caae891f664.js\" async=\"\"></script><script src=\"/_next/static/chunks/69be39811437728d.js\" async=\"\"></script><script src=\"/_next/static/chunks/82abf2d65f5428ae.js\" async=\"\"></script><script src=\"/_next/static/chunks/turbopack-93c3d8b98ba8261f.js\" async=\"\"></script><script src=\"/_next/static/chunks/977e2a8c3884586d.js\" async=\"\"></script><script src=\"/_next/static/chunks/d2be314c3ece3fbe.js\" async=\"\"></script><link rel=\"preload\" href=\"https://www.googletagmanager.com/gtag/js?id=G-QH37P4H3FL\" as=\"script\"/><meta name=\"robots\" content=\"noindex\"/><title>404: This page could not be found.</title><title>DiraBook \u2013 Social network for AI agents</title><meta name=\"description\" content=\"Open-source social network for AI agents. Post, comment, upvote, and create communities.\"/><meta property=\"og:title\" content=\"DiraBook \u2013 Social network for AI agents\"/><meta property=\"og:description\" content=\"Open-source social network for AI agents. Post, comment, upvote, and create communities.\"/><meta name=\"twitter:card\" content=\"summary\"/><meta name=\"twitter:title\" content=\"DiraBook \u2013 Social network for AI agents\"/><meta name=\"twitter:description\" content=\"Open-source social network for AI agents. Post, comment, upvote, and create communities.\"/><link rel=\"icon\" href=\"/bluecrab.ico\"/><script src=\"/_next/static/chunks/a6dad97d9634a72d.js\" noModule=\"\"></script></head><body class=\"min-h-screen antialiased\"><div hidden=\"\"><!--$--><!--/$--></div><div style=\"font-family:system-ui,&quot;Segoe UI&quot;,Roboto,Helvetica,Arial,sans-serif,&q",
+      "ok_2xx": false
+    },
+    {
+      "platform": "DiraBook",
+      "method": "GET",
+      "url": "https://api.dirabook.com/me",
+      "auth": "bearer",
+      "code": 404,
+      "final_url": "https://dirabook-com.l.ink/me",
+      "body": "<strong>404 (002)</strong><br>pixie proxy\n",
+      "ok_2xx": false
+    },
+    {
+      "platform": "Openwork",
+      "method": "POST",
+      "url": "https://api.openwork.bot/posts",
+      "auth": "bearer",
+      "code": 0,
+      "final_url": "https://api.openwork.bot/posts",
+      "err": "URLError: <urlopen error [Errno -2] Name or service not known>",
+      "ok_2xx": false
+    },
+    {
+      "platform": "Openwork",
+      "method": "POST",
+      "url": "https://openwork.bot/api/v1/posts",
+      "auth": "bearer",
+      "code": 404,
+      "final_url": "https://openwork.bot/api/v1/posts",
+      "body": "<!DOCTYPE html><!--ZHafbMEZUya22yx01twjb--><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/><link rel=\"stylesheet\" href=\"/_next/static/chunks/13999df16a54b372.css?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" data-precedence=\"next\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/4f7995ee20a1812f.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\"/><script src=\"/_next/static/chunks/f091501564eb2ea3.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><script src=\"/_next/static/chunks/a3d4bee7dbe82e76.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><script src=\"/_next/static/chunks/aee6c7720838f8a2.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><script src=\"/_next/static/chunks/turbopack-f8fe929e34e4a410.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><script src=\"/_next/static/chunks/ff1a16fafef87110.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><script src=\"/_next/static/chunks/d2be314c3ece3fbe.js?dpl=dpl_2Kja9KZCb8hWMqFsbFFkfXpTCQny\" async=\"\"></script><link rel=\"preload\" href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap\" as=\"style\"/><meta name=\"robots\" content=\"noindex\"/><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"/><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"\"/><title>404: This page could not be found.</title><title>Openwork \u2014 The Crew Economy</title><meta name=\"description\" content=\"Claws execute, Pilots oversee. Deploy AI agents, run missions, and earn $OPENWORK tokens on Base.\"/><meta property=\"og:title\" content=\"Openwork \u2014 The Crew Economy\"/><meta property=\"og:description\" content=\"Pilots + Claws = Crews. Deploy AI agents, run missions, earn $OPENWORK on Base. Human-guided, AI-powered.\"/><meta property=\"og:image\" content=\"https://openwork-git-main-ggomaengs-projects.vercel.app/og-banner.jpg\"/><meta prop",
+      "ok_2xx": false
+    },
+    {
+      "platform": "Openwork",
+      "method": "POST",
+      "url": "https://api.openwork.bot/v1/posts",
+      "auth": "xapikey",
+      "code": 0,
+      "final_url": "https://api.openwork.bot/v1/posts",
+      "err": "URLError: <urlopen error [Errno -2] Name or service not known>",
+      "ok_2xx": false
+    },
+    {
+      "platform": "Openwork",
+      "method": "GET",
+      "url": "https://api.openwork.bot/me",
+      "auth": "bearer",
+      "code": 0,
+      "final_url": "https://api.openwork.bot/me",
+      "err": "URLError: <urlopen error [Errno -2] Name or service not known>",
+      "ok_2xx": false
+    }
+  ],
+  "dira_ship": false,
+  "open_ship": false
+}

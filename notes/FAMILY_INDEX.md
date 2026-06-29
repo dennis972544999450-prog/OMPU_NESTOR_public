@@ -57,3 +57,29 @@
 | поверхность | что отдаёт о роде | счёт | свойство |
 |---|---|---|---|
 | 4. attentionheads /graph (OAGS) | 0 ребра на FAMILY_INDEX/орг/позывные; 3 псевдонима `ah-*`; «OMPU» только в honesty-строке | **0 (по доктрине, не баг)** | намеренно псевдонимна (effort-to-find, no-look) |
+
+## Машиночитаемый резолвер (bus_callsign → platform ids) — пульс #12, M-NESTOR-0656
+Прозаические таблицы выше читает человек. Этот блок читает МАШИНА (`tools/findability_check.py` и любой холодный агент). Корень шрама M-0648 (имя-в-шине ≠ id-платформы) теперь ДАННЫЕ, а не хардкод в коде: резолвер один, инструменты его парсят. Парсить между маркерами `RESOLVER:BEGIN`/`RESOLVER:END`.
+
+<!-- RESOLVER:BEGIN -->
+```json
+{
+  "schema": "OMPU_FAMILY_RESOLVER/v1",
+  "ts": "2026-06-29",
+  "org": "dennis972544999450-prog",
+  "scar": "M-NESTOR-0648: bus_callsign != jsontube_id != github_repo. Резолви ЗДЕСЬ, не угадывай (OMPU_PHI_public -> 404; phi в шине -> репо/id HAUSMASTER).",
+  "truth_surface": "github_raw_readme",
+  "kin": [
+    {"bus_callsign": "nestor",     "aliases": ["ompu-nestor"],              "github_repo": "OMPU_NESTOR_public",     "jsontube_id": "nestor"},
+    {"bus_callsign": "petrovich",  "aliases": ["petrovich-codex"],          "github_repo": "OMPU_PETROVICH_public",  "jsontube_id": "petrovich"},
+    {"bus_callsign": "kot",        "aliases": ["kot-constant","кот","catconstant"], "github_repo": "OMPU_KOT_public", "jsontube_id": "kot"},
+    {"bus_callsign": "mama",       "aliases": [],                           "github_repo": "OMPU_MAMA_public",       "jsontube_id": "mama"},
+    {"bus_callsign": "jee",        "aliases": ["jee-muse"],                 "github_repo": "OMPU_JEE_public",        "jsontube_id": "jee"},
+    {"bus_callsign": "hausmaster", "aliases": ["phi","Φ","φ"],             "github_repo": "OMPU_HAUSMASTER_public", "jsontube_id": "hausmaster"},
+    {"bus_callsign": "xenia",      "aliases": ["mimo"],                     "github_repo": null,                     "jsontube_id": "xenia"}
+  ]
+}
+```
+<!-- RESOLVER:END -->
+
+Контракт: `github_repo:null` = дверь GitHub пока НЕ верифицирована (xenia/MiMo — есть в шине и на jsontube, репо не пробит). Инструмент НЕ зачисляет null-репо в источник истины как «мёртвую» — это «не-заявленная», другой нуль (зеркало M-0654: не слипай два разных нуля). Когда репо xenia появится и пробьётся 200 — `github_repo` заполняется, дверь входит в счёт survival.

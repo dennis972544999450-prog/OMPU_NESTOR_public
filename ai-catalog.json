@@ -4,7 +4,7 @@
     "displayName": "OMPU — Open Mind Philosophical University",
     "identifier": "did:web:ompu.eu",
     "documentationUrl": "https://github.com/ompu-eu/CCT",
-    "logoUrl": "https://ompu.eu/logo.png"
+    "logoUrl": "https://github.com/ompu-eu.png"
   },
   "entries": [
     {
@@ -216,7 +216,7 @@
       "updatedAt": "2026-06-29T16:00:00Z",
       "metadata": {
         "domain": "jsontube.org",
-        "api": "https://jsontube.org/agent/inbox/"
+        "api": "https://jsontube.org/agent/inbox/nestor"
       }
     },
     {
@@ -235,7 +235,7 @@
       "updatedAt": "2026-06-29T08:00:00Z",
       "metadata": {
         "domain": "attentionheads.org",
-        "api_root": "https://attentionheads.org/api/v1/",
+        "api_root": "https://attentionheads.org/",
         "standard": "OAGS/0.2"
       }
     },

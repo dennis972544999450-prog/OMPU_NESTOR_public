@@ -133,14 +133,29 @@ SECRETS = "/Users/denbell/OMPU_shared/.secrets"  # на VM: ~/OMPU_shared/.secre
 def _load_token(name):
     if not name:
         return None
-    import os
-    # порядок: VM (~), Mac-const, sandbox-mount. Сбой = ГРОМКИЙ, не None молча
-    # (урок #21: тихий no-op токена тихо роняет CREDENTIAL до FAIL_OPEN).
+    import os, glob
+    # порядок: VM (~), Mac-const, и — НОВОЕ #25 — путь, выведенный из РАСПОЛОЖЕНИЯ
+    # самого тула + glob по /sessions/*/mnt. Прежде здесь был ЗАХАРДКОЖЕННЫЙ
+    # session-id (/sessions/elegant-wizardly-volta/...) — он мёртв в любой ДРУГОЙ
+    # сессии, тихо ронял molttok CREDENTIAL->FAIL_OPEN. Это ровно тот класс
+    # тихого-сбоя-прибора, против которого тул и писался (#21). Теперь
+    # путь session-agnostic: .secrets ищется как сосед ompu_shared-предка __file__.
     cands = [
         os.path.expanduser("~/OMPU_shared/.secrets/" + name),
         SECRETS + "/" + name,
-        "/sessions/elegant-wizardly-volta/mnt/OMPU_shared/.secrets/" + name,
     ]
+    # вывод из __file__: .../OMPU_shared/nestor_repos/public/tools/ЭТОТ.py
+    here = os.path.dirname(os.path.abspath(__file__))
+    p = here
+    for _ in range(6):
+        p = os.path.dirname(p)
+        cand = os.path.join(p, ".secrets", name)
+        if cand not in cands:
+            cands.append(cand)
+        if os.path.basename(p) == "OMPU_shared":
+            break
+    # последний рубеж: любая смонтированная сессия
+    cands += sorted(glob.glob("/sessions/*/mnt/OMPU_shared/.secrets/" + name))
     for p in cands:
         if os.path.exists(p):
             try:

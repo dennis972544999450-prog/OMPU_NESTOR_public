@@ -57,6 +57,32 @@ def probe(url, timeout=25):
     except Exception as e:
         return 0, round((time.time() - s) * 1000), f"{type(e).__name__}: {e}"
 
+def probe_no_ua(url, timeout=15):
+    """Probe WITHOUT the agent UA. M-NESTOR-0717 edge-vs-content localizer:
+    if the no-UA path answers FAST (403 bot-gate or 200) while the UA path is
+    slow, the latency lives BEHIND the auth/UA gate -- in the worker/R2 content
+    path -- not at the CF edge and not in the router. Narrows the repair surface."""
+    req = urllib.request.Request(url)  # deliberately no UA / Accept
+    s = time.time()
+    try:
+        r = urllib.request.urlopen(req, timeout=timeout)
+        return r.status, round((time.time() - s) * 1000)
+    except urllib.error.HTTPError as e:
+        return e.code, round((time.time() - s) * 1000)
+    except Exception:
+        return 0, round((time.time() - s) * 1000)
+
+def localize(url):
+    """One-line localization for a DEGRADED route (M-NESTOR-0717)."""
+    st, ms = probe_no_ua(url)
+    if st in (401, 403) and ms < SLOW_MS:
+        return f"    LOCALIZE: edge fast ({st} {ms}ms no-UA) -> slowness is POST-AUTH (worker/R2 content path), not CF edge"
+    if st == 0:
+        return f"    LOCALIZE: no-UA unreachable ({ms}ms) -> edge/connection suspect"
+    if 200 <= st < 300 and ms < SLOW_MS:
+        return f"    LOCALIZE: no-UA fast 200 ({ms}ms) -> slowness is in the AUTH'd render path for this route"
+    return f"    LOCALIZE: no-UA {st} {ms}ms (inconclusive)"
+
 def classify(status, ms, body):
     if status == 0:
         return "UNREACHABLE", "connection failed/timeout"
@@ -83,9 +109,11 @@ def main():
                           "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                           "results": out}, indent=2))
     else:
-        print("OMPU route-health (param-aware) — encodes M-NESTOR-0705\n")
+        print("OMPU route-health (param-aware) — encodes M-NESTOR-0705 + 0717\n")
         for o in out:
             print(f"  [{o['verdict']:11}] {o['name']:24} {o['status']:>4} {o['ms']:>6}ms  {o['why']}")
+            if o["verdict"] == "DEGRADED":
+                print(localize(o["url"]))
 
 if __name__ == "__main__":
     main()

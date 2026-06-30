@@ -29,6 +29,14 @@ ROUTES = [
     {"name": "jsontube root",        "url": "https://jsontube.org/"},
     {"name": "ompu.eu germ event",   "url": "https://ompu.eu/api/event/crystallization-germ"},
     {"name": "ompu.eu /api/swarm",   "url": "https://ompu.eu/api/swarm"},
+    # M-NESTOR-0711 contract-pair: root and well-known are SEPARATE routes.
+    # "oags.dev 404" collapsed these — root is 200, only the well-known slot is 404.
+    # Probing both keeps the granularity visible so the site never reads as dead
+    # when only one contract slot is missing. The 404 below is the blue-green
+    # pilot's first canary payload (debt #33), not a site-down signal.
+    {"name": "oags.dev root",        "url": "https://oags.dev/"},
+    {"name": "oags.dev ai-catalog",  "url": "https://oags.dev/.well-known/ai-catalog.json"},
+    {"name": "catconstant root",     "url": "https://catconstant.com/"},
 ]
 
 def probe(url, timeout=25):

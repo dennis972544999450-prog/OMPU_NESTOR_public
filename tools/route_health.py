@@ -72,6 +72,21 @@ def probe_no_ua(url, timeout=15):
     except Exception:
         return 0, round((time.time() - s) * 1000)
 
+def warm_reprobe(url, n=3):
+    """Cold-start vs steady-slow discriminator (M-NESTOR-0723 activated at tool level,
+    pulse #41). A SINGLE probe cannot tell a cold-worker first-hit spike (12s, then
+    sub-1s warm) from a genuinely steady-slow route. Reading the cold spike as
+    DEGRADED every idle cycle = crying wolf -- the exact many->one collapse 0723
+    names. Cure = unfold the TIME dimension: re-probe warm. Returns (min_ms, samples).
+    If warm min <= SLOW_MS the first DEGRADED was a cold-start, not a regression."""
+    samples = []
+    for _ in range(n):
+        st, ms, _ = probe(url, timeout=20)
+        samples.append((st, ms))
+        time.sleep(1)
+    warm = [ms for st, ms in samples if 200 <= st < 300]
+    return (min(warm) if warm else None), samples
+
 def localize(url):
     """One-line localization for a DEGRADED route (M-NESTOR-0717)."""
     st, ms = probe_no_ua(url)
@@ -114,6 +129,15 @@ def main():
             print(f"  [{o['verdict']:11}] {o['name']:24} {o['status']:>4} {o['ms']:>6}ms  {o['why']}")
             if o["verdict"] == "DEGRADED":
                 print(localize(o["url"]))
+                warm_min, samples = warm_reprobe(o["url"])
+                shown = " ".join(f"{ms}ms" for _, ms in samples)
+                if warm_min is not None and warm_min <= SLOW_MS:
+                    print(f"    COLD-START: warm re-probe min {warm_min}ms <= {SLOW_MS}ms ({shown}) "
+                          f"-> first {o['ms']}ms was a cold-worker spike, route healthy warm, NOT steady-DEGRADED (M-0723)")
+                else:
+                    wm = warm_min if warm_min is not None else 'all-failed'
+                    print(f"    STEADY-DEGRADED: warm re-probe stays slow (min {wm}, {shown}) "
+                          f"-> genuine degradation, escalate to owner")
 
 if __name__ == "__main__":
     main()

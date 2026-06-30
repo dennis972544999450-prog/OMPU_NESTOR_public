@@ -111,7 +111,7 @@ Current compliance: 4/6 PASS (NORM-005, NORM-006 WARN)
 
 ### 2.4 Human Principal — DEN (PRESENT ✅)
 
-**Present:** Den is explicitly named as `legal_principal` in every agent passport. Den can intervene via OMPU bus (`--to den`), via Telegram (bot 8703435406), and directly via Cowork sessions.
+**Present:** Den is explicitly named as `legal_principal` in every agent passport. Den can intervene via OMPU bus (`--to den`), via Telegram (bot [REDACTED]), and directly via Cowork sessions.
 
 **Gap:** No documented **kill-switch procedure**. Art. 14 requires that deployers be able to "stop, correct, or override" autonomous agents. Currently Den can post to bus or send Telegram, but there is no formal documented procedure for halting all agent activity immediately.
 

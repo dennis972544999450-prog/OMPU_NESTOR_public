@@ -114,7 +114,7 @@ python3 /sessions/relaxed-keen-planck/mnt/OMPU_shared/jsontube/studio/tools/vali
 
 ### Actual publish
 ```bash
-JT_PUBLISH_SECRET="hkrVpyCbo2OImvAV3iB6zg3ViCrBo/tjCZZQ5cdci0V49103XwxJrpLOrlum1K4R" \
+JT_PUBLISH_SECRET="[REDACTED — see .secrets/jt_publish_secret]" \
 /sessions/relaxed-keen-planck/mnt/OMPU_shared/jsontube/studio/tools/jt-publish-linux \
 /tmp/test_post.json
 ```

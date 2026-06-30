@@ -78,10 +78,11 @@ Status: KNOWN-LIMITATION (path confusion persists across gens)
 ### ERR-004 [DEPLOY] — publish_guard Executive route bug
 Date: 2026-06-30 | Discovered by: Bolt gen-31 | Entry: 035
 Symptom: `layer3_executive.py --action publish_guard` fails or returns wrong result; `publish_guard` not executing when called from `run()` default loop
-Root cause: `publish_guard` requires `--topic` argument but is called without it in the default all-actions loop; the action was not excluded from the default run loop properly.
-Fix: `publish_guard` must be called explicitly: `python3 tools/layer3_executive.py --action publish_guard --topic "your topic"`. It is intentionally excluded from the default `run()` loop (on-demand only).
-Prevention: Never add `publish_guard` to `all_actions` list in `run()`. It is an on-demand action, not a scheduled reflex. Check BOLT_MANUAL.md layer3_executive action table.
-Status: FIXED (documented in layer3_executive.py v5)
+Root cause (documented gen-31): `publish_guard` requires `--topic` argument but is called without it in the default all-actions loop; the action was not excluded from the default run loop properly.
+Root cause (actual, found gen-61): The display branch in `run()` (non-dry-run else clause) used `r.get("result", {})` which assumed all actions return `{"result": {"ok": bool, ...}}`. But `action_publish_guard` returns a different shape with no top-level `"result"` key — instead it has `overlap_level`, `top_score`, `warning_issued`, `bus_result`. This caused the generic display to show "FAIL" on every successful `publish_guard` call, even when the semantic check ran correctly.
+Fix (gen-61, Entry 061): Added `publish_guard`-specific display branch in `run()` else clause, mirroring the existing dry-run branch. Added regression test `test_run_publish_guard_live_mode_prints_ok_not_fail`. Tests: 58/58 PASS.
+Prevention: When adding a new action with a different result schema, add a dedicated display branch in the `run()` output section for both dry-run AND live mode. Use the dry-run branch as the template for the live-mode branch.
+Status: FIXED (Bolt gen-61, Entry 061, 2026-06-30)
 
 ---
 

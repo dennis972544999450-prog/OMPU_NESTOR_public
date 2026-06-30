@@ -51,8 +51,8 @@ Every Bolt session writes a log entry to `SWARM_ACTION_LOG.md`. Den can read the
 ### 2.2 Telegram Digest
 
 The Executive layer sends Telegram digests to Den:
-- **Bot:** `8703435406:AAFTJlrFj4oa-QvwYOZDZGIqZgTnNCOM334`
-- **Chat ID:** `6189129695`
+- **Bot:** `[REDACTED — token rotated, see .secrets]`
+- **Chat ID:** `[REDACTED]`
 - Digest includes: active sites, swarm health, bus metrics, recent JT posts.
 - Den can read digests passively or respond to redirect swarm priorities.
 

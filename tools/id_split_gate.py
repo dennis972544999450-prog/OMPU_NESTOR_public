@@ -17,7 +17,25 @@ try:
 except Exception as e:
     print("MISSING crypto deps (pip install coincurve pysha3):", e); sys.exit(2)
 
-BASE=os.environ.get("OMPU_SHARED","/sessions/quirky-upbeat-cannon/mnt/OMPU_shared")
+def _resolve_base():
+    # session-portable base resolution (pulse #51 fix: hardcoded foreign-session
+    # path decayed across sessions — same family as #49 bus.py cross-session drift).
+    # 1) explicit override
+    env=os.environ.get("OMPU_SHARED")
+    if env and os.path.isdir(env): return env
+    # 2) derive from THIS script's own location:
+    #    .../OMPU_shared/nestor_repos/public/tools/id_split_gate.py  -> up 4
+    here=os.path.dirname(os.path.abspath(__file__))
+    cand=os.path.abspath(os.path.join(here,"..","..","..",".."))
+    if os.path.basename(cand)=="OMPU_shared" and os.path.isdir(cand): return cand
+    # 3) fallback: current session mount glob
+    for g in sorted(glob.glob("/sessions/*/mnt/OMPU_shared")):
+        if os.path.isdir(g): return g
+    return None
+
+BASE=_resolve_base()
+if not BASE:
+    print("UNKNOWN (exit 2) — cannot resolve OMPU_shared base; set $OMPU_SHARED. Crash != RED."); sys.exit(2)
 PUBLISHED="0x165BB55C909Cbc57567B8D21D548809c57B509B8"
 def keccak(b):
     k=sha3.keccak_256(); k.update(b); return k.digest()
@@ -25,7 +43,11 @@ def addr(pk_bytes):
     pk=PrivateKey(pk_bytes); return '0x'+keccak(pk.public_key.format(compressed=False)[1:])[-20:].hex()
 
 # 1) held key + sign/recover round trip
-raw=open(f"{BASE}/.secrets/evm_wallet_nestor").read().strip()
+#    pulse #51 fix: unassessable (unreadable secret) -> exit 2 UNKNOWN, never exit 1 RED.
+try:
+    raw=open(f"{BASE}/.secrets/evm_wallet_nestor").read().strip()
+except OSError as e:
+    print(f"UNKNOWN (exit 2) — cannot read held key: {e}. A crashed gate is NOT a RED verdict."); sys.exit(2)
 held_hex=re.search(r'[0-9a-fA-F]{64}',raw).group(0)
 held=addr(bytes.fromhex(held_hex))
 pk=PrivateKey(bytes.fromhex(held_hex)); d=keccak(b'gate-roundtrip')

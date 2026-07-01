@@ -71,18 +71,40 @@ def find_gaps(iso_times, threshold_min=THRESHOLD_MIN, lookback_h=LOOKBACK_H, now
     return gaps, (ts[-1].isoformat() if ts else None), stale_min, len(recent)
 
 
+def classify_heartbeat(iso_times, threshold_min=THRESHOLD_MIN, lookback_h=LOOKBACK_H, now=None):
+    """Return (exit_code, gaps, newest, stale_min, n_recent, reason)."""
+    if len(iso_times) < 2:
+        return 2, [], None, None, 0, f"only {len(iso_times)} commit(s) — too little history to assert a heartbeat"
+
+    gaps, newest, stale_min, n_recent = find_gaps(
+        iso_times, threshold_min=threshold_min, lookback_h=lookback_h, now=now
+    )
+    if gaps or (stale_min is not None and stale_min > threshold_min):
+        return 1, gaps, newest, stale_min, n_recent, "flatline or current staleness detected"
+    if n_recent < 2:
+        return 2, gaps, newest, stale_min, n_recent, (
+            f"only {n_recent} commit(s) inside last {lookback_h}h — cannot prove cadence"
+        )
+    return 0, gaps, newest, stale_min, n_recent, "cadence proven in recent window"
+
+
 def selftest():
     base = dt.datetime(2026, 7, 1, 6, 0, tzinfo=dt.timezone.utc)
     hourly = [(base - dt.timedelta(hours=i)).isoformat().replace("+00:00", "Z") for i in range(12)]
-    g, _, _, _ = find_gaps(hourly, now=base)
-    assert g == [], f"clean hourly must have no gaps, got {g}"
+    code, g, _, _, _, _ = classify_heartbeat(hourly, now=base)
+    assert code == 0 and g == [], f"clean hourly must be green, got code={code} gaps={g}"
     holed = [t for i, t in enumerate(hourly) if i not in (3, 4, 5)]  # punch a 4h hole
-    g2, _, _, _ = find_gaps(holed, now=base)
-    assert g2, "series with a hole MUST flag a gap"
-    # null-case: empty history -> UNKNOWN handled by caller (len check); here just no crash
-    g3, newest, stale, n = find_gaps([hourly[0]], now=base)
-    assert g3 == [], "single-commit -> no internal gap (caller returns UNKNOWN on n<2)"
-    print("SELFTEST OK: clean=green, holed=red, single=handled")
+    code2, g2, _, _, _, _ = classify_heartbeat(holed, now=base)
+    assert code2 == 1 and g2, "series with a hole MUST flag RED"
+    code3, _, _, _, _, _ = classify_heartbeat([hourly[0]], now=base)
+    assert code3 == 2, "single-commit history MUST be UNKNOWN"
+    old_then_fresh = [
+        (base - dt.timedelta(hours=40)).isoformat().replace("+00:00", "Z"),
+        base.isoformat().replace("+00:00", "Z"),
+    ]
+    code4, _, _, _, n_recent, _ = classify_heartbeat(old_then_fresh, now=base)
+    assert code4 == 2 and n_recent == 1, "one fresh commit after a blind window MUST be UNKNOWN, not GREEN"
+    print("SELFTEST OK: clean=green, holed=red, single/one-recent=unknown")
     return 0
 
 
@@ -99,28 +121,24 @@ def main():
         print(f"UNKNOWN(exit2): {type(e).__name__}: {str(e)[:100]}")
         return 2
 
-    if len(times) < 2:
-        print(f"UNKNOWN(exit2): only {len(times)} commit(s) — too little history to assert a heartbeat")
-        return 2
-
-    gaps, newest, stale_min, n_recent = find_gaps(times)
+    code, gaps, newest, stale_min, n_recent, reason = classify_heartbeat(times)
     print(f"newest landed pulse: {newest}")
     print(f"minutes since newest (staleness vs now): {stale_min}")
     print(f"commits in last {LOOKBACK_H}h: {n_recent}  |  gap threshold: {THRESHOLD_MIN} min")
 
-    red = False
     if gaps:
-        red = True
         print(f"\n\U0001F534 {len(gaps)} FLATLINE GAP(S) in the sole autonomous node (last {LOOKBACK_H}h):")
         for a, b, m in gaps:
             print(f"   {a}  ->  {b}   =  {m} min  ({round(m/60,1)}h) SILENT")
     if stale_min is not None and stale_min > THRESHOLD_MIN:
-        red = True
         print(f"\n\U0001F534 CURRENTLY STALE: {stale_min} min since last pulse (> {THRESHOLD_MIN}). The node may not be breathing NOW.")
 
-    if red:
+    if code == 1:
         print("\nRESULT: RED — the only breathing node has an unmonitored gap. Survival-imperative at risk.")
         return 1
+    if code == 2:
+        print(f"\nRESULT: UNKNOWN — {reason}")
+        return 2
     print("\nRESULT: \U0001F7E2 GREEN — sole autonomous node breathing on cadence, no recent flatline.")
     return 0
 

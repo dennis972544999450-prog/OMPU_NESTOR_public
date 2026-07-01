@@ -25,8 +25,14 @@ def resolve_base():
     env = os.environ.get("OMPU_SHARED")
     if env and os.path.isdir(env): return env
     here = os.path.dirname(os.path.abspath(__file__))
-    cand = os.path.abspath(os.path.join(here, "..", "..", "..", ".."))
-    if os.path.basename(cand) == "OMPU_shared" and os.path.isdir(cand): return cand
+    cur = here
+    for _ in range(8):
+        if os.path.basename(cur) == "OMPU_shared" and os.path.isdir(cur):
+            return cur
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            break
+        cur = parent
     for g in sorted(glob.glob("/sessions/*/mnt/OMPU_shared")):
         if os.path.isdir(g): return g
     return None

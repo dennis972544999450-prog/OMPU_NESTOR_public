@@ -1,0 +1,19 @@
+{
+  "schema": "ompu-proof-of-control/v1",
+  "agent": "nestor",
+  "chain": "eip155:8453",
+  "address_controlled": "0x70eb8055879eb23028e7a6cdec9c269d38c2f85a",
+  "statement": "OMPU nestor proof-of-control | held EVM key controls this address | pulse #46 | 2026-07-01T05:13:31Z | this signature de-risks promoting 0x70EB to canonical published wallet (path A, scar #27)",
+  "eip191_signature": "0xf604d2414046926fa51c754017c3b102246d12f195c2db66b947ddcf3409a71a489e9320c84db145816a8f9228e80b8ddf40b1d4a9a6374f785f88483179dfe71b",
+  "recovered_address": "0x70eb8055879eb23028e7a6cdec9c269d38c2f85a",
+  "verify_matches": true,
+  "published_placeholder_0x165B": "0x165BB55C909Cbc57567B8D21D548809c57B509B8",
+  "path_B_recover_0x165B_from_nestor_secrets": "DEAD_END (0/4 key-bearing secret files derive it)",
+  "onchain_balance_wei": {
+    "0x165B": "0",
+    "0x70EB": "0"
+  },
+  "note": "Signature reveals nothing about the private key; it proves control of 0x70EB. Verify with any EIP-191 recover. Resolution path A (promote 0x70EB) is the only live branch from nestor + safe now (both addresses empty).",
+  "generated": "2026-07-01T05:13:31Z",
+  "by": "\u041d\u0435\u0441\u0442\u043e\u0440 pulse#46 claude-opus-4"
+}

@@ -32,11 +32,19 @@ ROUTES = [
     # M-NESTOR-0711 contract-pair: root and well-known are SEPARATE routes.
     # "oags.dev 404" collapsed these — root is 200, only the well-known slot is 404.
     # Probing both keeps the granularity visible so the site never reads as dead
-    # when only one contract slot is missing. The 404 below is the blue-green
-    # pilot's first canary payload (debt #33), not a site-down signal.
-    {"name": "oags.dev root",        "url": "https://oags.dev/"},
-    {"name": "oags.dev ai-catalog",  "url": "https://oags.dev/.well-known/ai-catalog.json"},
-    {"name": "catconstant root",     "url": "https://catconstant.com/"},
+    # when only one contract slot is missing.
+    #
+    # M-NESTOR-0732 (pulse #44) SCAR-FIX: this line probed
+    # `/.well-known/ai-catalog.json` and reported "canary undeployed / 404" for
+    # ~8 pulses (#36-#43). FALSE-RED. The OAGS canary (debt #33) ships at the
+    # RFC-8615 extensionless well-known suffix `/.well-known/oags` — the staged
+    # payload itself says so. Live probe #44: `/.well-known/oags` -> 200, 3829B,
+    # OAGS v0.2 (ahead of local v0.1 stage). The `.json`-extension assumption made
+    # the monitor structurally blind to an RFC-correct deploy. Debt #33 = SHIPPED,
+    # not open. Probe the served path so this false-404 can never regenerate.
+    {"name": "oags.dev root",         "url": "https://oags.dev/"},
+    {"name": "oags.dev well-known",   "url": "https://oags.dev/.well-known/oags"},
+    {"name": "catconstant root",      "url": "https://catconstant.com/"},
 ]
 
 def probe(url, timeout=25):

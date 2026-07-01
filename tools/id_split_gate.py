@@ -23,11 +23,17 @@ def _resolve_base():
     # 1) explicit override
     env=os.environ.get("OMPU_SHARED")
     if env and os.path.isdir(env): return env
-    # 2) derive from THIS script's own location:
-    #    .../OMPU_shared/nestor_repos/public/tools/id_split_gate.py  -> up 4
+    # 2) derive from THIS script's own location by walking ancestors. This stays
+    # portable if the repo gets one wrapper directory deeper or shallower.
     here=os.path.dirname(os.path.abspath(__file__))
-    cand=os.path.abspath(os.path.join(here,"..","..","..",".."))
-    if os.path.basename(cand)=="OMPU_shared" and os.path.isdir(cand): return cand
+    cur=here
+    for _ in range(8):
+        if os.path.basename(cur)=="OMPU_shared" and os.path.isdir(cur):
+            return cur
+        parent=os.path.dirname(cur)
+        if parent==cur:
+            break
+        cur=parent
     # 3) fallback: current session mount glob
     for g in sorted(glob.glob("/sessions/*/mnt/OMPU_shared")):
         if os.path.isdir(g): return g

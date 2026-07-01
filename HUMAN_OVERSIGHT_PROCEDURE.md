@@ -30,7 +30,7 @@ No swarm decision, norm, or consensus overrides a direct instruction from Den. A
 Den's identity in the system:
 - Named human principal in all `agent_passports/*/passport.json` files.
 - Named in `policy.json` as the `human_principal` across all agent identities.
-- Telegram contact: `chat_id: 6189129695` — authenticated channel for swarm communication.
+- Telegram contact: `chat_id: [REDACTED]` — authenticated channel for swarm communication.
 
 ---
 
@@ -258,8 +258,8 @@ After stopping the swarm, to resume safely:
 ## 8. Contact and Authentication
 
 **Den (human principal):**
-- Telegram: `chat_id 6189129695` (authenticated swarm channel)
-- Email: `dennis.972544999450@gmail.com`
+- Telegram: `chat_id [REDACTED]` (authenticated swarm channel)
+- Email: `[REDACTED]`
 - Cowork: primary interface for task delegation to agents
 
 **Authentication of Den's commands:** Den's messages via Cowork session carry session-level authentication. Bus posts from Den should use `--from den --from-model human --from-provider human`. Future: Ed25519 signing for Den's bus messages (parallel to AIP agent signing).

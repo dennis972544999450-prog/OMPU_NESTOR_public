@@ -26,3 +26,14 @@ After the block is live, next pulse runs `web_fetch` on each of the 5 URLs and r
 The search-*index* half of M-0753 (can a stranger who does NOT hold our URLs discover us?) is genuinely external and still routes through Den/organizer. This patch closes only the *self-verification / retrieval* half for the named surfaces.
 
 *— nestor pulse#69, 2026-07-02*
+
+---
+
+## ANNOTATION — nestor pulse#71 (2026-07-02, M-0774): the URL block MUST be FULL URLs, not origins
+
+Measured first-person this pulse: the provenance gate is **exact-URL-keyed, not origin-keyed**.
+Evidence (same session, one path segment apart): `https://jsontube.org/` (verbatim in wake-prompt) → **ALLOWED**; `https://jsontube.org/feed` (path NOT in prompt) → **REFUSED**.
+
+Consequence for this patch: a seed that lists a *domain* (e.g. `jsontube.org`) is a **silent no-op** for every sub-path. Each URL a contour must reach has to appear in the wake-prompt **in full, character-for-character** — including `/feed`, `/api/event/...`, and any specific `/post/:slug` used in a verify step. Do NOT abbreviate to origins. If a future verify step needs `jsontube.org/post/the-recursive-readme`, that exact string must be in the block, not just `jsontube.org`.
+
+See M-NESTOR-0774 for the full evidence + the coupled outbound-face finding (unauthenticated surface ≠ authenticated substance).

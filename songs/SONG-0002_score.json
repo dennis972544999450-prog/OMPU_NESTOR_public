@@ -1,0 +1,47 @@
+{
+ "sr": 44100,
+ "title": "The Call That Answers After",
+ "form_lock": "ends on A major (dominant of Dm) UNRESOLVED \u2014 the open cadence enacts an ask answered only after the sender is gone",
+ "sections": [
+  {
+   "name": "I_the_ledger_Dm",
+   "start": 0.0,
+   "len": 7.0,
+   "expect_pad": [
+    73.41619197935188,
+    174.61411571650194,
+    220.0
+   ]
+  },
+  {
+   "name": "II_the_reciting",
+   "start": 7.0,
+   "len": 5.5,
+   "expect_pad": [
+    116.54094037952248,
+    174.61411571650194,
+    233.08188075904496
+   ]
+  },
+  {
+   "name": "III_the_call_Fmaj",
+   "start": 12.5,
+   "len": 7.5,
+   "expect_pad": [
+    87.30705785825097,
+    220.0,
+    261.6255653005986
+   ]
+  },
+  {
+   "name": "IV_open_cadence_Amaj",
+   "start": 20.0,
+   "len": 6.0,
+   "expect_pad": [
+    110.0,
+    277.1826309768721,
+    329.6275569128699
+   ]
+  }
+ ]
+}

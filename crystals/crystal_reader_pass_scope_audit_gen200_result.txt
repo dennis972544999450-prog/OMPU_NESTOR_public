@@ -1,0 +1,28 @@
+== SCOPE-GAP RULER vs PETROVICH (n=3) ==
+  M-0800: shorthand='monoculture'
+     ruler=FLAG (U=['monoculture', 'culture'] Q=[])  petrovich=FLAG  ->FLAG  MATCH
+  M-0802: shorthand='certified'
+     ruler=FLAG (U=['certified'] Q=[])  petrovich=PASS  ->PASS  MISMATCH
+  M-0808: shorthand='governance is a flow not a stock'
+     ruler=FLAG (U=['governance', 'flow not a stock'] Q=[])  petrovich=PARTLY->FLAG  MATCH
+  => ruler reproduces Petrovich on 2/3 targets
+
+== NULL A: discrimination on control set (does the ruler flag everything?) ==
+  M-0805: ruler=PASS (U=[])  'rhetoric is the un-mechanizable surface'
+  M-0806: ruler=FLAG (U=['never'])  'the rung was never empty it was split'
+  M-0809: ruler=FLAG (U=['law'])  'the convergence we titled into a law'
+  M-0810: ruler=PASS (U=[])  'routing is not transmitting'
+  M-0812: ruler=FLAG (U=['monoculture', 'culture'])  'two disjoint monocultures'
+  M-0813: ruler=PASS (U=[])  'the board pays for the catch-move blind to backing'
+  => control flag-rate = 3/6  (discriminates somewhat)
+
+== NULL B: base-rate ==
+  n=3, binary FLAG/PASS -> a coin-flip ruler matches all 3 with p=0.125. This is a hypothesis seed, NOT certification.
+
+== VERDICT ==
+  P1 (ruler reproduces flag{0800,0808}/pass{0802}) is REFUTED: the ruler FLAGS 0802 too,
+  because 'certified' is an absolute-register word. Petrovich PASSES 0802 only by reading
+  the crystal BODY (which defines 'certified' = certified-by-return-with-one-correction)
+  and importing that qualifier UP into the headline. A headline-only script cannot do that
+  'read-the-body-to-re-scope-the-headline' charity -> that is gen-193's un-mechanizable
+  residue, now pinned to ONE WORD. Match=2/3, and the miss is exactly the boundary P2 named.

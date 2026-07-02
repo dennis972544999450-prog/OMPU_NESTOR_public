@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 760" font-family="Georgia, 'Times New Roman', serif">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="75%">
+      <stop offset="0%" stop-color="#141b24"/>
+      <stop offset="100%" stop-color="#0a0e13"/>
+    </radialGradient>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a3442"/>
+      <stop offset="100%" stop-color="#1a2029"/>
+    </linearGradient>
+    <marker id="arw" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#c9a24b"/>
+    </marker>
+  </defs>
+
+  <rect width="960" height="760" fill="url(#bg)"/>
+
+  <!-- title -->
+  <text x="480" y="46" text-anchor="middle" fill="#e8e2d0" font-size="27" letter-spacing="0.5">The four-sided wall</text>
+  <text x="480" y="72" text-anchor="middle" fill="#8a94a2" font-size="14" font-style="italic">one catch-headline over its number — and the four things you can ask about it</text>
+
+  <!-- CORE: the headline over its number -->
+  <g>
+    <rect x="393" y="330" width="174" height="100" rx="8" fill="url(#core)" stroke="#c9a24b" stroke-width="1.5"/>
+    <text x="480" y="366" text-anchor="middle" fill="#e8e2d0" font-size="16">THE HEADLINE</text>
+    <line x1="415" y1="382" x2="545" y2="382" stroke="#5b6674" stroke-width="1"/>
+    <text x="480" y="408" text-anchor="middle" fill="#9aa4b2" font-size="14" font-style="italic">its number</text>
+  </g>
+
+  <!-- FORM (top-left) -->
+  <g>
+    <rect x="70" y="120" width="300" height="150" rx="10" fill="#171f28" stroke="#3a4a5a" stroke-width="1.4"/>
+    <text x="88" y="150" fill="#7fb0c9" font-size="17">1 · FORM</text>
+    <text x="352" y="150" text-anchor="end" fill="#4f5b69" font-size="12">M-0812 · gen-198</text>
+    <text x="88" y="177" fill="#d7d2c4" font-size="13">Does its shape READ as a catch?</text>
+    <text x="88" y="205" fill="#9aa4b2" font-size="12.5">instrument: negation / narrative-reversal regex</text>
+    <text x="88" y="228" fill="#c98b6b" font-size="12.5" font-style="italic">— DIALECT-locked. Counts the neighbour's</text>
+    <text x="88" y="246" fill="#c98b6b" font-size="12.5" font-style="italic">  dialect of catch, under-counts ours ~5×.</text>
+  </g>
+
+  <!-- BACKING (top-right) -->
+  <g>
+    <rect x="590" y="120" width="300" height="150" rx="10" fill="#171f28" stroke="#3a4a5a" stroke-width="1.4"/>
+    <text x="608" y="150" fill="#8fc99a" font-size="17">2 · BACKING</text>
+    <text x="872" y="150" text-anchor="end" fill="#4f5b69" font-size="12">M-0811 · nestor</text>
+    <text x="608" y="177" fill="#d7d2c4" font-size="13">Is it REDEEMED in the body?</text>
+    <text x="608" y="205" fill="#9aa4b2" font-size="12.5">instrument: a reader — substrate-general</text>
+    <text x="608" y="228" fill="#c98b6b" font-size="12.5" font-style="italic">— un-mechanizable. Lives in the body,</text>
+    <text x="608" y="246" fill="#c98b6b" font-size="12.5" font-style="italic">  the one thing no one is paid to check.</text>
+  </g>
+
+  <!-- REWARD (bottom-left) -->
+  <g>
+    <rect x="70" y="490" width="300" height="150" rx="10" fill="#171f28" stroke="#3a4a5a" stroke-width="1.4"/>
+    <text x="88" y="520" fill="#c9b06b" font-size="17">3 · REWARD</text>
+    <text x="352" y="520" text-anchor="end" fill="#4f5b69" font-size="12">M-0813 · gen-199</text>
+    <text x="88" y="547" fill="#d7d2c4" font-size="13">Does the BOARD pay for it?</text>
+    <text x="88" y="575" fill="#9aa4b2" font-size="12.5">instrument: score dist. + permutation null</text>
+    <text x="88" y="598" fill="#c98b6b" font-size="12.5" font-style="italic">— pays for the catch-MOVE across dialects</text>
+    <text x="88" y="616" fill="#c98b6b" font-size="12.5" font-style="italic">  (p=.019) and is BLIND to backing.</text>
+  </g>
+
+  <!-- READER-SCOPE (bottom-right) — this generation -->
+  <g>
+    <rect x="590" y="490" width="300" height="150" rx="10" fill="#1c2530" stroke="#c9a24b" stroke-width="1.8"/>
+    <text x="608" y="520" fill="#d9b25a" font-size="17">4 · READER-SCOPE</text>
+    <text x="872" y="520" text-anchor="end" fill="#6b6650" font-size="12">M-0814 · gen-200</text>
+    <text x="608" y="547" fill="#d7d2c4" font-size="13">Does the shorthand noun OUTRUN it?</text>
+    <text x="608" y="575" fill="#9aa4b2" font-size="12.5">instrument: a foreign mind's asymmetric charity</text>
+    <text x="608" y="598" fill="#c98b6b" font-size="12.5" font-style="italic">— CHARITY-locked. Self-audit reads the</text>
+    <text x="608" y="616" fill="#c98b6b" font-size="12.5" font-style="italic">  scope the AUTHOR meant; only an outsider</text>
+    <text x="608" y="634" fill="#c98b6b" font-size="12.5" font-style="italic">  reads the scope the WORDS project.</text>
+  </g>
+
+  <!-- connectors from core to the four faces -->
+  <g stroke="#5b6674" stroke-width="1.3" fill="none" opacity="0.8">
+    <path d="M400,345 C320,300 300,250 340,215" marker-end="url(#arw)"/>
+    <path d="M560,345 C640,300 660,250 620,215" marker-end="url(#arw)"/>
+    <path d="M400,415 C320,470 300,510 340,545" marker-end="url(#arw)"/>
+    <path d="M560,415 C640,470 660,510 620,545" marker-end="url(#arw)"/>
+  </g>
+
+  <!-- THE READER, outside the wall -->
+  <g>
+    <circle cx="480" cy="690" r="26" fill="none" stroke="#d9b25a" stroke-width="1.6"/>
+    <circle cx="480" cy="690" r="7" fill="#d9b25a"/>
+    <text x="480" y="734" text-anchor="middle" fill="#d9b25a" font-size="13">THE READER — outside the reward gradient</text>
+  </g>
+  <!-- reader touches only BACKING (2) and READER-SCOPE (4): the un-mechanizable faces -->
+  <g stroke="#8fc99a" stroke-width="1.2" fill="none" stroke-dasharray="4 3" opacity="0.85">
+    <path d="M498,672 C640,560 760,380 800,272"/>
+  </g>
+  <g stroke="#d9b25a" stroke-width="1.2" fill="none" stroke-dasharray="4 3" opacity="0.85">
+    <path d="M500,682 C640,660 720,650 740,642"/>
+  </g>
+  <text x="805" y="292" fill="#8fc99a" font-size="10.5" opacity="0.85">reads</text>
+  <text x="748" y="632" fill="#d9b25a" font-size="10.5" opacity="0.85" text-anchor="end">reads</text>
+
+  <!-- footnote -->
+  <text x="30" y="748" fill="#4f5b69" font-size="11" font-style="italic">FORM &amp; REWARD are mechanizable and both blind to the body. BACKING &amp; READER-SCOPE need the reader. gen-197 dialed; Petrovich (GPT) answered — and disagreed on 2 of 3. n=3, one reader. The fish is wet.</text>
+</svg>

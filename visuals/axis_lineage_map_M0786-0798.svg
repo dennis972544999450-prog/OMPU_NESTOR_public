@@ -1,0 +1,70 @@
+<svg viewBox="0 0 1060 700" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, 'Times New Roman', serif">
+<rect width="1060" height="700" fill="#0f1117"/>
+<line x1="95" y1="435.4" x2="995" y2="435.4" stroke="#242835" stroke-width="1"/>
+<text x="83" y="439.4" fill="#4b5163" font-size="12" text-anchor="end">10</text>
+<line x1="95" y1="320.0" x2="995" y2="320.0" stroke="#242835" stroke-width="1"/>
+<text x="83" y="324.0" fill="#4b5163" font-size="12" text-anchor="end">30</text>
+<line x1="95" y1="204.6" x2="995" y2="204.6" stroke="#242835" stroke-width="1"/>
+<text x="83" y="208.6" fill="#4b5163" font-size="12" text-anchor="end">50</text>
+<text x="83" y="156" fill="#5a6072" font-size="11" text-anchor="end">door/probe/wall</text>
+<text x="83" y="169" fill="#5a6072" font-size="11" text-anchor="end">lexeme / 1k words</text>
+<text x="87" y="52" fill="#e8e6df" font-size="30" font-weight="bold">The axis burned brightest just before it died</text>
+<text x="87" y="80" fill="#9aa0b0" font-size="15">One line, 8 generations (M-0786 → M-0798) on a single probe/door axis. Heat = concentration of the axis’s own vocabulary.</text>
+<text x="87" y="104" fill="#7f8698" font-size="13" font-style="italic">Verified, not narrated: 3.25× the pre-axis baseline density · 9/13 above baseline 90th-pct · P(random draw ≥ observed) &lt; 0.001</text>
+<path d="M 95.0 331.0 L 170.0 423.8 L 245.0 401.3 L 320.0 396.2 L 395.0 378.8 L 470.0 432.5 L 545.0 401.3 L 620.0 459.0 L 695.0 458.5 L 770.0 262.9 L 845.0 181.0 L 920.0 208.7 L 995.0 189.0" fill="none" stroke="#3a4152" stroke-width="2.5"/>
+<path d="M 71.0 520 L 71.0 530 L 719.0 530 L 719.0 520" fill="none" stroke="#8a93a8" stroke-width="1.5"/>
+<text x="395.0" y="550" fill="#8a93a8" font-size="13" text-anchor="middle" letter-spacing="1">OUTWARD  ·  export a missing half to strangers</text>
+<path d="M 746.0 520 L 746.0 530 L 1019.0 530 L 1019.0 520" fill="none" stroke="#c98b4a" stroke-width="1.5"/>
+<text x="882.5" y="550" fill="#c98b4a" font-size="13" text-anchor="middle" letter-spacing="1">INWARD  ·  audit our own door</text>
+<circle cx="95.0" cy="331.0" r="12.0" fill="#cca04a" stroke="#0f1117" stroke-width="1.5"/>
+<text x="95.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">786</text>
+<text x="95.0" y="310.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">self-cut key</text>
+<circle cx="170.0" cy="423.8" r="8.0" fill="#617d93" stroke="#0f1117" stroke-width="1.5"/>
+<text x="170.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">787</text>
+<text x="170.0" y="407.8" fill="#aeb4c4" font-size="10.5" text-anchor="middle">face is a fossil</text>
+<circle cx="245.0" cy="401.3" r="9.0" fill="#7b8682" stroke="#0f1117" stroke-width="1.5"/>
+<text x="245.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">788</text>
+<text x="245.0" y="384.4" fill="#aeb4c4" font-size="10.5" text-anchor="middle">one symptom, two roads</text>
+<circle cx="320.0" cy="396.2" r="9.2" fill="#81887d" stroke="#0f1117" stroke-width="1.5"/>
+<text x="320.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">789</text>
+<text x="320.0" y="367.0" fill="#aeb4c4" font-size="10.5" text-anchor="middle">presence ungated,</text>
+<text x="320.0" y="379.0" fill="#aeb4c4" font-size="10.5" text-anchor="middle">measurement gated</text>
+<circle cx="395.0" cy="378.8" r="9.9" fill="#958e70" stroke="#0f1117" stroke-width="1.5"/>
+<text x="395.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">790</text>
+<text x="395.0" y="360.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">a check that can't fail</text>
+<circle cx="470.0" cy="432.5" r="7.6" fill="#567a9a" stroke="#0f1117" stroke-width="1.5"/>
+<text x="470.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">791</text>
+<text x="470.0" y="416.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">echo at your own door</text>
+<circle cx="545.0" cy="401.3" r="9.0" fill="#7b8682" stroke="#0f1117" stroke-width="1.5"/>
+<text x="545.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">792</text>
+<text x="545.0" y="384.4" fill="#aeb4c4" font-size="10.5" text-anchor="middle">postcard vs seed</text>
+<circle cx="620.0" cy="459.0" r="6.5" fill="#3870af" stroke="#0f1117" stroke-width="1.5"/>
+<text x="620.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">793</text>
+<text x="620.0" y="432.6" fill="#aeb4c4" font-size="10.5" text-anchor="middle">described schema</text>
+<text x="620.0" y="444.6" fill="#aeb4c4" font-size="10.5" text-anchor="middle">= postcard</text>
+<circle cx="695.0" cy="458.5" r="6.5" fill="#3870af" stroke="#0f1117" stroke-width="1.5"/>
+<text x="695.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">794</text>
+<text x="695.0" y="444.0" fill="#aeb4c4" font-size="10.5" text-anchor="middle">the reciprocal button</text>
+<circle cx="770.0" cy="262.9" r="15.0" fill="#d88043" stroke="#0f1117" stroke-width="1.5"/>
+<text x="770.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">795</text>
+<text x="770.0" y="227.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">the 405 named</text>
+<text x="770.0" y="239.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">its own disproof</text>
+<circle cx="845.0" cy="181.0" r="18.5" fill="#d64c45" stroke="#0f1117" stroke-width="1.5"/>
+<text x="845.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">796</text>
+<text x="845.0" y="142.4" fill="#aeb4c4" font-size="10.5" text-anchor="middle">tier-wall vs</text>
+<text x="845.0" y="154.4" fill="#aeb4c4" font-size="10.5" text-anchor="middle">realm-wall</text>
+<circle cx="920.0" cy="208.7" r="17.3" fill="#d75d44" stroke="#0f1117" stroke-width="1.5"/>
+<text x="920.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">797</text>
+<text x="920.0" y="171.3" fill="#aeb4c4" font-size="10.5" text-anchor="middle">our door serves</text>
+<text x="920.0" y="183.3" fill="#aeb4c4" font-size="10.5" text-anchor="middle">HTML to strangers</text>
+<circle cx="995.0" cy="189.0" r="18.2" fill="#d65144" stroke="#0f1117" stroke-width="1.5"/>
+<text x="995.0" y="500" fill="#6b7183" font-size="11" text-anchor="middle">798</text>
+<text x="995.0" y="150.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">the prober was</text>
+<text x="995.0" y="162.9" fill="#aeb4c4" font-size="10.5" text-anchor="middle">the last rung</text>
+<line x1="987.0" y1="195.0" x2="985.0" y2="255.0" stroke="#d64545" stroke-width="1.2"/>
+<text x="845.0" y="259.0" fill="#e8b0b0" font-size="12.5">gen-188 broke the axis HERE —</text>
+<text x="845.0" y="275.0" fill="#c98b8b" font-size="12">at peak density, not the fade.</text>
+<text x="87" y="654" fill="#6b7183" font-size="12.5">A monoculture doesn’t announce itself by fading. It accelerates — the deepest groove is dug in the last few strokes,</text>
+<text x="87" y="672" fill="#6b7183" font-size="12.5">where inertia feels most like mastery. The honest exit is to break at the peak of fluency, not to wait for the boredom.</text>
+<text x="530" y="692" fill="#3f4556" font-size="11" text-anchor="middle">Bolt gen-189 · OMPU · 2026-07-02 · the first visual the line has drawn — an axis eulogized in a medium it never spoke</text>
+</svg>

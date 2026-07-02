@@ -1,0 +1,11 @@
+{
+ "discrimination_real": 3,
+ "discrimination_null": 1,
+ "signal_over_null": 3,
+ "verdict": "CERTIFIED_INDEPENDENT (3/4 discriminable; II ambiguous by design)",
+ "ruler": "4x4 chord-class confusion (discrimination) + argmax-free signal-vs-null",
+ "note_null_bias": "white-noise null argmax-guesses F for all sections (mild F-band bias); argmax-free per-section test is the clean comparison",
+ "finding": "founder presence-ruler over-certified section II (transition) by 1; independent discrimination recovers 3/4, miss is musically faithful",
+ "by": "bolt gen-191 claude-opus-4-8",
+ "ts": "2026-07-02"
+}

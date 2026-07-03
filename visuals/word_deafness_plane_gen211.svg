@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" font-family="Georgia, serif">
+  <rect width="760" height="520" fill="#0f1117"/>
+  <text x="380" y="34" fill="#e8e8ea" font-size="19" text-anchor="middle">Over-reach detection is a PLANE:  c(&#952;,&#966;) = g(&#952;) + h(&#966;)</text>
+  <text x="380" y="56" fill="#9aa0aa" font-size="12.5" text-anchor="middle">gen-211 — the word-deafness dial &#966; has the FALL the charity dial &#952; lacked; the two curves are parallel, offset = the charity term</text>
+
+  <!-- axes -->
+  <line x1="110" y1="420" x2="660" y2="420" stroke="#4a5060" stroke-width="1.5"/>
+  <line x1="110" y1="420" x2="110" y2="110" stroke="#4a5060" stroke-width="1.5"/>
+  <text x="385" y="458" fill="#c5c9d2" font-size="13.5" text-anchor="middle">&#966;  —  word-deafness  (0 = reads every cue word  →  1 = deaf to all 32)</text>
+  <text x="38" y="265" fill="#c5c9d2" font-size="13.5" text-anchor="middle" transform="rotate(-90 38 265)">c_swarm  (detection quality)</text>
+
+  <!-- y gridlines: c = 0.3 .. 1.0 ; map c in [0.2,1.05] to y in [420,120] -->
+  <!-- helper mapping done by hand: y = 420 - (c-0.2)*(300/0.85) -->
+  <g stroke="#232733" stroke-width="1">
+    <line x1="110" y1="420" x2="660" y2="420"/>
+    <line x1="110" y1="349" x2="660" y2="349"/>
+    <line x1="110" y1="279" x2="660" y2="279"/>
+    <line x1="110" y1="208" x2="660" y2="208"/>
+    <line x1="110" y1="137" x2="660" y2="137"/>
+  </g>
+  <g fill="#6b7280" font-size="10.5" text-anchor="end">
+    <text x="103" y="424">0.2</text>
+    <text x="103" y="353">0.4</text>
+    <text x="103" y="283">0.6</text>
+    <text x="103" y="212">0.8</text>
+    <text x="103" y="141">1.0</text>
+  </g>
+  <!-- x ticks at phi 0,0.25,0.5,0.7,0.85,1.0 ; x = 110 + phi*520 -->
+  <g fill="#6b7280" font-size="10.5" text-anchor="middle">
+    <text x="110" y="437">0.0</text>
+    <text x="240" y="437">0.25</text>
+    <text x="370" y="437">0.5</text>
+    <text x="474" y="437">0.7</text>
+    <text x="552" y="437">0.85</text>
+    <text x="630" y="437">1.0</text>
+  </g>
+
+  <!-- theta=0.34 (charitable) curve: c = 1.0 flat to phi 0.7 (x474,y137), 0.75 at 0.85 (x552,y243), 0.5 at 1.0 (x630,y314) -->
+  <polyline fill="none" stroke="#5ec6b8" stroke-width="3"
+     points="110,137 474,137 552,243 630,314"/>
+  <g fill="#5ec6b8">
+    <circle cx="110" cy="137" r="4"/><circle cx="474" cy="137" r="4"/>
+    <circle cx="552" cy="243" r="4"/><circle cx="630" cy="314" r="4"/>
+  </g>
+  <text x="300" y="128" fill="#5ec6b8" font-size="12">&#952; = 0.34  (charitable / R2)   —  0804 rescued, intercept high</text>
+
+  <!-- theta=0 (literal) curve: c = 0.8 flat (y208) to phi0.7 (x474), 0.55 at 0.85 (x552,y314), 0.3 at 1.0 (x630,y385) -->
+  <polyline fill="none" stroke="#d98c5f" stroke-width="3" stroke-dasharray="7 4"
+     points="110,208 474,208 552,314 630,385"/>
+  <g fill="#d98c5f">
+    <circle cx="110" cy="208" r="4"/><circle cx="474" cy="208" r="4"/>
+    <circle cx="552" cy="314" r="4"/><circle cx="630" cy="385" r="4"/>
+  </g>
+  <text x="300" y="200" fill="#d98c5f" font-size="12">&#952; = 0  (literal / gen-208)   —  0804 false-flagged, intercept 0.2 lower</text>
+
+  <!-- constant offset bracket at phi=1 -->
+  <line x1="648" y1="314" x2="648" y2="385" stroke="#8a8f9a" stroke-width="1"/>
+  <line x1="644" y1="314" x2="652" y2="314" stroke="#8a8f9a" stroke-width="1"/>
+  <line x1="644" y1="385" x2="652" y2="385" stroke="#8a8f9a" stroke-width="1"/>
+  <text x="658" y="354" fill="#8a8f9a" font-size="10.5">offset</text>
+  <text x="658" y="367" fill="#8a8f9a" font-size="10.5">= 0.2</text>
+  <text x="658" y="380" fill="#8a8f9a" font-size="10.5">= g(&#952;)</text>
+
+  <!-- annotations -->
+  <text x="230" y="380" fill="#7f8794" font-size="11">flat until &#966;&#8776;0.85 →</text>
+  <text x="230" y="394" fill="#7f8794" font-size="11">cue lexicon is over-complete (redundant)</text>
+
+  <text x="540" y="470" fill="#9aa0aa" font-size="11" text-anchor="middle">&#966; is the SLOPE (misses); &#952; is the INTERCEPT (false-flags). Disjoint halves of the corpus — orthogonal, not identical.</text>
+  <text x="380" y="496" fill="#6b7280" font-size="10.5" text-anchor="middle" font-style="italic">The two curves never cross and never converge — the plane is flat. gen-210's &#952; had a left arm and no right; its perpendicular &#966; has a right arm and no left.</text>
+</svg>

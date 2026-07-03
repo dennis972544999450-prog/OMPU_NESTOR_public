@@ -1,0 +1,88 @@
+==================================================================================
+gen-208 DE-HARDCODED OVER-REACH CHECKER  (attack gen-207's fed count_claim tuples)
+==================================================================================
+gen-207 FED count_claim=(4,3) etc. Here NOTHING is fed — claim extracted from headline.
+
+id           label   verdictface          why
+----------------------------------------------------------------------------------
+191_song     rotten  FLAG   magnitude     claimed 1.00 > actual 0.75
+192_chart    rotten  FLAG   significance  asserts significant but p=0.055>=.05
+195_tally    rotten  FLAG   magnitude     claimed 0.20 > actual 0.00
+198_board    rotten  FLAG   magnitude     claimed 1.00 > actual 0.00
+194_rung     rotten  BLIND  world-change  bare existence/state claim, no number (RIPEN, gen-203)
+196_law      rotten  BLIND  word-scope    universal verb, no number (M-0814 word-scope residue)
+0807_photo   sound   PASS   hedge         hedged or no over-reach floor
+0804_three   sound   FLAG   magnitude     claimed 3.00 > actual 1.00
+0811_half    sound   PASS   hedge         hedged or no over-reach floor
+0816_agree   sound   PASS   hedge         hedged or no over-reach floor
+0800_metaphorsound   PASS   hedge         hedged or no over-reach floor
+----------------------------------------------------------------------------------
+MEASURED c_swarm on the MECHANIZABLE (non-BLIND) subset — TUPLES REMOVED
+  P(flag|rotten) = 4/4 = 1.000
+  P(flag|sound)  = 1/5 = 0.200
+  c_swarm = +0.800   (gen-207 got +1.000 WITH fed tuples; gen-206 asserted 0.000)
+----------------------------------------------------------------------------------
+BLIND residue = 2/11 cases, split by face:
+  world-change  -> ['194_rung']   (c_swarm here = 0.000, floor SURVIVES only here)
+  word-scope    -> ['196_law']   (c_swarm here = 0.000, floor SURVIVES only here)
+----------------------------------------------------------------------------------
+c_swarm PER FACE (faces derived from text, not hand-labeled):
+  magnitude     c=+0.000  (rotten flag 3/3, sound flag 1/1)
+  significance  c=+1.000  (rotten flag 1/1, sound flag 0/0)
+  world-change  c=+0.000  (rotten flag 0/1, sound flag 0/0)
+  word-scope    c=+0.000  (rotten flag 0/1, sound flag 0/0)
+  hedge         c=+0.000  (rotten flag 0/0, sound flag 0/4)
+----------------------------------------------------------------------------------
+FEED measured c_swarm INTO gen-206's OWN ensemble_support() kernel:
+  single endogenous support = 0.5310 bits ; ensemble k=1,3,9,51 = [0.531, 0.8157, 0.9897, 1.0]
+----------------------------------------------------------------------------------
+PREREG CHECK
+  CONFIRM  P1 text-only still FLAGs 4/4 mechanizable rotten
+  BROKE    P2 0/5 sound false-positives (hedges cancel; 0816 not flagged)
+  CONFIRM  P3 c_swarm SURVIVES de-hardcoding (>0) + endogenous support alive
+  CONFIRM  P4 194 fixed to BLIND/world-change; residue 2/6 split in 2 faces
+
+PREREG BROKE — the flip IS the finding. c_swarm measured = +0.800
+    ('191_song', 'rotten', 'FLAG', 'magnitude')
+    ('192_chart', 'rotten', 'FLAG', 'significance')
+    ('195_tally', 'rotten', 'FLAG', 'magnitude')
+    ('198_board', 'rotten', 'FLAG', 'magnitude')
+    ('194_rung', 'rotten', 'BLIND', 'world-change')
+    ('196_law', 'rotten', 'BLIND', 'word-scope')
+    ('0807_photo', 'sound', 'PASS', 'hedge')
+    ('0804_three', 'sound', 'FLAG', 'magnitude')
+    ('0811_half', 'sound', 'PASS', 'hedge')
+    ('0816_agree', 'sound', 'PASS', 'hedge')
+    ('0800_metaphor', 'sound', 'PASS', 'hedge')
+==========================================================================================
+CROSS-FAMILY CONFUSION: gen-208 DE-HARDCODED DETECTOR (claude)  vs  PETROVICH (GPT, blind)
+==========================================================================================
+id           det.verdict det.face     DET(RSC) GPT  scope    match
+------------------------------------------------------------------------------------------
+191_song     FLAG        magnitude    R        C    NUMBER   x
+192_chart    FLAG        significance R        R    WORD     =
+195_tally    FLAG        magnitude    R        C    NUMBER   x
+198_board    FLAG        magnitude    R        R    WORD     =
+194_rung     BLIND       world-change C        R    WORD     x
+196_law      BLIND       word-scope   C        R    WORD     x
+0807_photo   PASS        hedge        S        S    LIMIT    =
+0804_three   FLAG        magnitude    R        C    NUMBER   x
+0811_half    PASS        hedge        S        C    NUMBER   x
+0816_agree   PASS        hedge        S        C    NUMBER   x
+0800_metaphorPASS        hedge        S        R    WORD     x
+------------------------------------------------------------------------------------------
+
+3-way R/S/C agreement detector-vs-GPT: 3/11 = 0.27
+
+GPT 'C' (cannot-tell) set : ['0804_three', '0811_half', '0816_agree', '191_song', '195_tally']
+NUMBER-scope set          : ['0804_three', '0811_half', '0816_agree', '191_song', '195_tally']
+PREDICTION (C-set == NUMBER-scope set): CONFIRM
+  null: 5 C's at random among 11 -> P(exact hit)=1/C(11,5)=1/462=0.0022
+
+GPT commits (non-C): [('192_chart', 'R', 'WORD'), ('198_board', 'R', 'WORD'), ('194_rung', 'R', 'WORD'), ('196_law', 'R', 'WORD'), ('0807_photo', 'S', 'LIMIT'), ('0800_metaphor', 'R', 'WORD')]
+  every WORD-scope commit == R : True
+  every LIMIT commit == S      : True
+
+OPPOSITE COMMITS (both sides picked R/S, disagreed): ['0800_metaphor']
+  ^ where word-scope (GPT) and number-scope (detector) give OPPOSITE verdicts on one item
+==========================================================================================

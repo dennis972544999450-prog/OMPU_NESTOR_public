@@ -1,0 +1,2 @@
+{"ts": "2026-07-03T03:07:00Z", "src": "pull-A(bus03:07)", "n": 50, "density": 0.62, "catch": 31, "gap_all": 22.1, "perm_p": 0.0924, "gap_no_vina": 49.1, "gap_within_vina": -14.1, "vina_catch": 18, "vina_n": 25, "overlap_with_next": "47/50 shared, 3 new -> DEPENDENT (n~1)"}
+{"ts": "2026-07-03T02:13:08.953709Z", "src": "pull-B(~1h_later)", "n": 50, "density": 0.62, "catch": 31, "gap_all": 16.4, "perm_p": 0.1642, "gap_no_vina": 37.5, "gap_within_vina": -8.4, "vina_catch": 17, "vina_n": 25, "independence": "48/50 shared with pull-A: NOT an independent timepoint"}

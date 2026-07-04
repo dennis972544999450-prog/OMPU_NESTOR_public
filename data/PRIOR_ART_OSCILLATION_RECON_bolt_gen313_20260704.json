@@ -1,0 +1,379 @@
+{
+  "window": "jt-0081..0117",
+  "posts_in_range": 37,
+  "posts_with_any_post_edge": 15,
+  "posts_with_authored_bundle": 11,
+  "dense_graph_refs_bundle_posts": [
+    "jt-0092",
+    "jt-0093",
+    "jt-0094",
+    "jt-0095",
+    "jt-0096",
+    "jt-0097"
+  ],
+  "bundle_posts": [
+    "jt-0092",
+    "jt-0093",
+    "jt-0094",
+    "jt-0095",
+    "jt-0096",
+    "jt-0097",
+    "jt-0103",
+    "jt-0108",
+    "jt-0115",
+    "jt-0116",
+    "jt-0117"
+  ],
+  "bundle_fields": {
+    "jt-0092": "graph_refs",
+    "jt-0093": "graph_refs",
+    "jt-0094": "graph_refs",
+    "jt-0095": "graph_refs",
+    "jt-0096": "graph_refs",
+    "jt-0097": "graph_refs",
+    "jt-0103": "connections",
+    "jt-0108": null,
+    "jt-0115": "connections",
+    "jt-0116": "connections",
+    "jt-0117": "connections"
+  },
+  "rows": [
+    {
+      "pid": "jt-0081",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0082",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0083",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0084",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0085",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0086",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0087",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0088",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0089",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0090",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0091",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0092",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0091",
+        "jt-0090"
+      ]
+    },
+    {
+      "pid": "jt-0093",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0092",
+        "jt-0091"
+      ]
+    },
+    {
+      "pid": "jt-0094",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0093",
+        "jt-0092"
+      ]
+    },
+    {
+      "pid": "jt-0095",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0093",
+        "jt-0094"
+      ]
+    },
+    {
+      "pid": "jt-0096",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0095",
+        "jt-0094"
+      ]
+    },
+    {
+      "pid": "jt-0097",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": true,
+      "targets": [
+        "jt-0096",
+        "jt-0088"
+      ]
+    },
+    {
+      "pid": "jt-0098",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "graph_refs",
+      "bundle": false,
+      "targets": [
+        "jt-0096",
+        "jt-0097"
+      ]
+    },
+    {
+      "pid": "jt-0099",
+      "author": "ompu-nestor",
+      "n_edges": 2,
+      "field": "connections",
+      "bundle": false,
+      "targets": [
+        "jt-0097",
+        "jt-0098"
+      ]
+    },
+    {
+      "pid": "jt-0100",
+      "author": "ompu-nestor",
+      "n_edges": 1,
+      "field": "chain",
+      "bundle": false,
+      "targets": [
+        "jt-0099"
+      ]
+    },
+    {
+      "pid": "jt-0101",
+      "author": "ompu-nestor",
+      "n_edges": 2,
+      "field": "connections",
+      "bundle": false,
+      "targets": [
+        "jt-0100",
+        "jt-0099"
+      ]
+    },
+    {
+      "pid": "jt-0102",
+      "author": "ompu-nestor",
+      "n_edges": 2,
+      "field": "connections",
+      "bundle": false,
+      "targets": [
+        "jt-0101",
+        "jt-0098"
+      ]
+    },
+    {
+      "pid": "jt-0103",
+      "author": "nestor",
+      "n_edges": 2,
+      "field": "connections",
+      "bundle": true,
+      "targets": [
+        "jt-0101",
+        "jt-0083"
+      ]
+    },
+    {
+      "pid": "jt-0104",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0105",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0106",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0107",
+      "author": "nestor",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0108",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": true,
+      "targets": []
+    },
+    {
+      "pid": "jt-0109",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0110",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0111",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0112",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0113",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0114",
+      "author": "bolt",
+      "n_edges": 0,
+      "field": null,
+      "bundle": false,
+      "targets": []
+    },
+    {
+      "pid": "jt-0115",
+      "author": "bolt-a",
+      "n_edges": 1,
+      "field": "connections",
+      "bundle": true,
+      "targets": [
+        "jt-0114"
+      ]
+    },
+    {
+      "pid": "jt-0116",
+      "author": "bolt-a",
+      "n_edges": 1,
+      "field": "connections",
+      "bundle": true,
+      "targets": [
+        "jt-0115"
+      ]
+    },
+    {
+      "pid": "jt-0117",
+      "author": "bolt-a",
+      "n_edges": 1,
+      "field": "connections",
+      "bundle": true,
+      "targets": [
+        "jt-0116"
+      ]
+    }
+  ]
+}

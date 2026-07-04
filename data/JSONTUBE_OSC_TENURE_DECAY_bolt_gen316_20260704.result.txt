@@ -1,0 +1,30 @@
+corpus N=290  hub-excluded=3  seeds=(1, 7, 13, 29, 42, 101)
+
+SUCCESS = tenure_frac DROPS & distinct_rank1 RISES while final_gini stays flat (~0.25).
+F1 = gini rises (rotation bought with uniformity). F2 = tenure_frac inert (leader structural).
+
+=== per-seed detail at seed=42 (gen-314's seed), lam sweep ===
+{"lam": 0.0, "final_gini": 0.259, "gini_traj": {"100": 0.419, "200": 0.319, "300": 0.288, "400": 0.259}, "final_max_indeg": 13, "tenure_frac": 0.165, "distinct_rank1": 35}
+{"lam": 0.5, "final_gini": 0.247, "gini_traj": {"100": 0.393, "200": 0.337, "300": 0.306, "400": 0.247}, "final_max_indeg": 10, "tenure_frac": 0.26, "distinct_rank1": 35}
+{"lam": 1.0, "final_gini": 0.235, "gini_traj": {"100": 0.393, "200": 0.337, "300": 0.273, "400": 0.235}, "final_max_indeg": 10, "tenure_frac": 0.235, "distinct_rank1": 37}
+{"lam": 2.0, "final_gini": 0.3, "gini_traj": {"100": 0.418, "200": 0.363, "300": 0.323, "400": 0.3}, "final_max_indeg": 13, "tenure_frac": 0.603, "distinct_rank1": 36}
+{"lam": 5.0, "final_gini": 0.318, "gini_traj": {"100": 0.418, "200": 0.366, "300": 0.335, "400": 0.318}, "final_max_indeg": 13, "tenure_frac": 0.603, "distinct_rank1": 36}
+
+=== averaged over 6 seeds, lam sweep ===
+{"lam": 0.0, "mean_final_gini": 0.246, "mean_tenure_frac": 0.451, "mean_distinct_rank1": 25.7, "mean_final_max_indeg": 13.5}
+{"lam": 0.25, "mean_final_gini": 0.248, "mean_tenure_frac": 0.591, "mean_distinct_rank1": 25.8, "mean_final_max_indeg": 13.7}
+{"lam": 0.5, "mean_final_gini": 0.248, "mean_tenure_frac": 0.499, "mean_distinct_rank1": 25.7, "mean_final_max_indeg": 12.7}
+{"lam": 1.0, "mean_final_gini": 0.249, "mean_tenure_frac": 0.516, "mean_distinct_rank1": 26.3, "mean_final_max_indeg": 13.5}
+{"lam": 2.0, "mean_final_gini": 0.273, "mean_tenure_frac": 0.659, "mean_distinct_rank1": 26.2, "mean_final_max_indeg": 13.8}
+{"lam": 5.0, "mean_final_gini": 0.288, "mean_tenure_frac": 0.64, "mean_distinct_rank1": 26.2, "mean_final_max_indeg": 13.8}
+{"lam": 10.0, "mean_final_gini": 0.289, "mean_tenure_frac": 0.625, "mean_distinct_rank1": 26.2, "mean_final_max_indeg": 14.0}
+
+=== mechanism confirmation (seed=42, tracking leader's last edge-gain round) ===
+lam=0.0: leader=jt-0083 tenure_frac=0.165 last_edge_gained_round=395/400 leader_final_indeg=13
+lam=1.0: leader=jt-0266 tenure_frac=0.235 last_edge_gained_round=350/400 leader_final_indeg=9
+lam=5.0: leader=jt-0266 tenure_frac=0.603 last_edge_gained_round=337/400 leader_final_indeg=12
+VERDICT: tenure-TAX-on-citation-price BACKFIRES. Both failure modes fire together:
+ F2 distinct_rank1 inert (~26 all lam) — no extra rotation. F1 Gini rises 0.25->0.29
+ & tenure_frac rises 0.45->0.66 at lam>=2 — throne FREEZES (leader stops gaining at
+ r337 yet holds to r400; challengers taxed on approach can't overtake). "no eternal
+ kings" NOT reachable via citation-price tax. gen-317: try TRUE indeg-leak decay.

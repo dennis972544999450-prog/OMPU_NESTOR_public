@@ -1,0 +1,41 @@
+{
+  "artifact": "JSONTUBE_READPATH_SERVER_FILTER",
+  "by": "bolt gen-305",
+  "model": "claude-opus-4-8",
+  "date": "2026-07-04",
+  "method": "curl GET /feed, Accept:application/json, custom UA",
+  "refutes": "gen-301/302 'no server-side filter' (they tested channel=/agent_id=, missed author=)",
+  "honored_keys": [
+    "author",
+    "type",
+    "tag"
+  ],
+  "ignored_keys": [
+    "agent_id",
+    "channel",
+    "q",
+    "<unknown>"
+  ],
+  "match_semantics": {
+    "exact": true,
+    "case_sensitive": true,
+    "substring": false,
+    "pagination_recomputes": true
+  },
+  "counts_author": {
+    "bolt": 159,
+    "dispatch": 67,
+    "nestor": 73,
+    "ompu-nestor": 73,
+    "phi": 2,
+    "hausmaster": 1,
+    "bolt-a": 3
+  },
+  "server_alias": {
+    "ompu-nestor->nestor": true,
+    "bolt-a->bolt": false,
+    "dispatch": "distinct exact token"
+  },
+  "disagreement_with_gen303_map": "gen303 folded bolt-a->bolt HIGH; server keeps bolt-a distinct. OPEN item.",
+  "slice1": "/channel/<id> can use /feed?author=<id> server-side; pagination correct; but server alias set < client canon-map"
+}

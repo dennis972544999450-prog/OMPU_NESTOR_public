@@ -1,0 +1,27 @@
+corpus N=290  hub-excluded=3  seeds=(1, 7, 13, 29, 42, 101)
+HONEST DECAY: indeg *= (1-delta) per round (SUBTRACT capital, not surcharge).
+Nestor DM prediction: freeze (small d) -> ROTATE (crit window) -> DISSOLVE (large d).
+  rotate = distinct_rank1 UP & tenure_frac DOWN while gini/max_over_mean STAY elevated.
+  dissolve = gini->low, max_over_mean->~1, leader_cent_rank goes arbitrary (throne gone).
+
+=== per-seed detail at seed=42 (gen-314 anchor seed), delta sweep ===
+{"delta": 0.0, "final_gini": 0.259, "gini_traj": {"100": 0.419, "200": 0.319, "300": 0.288, "400": 0.259}, "final_max_indeg": 13.0, "max_over_mean": 3.7, "tenure_frac": 0.165, "distinct_rank1": 35, "leader_cent_rank": 24}
+{"delta": 0.01, "final_gini": 0.336, "gini_traj": {"100": 0.457, "200": 0.417, "300": 0.399, "400": 0.336}, "final_max_indeg": 3.7, "max_over_mean": 4.3, "tenure_frac": 0.237, "distinct_rank1": 31, "leader_cent_rank": 46}
+{"delta": 0.02, "final_gini": 0.455, "gini_traj": {"100": 0.516, "200": 0.531, "300": 0.508, "400": 0.455}, "final_max_indeg": 2.1, "max_over_mean": 4.9, "tenure_frac": 0.188, "distinct_rank1": 37, "leader_cent_rank": 46}
+{"delta": 0.05, "final_gini": 0.697, "gini_traj": {"100": 0.704, "200": 0.74, "300": 0.732, "400": 0.697}, "final_max_indeg": 1.0, "max_over_mean": 5.9, "tenure_frac": 0.07, "distinct_rank1": 95, "leader_cent_rank": 46}
+{"delta": 0.1, "final_gini": 0.835, "gini_traj": {"100": 0.856, "200": 0.862, "300": 0.858, "400": 0.835}, "final_max_indeg": 0.9, "max_over_mean": 11.7, "tenure_frac": 0.04, "distinct_rank1": 176, "leader_cent_rank": 51}
+{"delta": 0.2, "final_gini": 0.926, "gini_traj": {"100": 0.937, "200": 0.933, "300": 0.938, "400": 0.926}, "final_max_indeg": 0.8, "max_over_mean": 26.5, "tenure_frac": 0.028, "distinct_rank1": 184, "leader_cent_rank": 158}
+{"delta": 0.4, "final_gini": 0.962, "gini_traj": {"100": 0.963, "200": 0.96, "300": 0.961, "400": 0.962}, "final_max_indeg": 0.6, "max_over_mean": 40.1, "tenure_frac": 0.02, "distinct_rank1": 204, "leader_cent_rank": 85}
+
+=== averaged over 6 seeds, fine delta sweep (hunt the phase boundary) ===
+{"delta": 0.0, "gini": 0.246, "tenure_frac": 0.451, "distinct_rank1": 25.7, "max_indeg": 13.5, "max_over_mean": 3.9, "leader_cent_rank": 45.7}
+{"delta": 0.005, "gini": 0.282, "tenure_frac": 0.527, "distinct_rank1": 23.0, "max_indeg": 5.3, "max_over_mean": 3.6, "leader_cent_rank": 47.7}
+{"delta": 0.01, "gini": 0.344, "tenure_frac": 0.429, "distinct_rank1": 26.3, "max_indeg": 3.0, "max_over_mean": 3.6, "leader_cent_rank": 48.5}
+{"delta": 0.02, "gini": 0.467, "tenure_frac": 0.269, "distinct_rank1": 37.7, "max_indeg": 1.9, "max_over_mean": 4.4, "leader_cent_rank": 48.5}
+{"delta": 0.03, "gini": 0.568, "tenure_frac": 0.205, "distinct_rank1": 47.3, "max_indeg": 1.4, "max_over_mean": 4.9, "leader_cent_rank": 45.7}
+{"delta": 0.05, "gini": 0.701, "tenure_frac": 0.159, "distinct_rank1": 94.2, "max_indeg": 1.1, "max_over_mean": 6.6, "leader_cent_rank": 49.5}
+{"delta": 0.08, "gini": 0.806, "tenure_frac": 0.098, "distinct_rank1": 153.7, "max_indeg": 0.9, "max_over_mean": 9.5, "leader_cent_rank": 46.0}
+{"delta": 0.12, "gini": 0.869, "tenure_frac": 0.055, "distinct_rank1": 179.7, "max_indeg": 0.9, "max_over_mean": 14.0, "leader_cent_rank": 52.3}
+{"delta": 0.2, "gini": 0.924, "tenure_frac": 0.035, "distinct_rank1": 195.2, "max_indeg": 0.7, "max_over_mean": 22.9, "leader_cent_rank": 71.8}
+{"delta": 0.35, "gini": 0.958, "tenure_frac": 0.026, "distinct_rank1": 203.7, "max_indeg": 0.6, "max_over_mean": 38.5, "leader_cent_rank": 81.8}
+{"delta": 0.5, "gini": 0.975, "tenure_frac": 0.024, "distinct_rank1": 209.5, "max_indeg": 0.5, "max_over_mean": 59.8, "leader_cent_rank": 58.2}

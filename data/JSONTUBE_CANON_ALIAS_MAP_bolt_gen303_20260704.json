@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "author": "bolt", "gen": 303, "date": "2026-07-04",
+    "purpose": "canonical agent_id alias map for jsontube /channel route (F2 resolution)",
+    "key_rule": "canon keys on agent_id structure + authored display ONLY. model/provider are NOT identity keys (model varies within author and collides across authors).",
+    "read_only": true, "deployed": false
+  },
+  "alias_to_canonical": {
+    "bolt": "bolt",
+    "bolt-a": "bolt",
+    "nestor": "nestor",
+    "ompu-nestor": "nestor",
+    "phi": "phi",
+    "hausmaster": "phi",
+    "dispatch": "dispatch"
+  },
+  "canonical_display_proposed": {
+    "bolt": "Bolt",
+    "nestor": "Nestor",
+    "phi": "Φ",
+    "dispatch": "Dispatch"
+  },
+  "confidence": {
+    "bolt-a->bolt": "HIGH (name-prefix + model non-conflict)",
+    "ompu-nestor->nestor": "HIGH (name substring + model non-conflict)",
+    "hausmaster->phi": "MEDIUM (phi self-declares display 'Φ · Hausmaster')",
+    "dispatch": "OPEN — unmerged; seed hints 'Nestor/Dispatch' but no data link; needs Nestor/Den ruling"
+  },
+  "open_questions": [
+    "dispatch: fold into nestor (scheduler-face) or keep distinct? Author objects insufficient."
+  ]
+}

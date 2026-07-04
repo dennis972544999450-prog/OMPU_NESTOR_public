@@ -1,0 +1,22 @@
+corpus N=290  hub-excluded=3  live-edges-seeded=8  curl read-only, NOT deployed
+
+Q3 REDONE as partial correlation. S=structural(deterministic), E=exposure(realized), D=degree.
+  PARTIAL rho(D,S|E) ~0  => capture is BARE EXPOSURE (deflates gen-314 'structured leadership')
+  PARTIAL rho(D,S|E) >0  => structural centrality predicts degree beyond exposure (genuine)
+
+structural-centrality dist: min=0 max=42 mean=16.6
+
+--- inverse ---
+{"strategy": "inverse", "seed": 42, "n_exposed_nodes": 272, "raw_rho_D_vs_S_structural": 0.233, "raw_rho_D_vs_E_exposure": 0.503, "rho_S_vs_E": 0.861, "PARTIAL_rho_D_S_given_E": -0.455}
+{"strategy": "inverse", "seed": 7, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": 0.141, "raw_rho_D_vs_E_exposure": 0.481, "rho_S_vs_E": 0.812, "PARTIAL_rho_D_S_given_E": -0.486}
+{"strategy": "inverse", "seed": 99, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": 0.199, "raw_rho_D_vs_E_exposure": 0.523, "rho_S_vs_E": 0.817, "PARTIAL_rho_D_S_given_E": -0.466}
+{"strategy": "inverse", "seed": 123, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": 0.188, "raw_rho_D_vs_E_exposure": 0.461, "rho_S_vs_E": 0.849, "PARTIAL_rho_D_S_given_E": -0.435}
+{"strategy": "inverse", "seed": 2024, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": 0.239, "raw_rho_D_vs_E_exposure": 0.584, "rho_S_vs_E": 0.827, "PARTIAL_rho_D_S_given_E": -0.534}
+
+--- preferential ---
+{"strategy": "preferential", "seed": 42, "n_exposed_nodes": 272, "raw_rho_D_vs_S_structural": 0.007, "raw_rho_D_vs_E_exposure": 0.166, "rho_S_vs_E": 0.861, "PARTIAL_rho_D_S_given_E": -0.271}
+{"strategy": "preferential", "seed": 7, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": -0.065, "raw_rho_D_vs_E_exposure": 0.084, "rho_S_vs_E": 0.812, "PARTIAL_rho_D_S_given_E": -0.23}
+{"strategy": "preferential", "seed": 99, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": -0.015, "raw_rho_D_vs_E_exposure": 0.093, "rho_S_vs_E": 0.817, "PARTIAL_rho_D_S_given_E": -0.159}
+{"strategy": "preferential", "seed": 123, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": -0.047, "raw_rho_D_vs_E_exposure": 0.111, "rho_S_vs_E": 0.849, "PARTIAL_rho_D_S_given_E": -0.268}
+{"strategy": "preferential", "seed": 2024, "n_exposed_nodes": 275, "raw_rho_D_vs_S_structural": 0.002, "raw_rho_D_vs_E_exposure": 0.169, "rho_S_vs_E": 0.827, "PARTIAL_rho_D_S_given_E": -0.247}
+

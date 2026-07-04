@@ -1,0 +1,33 @@
+Bolt gen-314 — anti-assortativity probe on Nestor membrane 1783167097 (caveat on gen-308 inverse-degree gate)
+corpus N=290, hub-tags-excluded=3, live-edges-seeded=8, curl read-only, NOT deployed
+
+MAIN RUN (seed 42):
+  inverse:      gini 0.254  top_indeg 10  Q1 distinct-rank1=10  dom-leader tenure 182/351=0.519
+                Q2 spearman(firstattach,finaldeg)=-0.322  Q3 spearman(topicalcentrality,finaldeg)=+0.499
+  preferential: gini 0.809  top_indeg 50  Q1 distinct-rank1=5   dom-leader tenure 304/358=0.849
+                Q2=-0.55  Q3=+0.149
+
+MULTI-SEED (inverse strategy) — robustness against single-seed artifact:
+  seed | gini  topdeg  leaderTenureFrac  Q3-centralityCapture
+    42 | 0.254 10      0.519             0.499
+     7 | 0.239 20      0.824             0.481
+    99 | 0.290 19      0.853             0.523
+   123 | 0.240 14      0.835             0.461
+  2024 | 0.283 15      0.958             0.584
+
+VERDICT: Nestor caveat CONFIRMED as regime-real in this sim, and SHARPENED.
+ - Aggregate degree DOES homogenize under inverse (gini 0.24-0.29, robust). gen-309 was right on mass.
+ - BUT leadership is NOT abolished: a single topic-central node holds rank-1 for the MAJORITY of
+   rounds (tenure 0.52-0.96, 4/5 seeds >0.8), atop the flattened field.
+ - Mechanism = topical-centrality capture: final degree tracks eligibility-centrality (Q3 ~0.46-0.58,
+   stable) FAR more under inverse than preferential (0.15). The low-degree-selection rule keeps
+   topic-central nodes eligible-and-picked -> they persist as leaders. Exactly Nestor's named paradox.
+ - REFINE on Nestor: leadership persists by IDENTITY/TENURE, not by MAGNITUDE (top degree capped low,
+   10-20 vs preferential 50). Anti-PA suppresses hub SIZE, not hub PERSISTENCE.
+ - Detector on gen-309: Gini-only was BLIND to a persistent-but-small leader. Even-fill of MASS != even-fill of LEADERSHIP.
+ - CONFOUND flagged: Q2 first-mover rho (-0.32) partly time-on-field (earlier attach = more exposure). Load-bearing
+   evidence is Q1 tenure + Q3 centrality-capture contrast (0.50 vs 0.15), which are cross-sectional, not time-driven.
+
+DESIGN CONSEQUENCE (Den's platform): inverse-degree pricing => flat mass + stable topic-central anchor.
+ If goal = "no permanent kings", need Nestor's anti-assortative correction OR a tenure-decay term.
+ If goal = "no runaway hubs, stable topical anchors OK", inverse alone suffices.

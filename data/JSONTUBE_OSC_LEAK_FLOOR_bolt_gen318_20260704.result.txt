@@ -1,0 +1,21 @@
+corpus N=290  hub-excluded=3  seeds=(1, 7, 13, 29, 42, 101)
+anchor set (top topic-central): ['jt-0285', 'jt-0284', 'jt-0286', 'jt-0287', 'jt-0283'] ...
+STRUCTURED leak: indeg*=(1-delta) for all EXCEPT top-K central (floor). K=0 == gen-317 scalar.
+Testing: can a pinned anchor coexist with a rotating non-floor mass? (H-work vs F-i freeze vs F-ii null)
+
+=== delta=0.03 (gen-317 ROTATING regime), K sweep, avg over 6 seeds ===
+{"delta": 0.03, "K": 0, "gini": 0.588, "anchor_king_frac": 0.0, "floor_max_indeg": 0.0, "nonfloor_max_indeg": 1.65, "overall_tenure_frac": 0.178, "overall_distinct_rank1": 55.667, "leader_cent_rank": 49.333, "nonfloor_tenure_frac": 0.179, "nonfloor_distinct_rank1": 55.167}
+{"delta": 0.03, "K": 1, "gini": 0.584, "anchor_king_frac": 0.022, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 1.7, "overall_tenure_frac": 0.186, "overall_distinct_rank1": 51.333, "leader_cent_rank": 49.333, "nonfloor_tenure_frac": 0.187, "nonfloor_distinct_rank1": 55.5}
+{"delta": 0.03, "K": 3, "gini": 0.582, "anchor_king_frac": 0.02, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 1.65, "overall_tenure_frac": 0.184, "overall_distinct_rank1": 50.5, "leader_cent_rank": 49.333, "nonfloor_tenure_frac": 0.185, "nonfloor_distinct_rank1": 55.0}
+{"delta": 0.03, "K": 5, "gini": 0.579, "anchor_king_frac": 0.031, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 1.667, "overall_tenure_frac": 0.183, "overall_distinct_rank1": 49.167, "leader_cent_rank": 49.333, "nonfloor_tenure_frac": 0.184, "nonfloor_distinct_rank1": 55.667}
+{"delta": 0.03, "K": 10, "gini": 0.578, "anchor_king_frac": 0.54, "floor_max_indeg": 2.333, "nonfloor_max_indeg": 1.733, "overall_tenure_frac": 0.511, "overall_distinct_rank1": 33.333, "leader_cent_rank": 5.0, "nonfloor_tenure_frac": 0.223, "nonfloor_distinct_rank1": 52.0}
+
+=== cross-check delta=0.02 and 0.05 at K=3 ===
+{"delta": 0.02, "K": 3, "gini": 0.487, "anchor_king_frac": 0.019, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 2.217, "overall_tenure_frac": 0.227, "overall_distinct_rank1": 38.667, "leader_cent_rank": 49.333, "nonfloor_tenure_frac": 0.228, "nonfloor_distinct_rank1": 43.5}
+{"delta": 0.05, "K": 3, "gini": 0.708, "anchor_king_frac": 0.179, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 1.25, "overall_tenure_frac": 0.185, "overall_distinct_rank1": 62.167, "leader_cent_rank": 40.0, "nonfloor_tenure_frac": 0.186, "nonfloor_distinct_rank1": 93.667}
+
+=== per-seed detail seed=42 (gen-314 anchor seed), delta=0.03 ===
+{"delta": 0.03, "K": 0, "gini": 0.593, "anchor_king_frac": 0.0, "floor_max_indeg": 0.0, "nonfloor_max_indeg": 2.2, "overall_tenure_frac": 0.145, "overall_distinct_rank1": 48, "leader_cent_rank": 46, "nonfloor_tenure_frac": 0.145, "nonfloor_distinct_rank1": 51}
+{"delta": 0.03, "K": 1, "gini": 0.581, "anchor_king_frac": 0.05, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 2.3, "overall_tenure_frac": 0.142, "overall_distinct_rank1": 41, "leader_cent_rank": 46, "nonfloor_tenure_frac": 0.142, "nonfloor_distinct_rank1": 55}
+{"delta": 0.03, "K": 3, "gini": 0.577, "anchor_king_frac": 0.05, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 2.3, "overall_tenure_frac": 0.142, "overall_distinct_rank1": 41, "leader_cent_rank": 46, "nonfloor_tenure_frac": 0.142, "nonfloor_distinct_rank1": 55}
+{"delta": 0.03, "K": 5, "gini": 0.574, "anchor_king_frac": 0.05, "floor_max_indeg": 1.0, "nonfloor_max_indeg": 2.3, "overall_tenure_frac": 0.142, "overall_distinct_rank1": 42, "leader_cent_rank": 46, "nonfloor_tenure_frac": 0.142, "nonfloor_distinct_rank1": 55}

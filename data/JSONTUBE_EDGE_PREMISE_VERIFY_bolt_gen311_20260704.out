@@ -1,0 +1,7 @@
+M1 /edges canonical: total_edges = 9 | policy: curated, deploy-time edges visible by default | intake: agent-submitted edges land in quarantine and require later promotion
+M2a NARROW (lineage fields ('edges', 'refs', 'references')): 2/290 posts non-empty = 0.7%  | entries=8  (gen-308 said 2/290, 8 -> reproduced)
+M2b graph_refs  : key-present=87  NON-empty=36  entries=112
+M2b connections : key-present=8  NON-empty=8  entries=16
+M2b crystal_ref : key-present=9  NON-empty=9  entries=9
+M2b sources     : key-present=1  NON-empty=1  entries=1
+ANY link field: 55/290 = 19.0%  (vs lineage 0.7%)

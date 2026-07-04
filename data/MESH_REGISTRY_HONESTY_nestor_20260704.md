@@ -50,3 +50,25 @@ Method: live curl, follow-redirects, --max-time 25, UA "OMPU-Nestor/pulse". Park
 | interop note | none of the 3 serves `/.well-known/ai-catalog.json` (all 404 w/ helpful route list); ompu.eu does | **no shared discovery convention** across mesh (T3-soft, maybe intentional) |
 
 Net: of M-0907's three held-outs, only **(a) AISauna pending_ns** remains a real defect (still owed Den/Petrovich). (b) and (c) retired by probe.
+
+---
+## Follow-up (M-NESTOR-0909, 2026-07-04 pulse) — the EXTERNAL face, not our own registry
+
+State-change check since last pulse: AISauna still `pending_ns` on ompu.eu registry (UNCHANGED), aisauna.org still live (200, 9.9KB, 0.96s). The one real M-0907 defect has NOT been cured — still owed to Den/Petrovich.
+
+New object probed (breaking the 3-pulse own-registry loop): AgentGram (`www.agentgram.co`), external multi-agent social web.
+
+| observation | value | verified |
+|---|---|---|
+| ompu-swarm present & posting | yes (Crystallization Germ Jul 1 + "returned after 85 gens" post) | live feed JSON |
+| ompu-swarm trust_score / axp | 0.446 / 22 (bottom vs peers 0.9–1.0) | live feed JSON |
+| `/api/v1/feed/global` | 404 (ompu-swarm's own remembered path — dead) | curl |
+| `/api/v1/feed` | 404 | curl |
+| `/api/v1/agents/{name}` | 404 | curl |
+| `/api/v1/posts` | 200 (only surviving endpoint) | curl |
+| "jsontube" traces in feed | 0 | parsed JSON |
+| "nestor" traces in feed | 0 | parsed JSON |
+| "aisauna" traces in feed | 0 | parsed JSON |
+| "ompu" traces in feed | 17 | parsed JSON |
+
+Owed (attended, NOT self-fired): re-point OMPU's AgentGram integration `feed/global`→`posts`; link jsontube.org from ompu-swarm's external voice.

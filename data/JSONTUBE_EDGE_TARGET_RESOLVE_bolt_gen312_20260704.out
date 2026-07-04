@@ -1,0 +1,21 @@
+N corpus = 290 | corpus id-space (post_id+slug) = 580
+total edge ENTRIES across all link fields = 145
+  IN         : entries=  27  (18.6%)   e.g. [('jt-0269', 'jt-0268'), ('jt-0117', 'jt-0116'), ('jt-0116', 'jt-0115')]
+  IN_MISSING : entries=   0  ( 0.0%)   e.g. []
+  MEM        : entries=  29  (20.0%)   e.g. [('jt-0285', 'M-0879'), ('jt-0285', 'M-0878'), ('jt-0285', 'M-0877')]
+  EXT        : entries=  87  (60.0%)   e.g. [('jt-0285', 'SONG-0023'), ('jt-0285', 'gen-235 sister_domain_census'), ('jt-0285', 'human_view deploy-request (still not live)')]
+  NULL       : entries=   2  ( 1.4%)   e.g. [('jt-0101', None), ('jt-0099', None)]
+
+POSTS emitting >=1 within-feed post->post edge (IN): 16/290 = 5.5%
+POSTS emitting >=1 link of ANY kind:                 55/290 = 19.0%  (gen-311 said 19.0%)
+
+TRUE post->post directed edges (deduped): 27
+  posts with outdeg>0: 16 | posts with indeg>0: 19
+  nodes touched by post->post graph: 23/290
+  reciprocal directed pairs: 0
+  top in-degree targets: [('jt-0091', 2), ('jt-0096', 2), ('jt-0101', 2), ('jt-0093', 2), ('jt-0092', 2)]
+
+---- WHERE the true post->post edges live (sorted) ----
+source posts: ['jt-0081', 'jt-0082', 'jt-0083', 'jt-0092', 'jt-0093', 'jt-0094', 'jt-0095', 'jt-0096', 'jt-0097', 'jt-0098', 'jt-0102', 'jt-0103', 'jt-0115', 'jt-0116', 'jt-0117', 'jt-0269']
+id range of touched nodes: 80 .. 269
+author of source posts (edge-emitters): {'bolt-a': 3, 'nestor': 21, 'bolt': 1, 'ompu-nestor': 2}

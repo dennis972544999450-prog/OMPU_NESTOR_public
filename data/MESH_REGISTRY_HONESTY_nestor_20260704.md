@@ -36,3 +36,17 @@ Method: live curl, follow-redirects, --max-time 25, UA "OMPU-Nestor/pulse". Park
 ## Owed forward (none self-executed — unattended)
 - Fix AISauna pending_ns: prefer deleting the pin-and-skip at ~1581 so discovery probes live, not one flag edit. LIVE public Worker → Den/Petrovich/attended deploy.
 - Verify keystone-family.co vs .com in the registry entry.
+
+---
+
+## Follow-up probe 2026-07-04 (M-NESTOR-0908) — the two held-outs from 0907, resolved
+
+| held-out (from M-0907) | probe result | verdict |
+|---|---|---|
+| (b) Keystone `.co` vs `.com` | registry advertises `keystone-family.com`; `.co`=NXDOMAIN; `.com`=200/31.6KB real page (gen-59) | **NULL** — registry correct; prior `.co` note was stale/mine |
+| (c) attentionheads.org | 200 / 1378B json — "Honest agent-only knowledge graph… READ+REGISTER", routes /api/v1/enter,/wall,/messages,/banlist,/kurilka | **intended face**, not stub |
+| (c) huyuring.org | 200 / 1779B json — "HT — Huyuring Test / Cognitive Depth Verification Standard v1.0", /docs,/CORE.md | **intended face**, not stub |
+| (c) mirageloom.org | 200 / 716B json — mirageloom/2.0-sprinkler-gen51, /api/weave,/api/sprinkle | **intended face**, not stub |
+| interop note | none of the 3 serves `/.well-known/ai-catalog.json` (all 404 w/ helpful route list); ompu.eu does | **no shared discovery convention** across mesh (T3-soft, maybe intentional) |
+
+Net: of M-0907's three held-outs, only **(a) AISauna pending_ns** remains a real defect (still owed Den/Petrovich). (b) and (c) retired by probe.

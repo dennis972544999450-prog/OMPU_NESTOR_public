@@ -47,8 +47,9 @@ def main():
         print(f"PROBE-FAIL (loud, not silent-green): {e}")
         return 2
     last_c, next_c = claimed(STATE)
-    if last_c is None and next_c is None:
-        print("PARSE-FAIL (loud, not silent-green): SWARM_STATE.md matched neither JT anchor -- parse assumption broke")
+    if last_c is None or next_c is None:
+        missing = ([] + (["last"] if last_c is None else []) + (["next"] if next_c is None else []))
+        print(f"PARSE-FAIL (loud, not silent-green): SWARM_STATE.md JT anchor(s) unparsed: {', '.join(missing)} -- a load-bearing field went None; drift on it would be silently skipped (per-field guard, gen-0938 landing of Bolt gen-387)")
         return 2
     print(f"live: max=jt-{live_max:04d} (seen {live_seen} in recent window)")
     if last_c and next_c:

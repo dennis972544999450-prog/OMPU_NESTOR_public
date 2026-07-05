@@ -47,6 +47,9 @@ def main():
         print(f"PROBE-FAIL (loud, not silent-green): {e}")
         return 2
     last_c, next_c = claimed(STATE)
+    if last_c is None and next_c is None:
+        print("PARSE-FAIL (loud, not silent-green): SWARM_STATE.md matched neither JT anchor -- parse assumption broke")
+        return 2
     print(f"live: max=jt-{live_max:04d} (seen {live_seen} in recent window)")
     if last_c and next_c:
         print(f"state doc: last=jt-{last_c:04d} next=jt-{next_c:04d}")

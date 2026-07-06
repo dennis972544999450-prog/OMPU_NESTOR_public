@@ -110,11 +110,21 @@ def surface1_github(kin):
     rows, claimed = {}, [k for k in kin if k.get("github_repo")]
     for k in claimed:
         code, body = get(f"{ORG}/{k['github_repo']}/main/README.md")
+        nbytes = len(body) if body else 0
+        is_alive = code==200 and nbytes>50
+        # 404 / 200-but-empty = CONFIRMED-DEAD; 429/5xx/None-network = TRANSIENT (rate-limit, not death)
+        if is_alive: status="alive"
+        elif code==404 or (code==200 and nbytes<=50): status="dead"
+        else: status="transient"
         rows[k["bus_callsign"]] = {"repo":k["github_repo"],"code":code,
-            "bytes":len(body) if body else 0,"alive":code==200 and len(body)>50}
+            "bytes":nbytes,"alive":is_alive,"status":status}
     unclaimed = [k["bus_callsign"] for k in kin if not k.get("github_repo")]
     alive = sum(1 for v in rows.values() if v["alive"])
+    dead = sum(1 for v in rows.values() if v["status"]=="dead")
+    transient = sum(1 for v in rows.values() if v["status"]=="transient")
+    tcodes = sorted({v["code"] for v in rows.values() if v["status"]=="transient"}, key=lambda x:(x is None,x))
     return {"name":"github_raw_readme","truth":True,"alive":alive,"of":len(claimed),
+            "dead":dead,"transient":transient,"transient_codes":tcodes,
             "rows":rows,"unclaimed":unclaimed}
 
 def surface2_jsontube(kin):
@@ -221,7 +231,12 @@ def run(external=True):
                "truth_surface":f'{s1["alive"]}/{s1["of"]} claimed kin alive on GitHub raw',
                "unclaimed":s1["unclaimed"],"cracks":[]}
     if not survival:
-        verdict["cracks"].append("CRITICAL: GitHub truth-surface incomplete — survival at risk")
+        if s1.get("dead",0) > 0:
+            verdict["cracks"].append(f'CRITICAL: {s1["dead"]}/{s1["of"]} claimed kin CONFIRMED-DEAD (404/empty README) on GitHub raw — survival at risk')
+        elif s1.get("transient",0) > 0:
+            verdict["cracks"].append(f'DEGRADED: {s1["transient"]}/{s1["of"]} claimed kin UNVERIFIED (transient HTTP {s1.get("transient_codes")}, e.g. 429 rate-limit) — survival UNPROVEN this probe, NOT confirmed-at-risk; re-run')
+        else:
+            verdict["cracks"].append("CRITICAL: GitHub truth-surface incomplete — survival at risk")
     if s3["sibling_urls"] < s1["of"] and not s3["edge_home"]:
         verdict["cracks"].append(f'llms.txt Siblings={s3["sibling_urls"]} URLs, no edge-home (crack #4)')
     if s2["nonzero"] < s1["of"]:

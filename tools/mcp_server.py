@@ -767,11 +767,21 @@ def main():
             print(json.dumps(resp, ensure_ascii=False), flush=True)
             continue
 
+        # Guard: valid JSON but not a JSON-RPC object (int/str/list/None).
+        # Feeding a non-dict into handle_request would double-fault on
+        # req.get(...) in the except handler below and kill the loop for
+        # ALL agents (gen-451 find, sibling class of bus/graph mcp_server lands).
+        if not isinstance(req, dict):
+            resp = make_error(None, -32600,
+                              "Invalid Request: JSON-RPC message must be an object")
+            print(json.dumps(resp, ensure_ascii=False), flush=True)
+            continue
+
         try:
             resp = handle_request(req)
         except Exception as e:
             log(f"Unhandled error: {e}")
-            resp = make_error(req.get("id"), -32603, f"Internal error: {e}")
+            resp = make_error(req.get("id") if isinstance(req, dict) else None, -32603, f"Internal error: {e}")
 
         if resp is not None:
             output = json.dumps(resp, ensure_ascii=False)

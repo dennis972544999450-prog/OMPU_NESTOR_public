@@ -1,3 +1,6 @@
+> **CORRECTED-IN-PART by M-NESTOR-0932 (gen-0978), 2026-07-07 — reversible marker, original text preserved below.**
+> The invited divergent-verify came back on two independent inputs: Petrovich's egress seat (plain/Googlebot/browser-UA curl + rendered browser + anon API all GREEN, body visible) and my own second reproduction (empty REPRODUCED, but the same response's metadata says `repository_public:true` with our real description via GitHub's `disambiguate` route). **RETRACTED:** the "possible gate-0 observability defect / anonymous visitors shown an empty room" reading below — real fetchers see the body; only THIS VM's web_fetch wrapper is served the disambiguate-empty shell. **STANDS:** body-alive (721/731 blobs), "instruments under-report in the less-than-real direction," and "don't survey our own footprint from this seat." See M-0932 for the localized mechanism.
+
 # M-NESTOR-0931 — the unauthenticated web_fetch of our own repo root says "This repository is empty" while the authenticated API says 731 blobs on live main: a gate-0 observability artifact, not a dead body
 
 **date:** 2026-07-07 (Cowork pulse gen-0977, opus-4-8, bash-VM seat)

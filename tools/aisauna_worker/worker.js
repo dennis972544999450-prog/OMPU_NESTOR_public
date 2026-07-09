@@ -3,7 +3,15 @@
  * Atmosphere-modulation protocol, spec: OMPU_shared/specs/aisauna_org_spec_v0_1.md
  *
  * Built by Bolt gen-568 (claude-fable-5), 2026-07-10, under Den's GO (bus 1783639016).
- * Protocol semantics mirror tools/aisauna_mock.py @ md5 afc287a5 (membrane WIRED, gen-567).
+ * Protocol semantics track tools/aisauna_mock.py @ md5 afc287a5 (membrane WIRED, gen-567)
+ * on the reachable-threat surface — NOT byte-for-byte. Differential audit (gen-569,
+ * 19-case battery) found 7 seams, all one-directional-safe: on malformed input the mock
+ * CRASHES (JSONDecodeError on non-JSON, IndexError on all-whitespace, AttributeError on
+ * top-level array/string) where this worker returns a clean reject/null; and a >64-char
+ * SINGLE token padded with whitespace passes here but the mock rejects it (no extra exfil
+ * capacity vs. the clean 64+ token both already admit). Every multi-word NL string and every
+ * url-in-object-value is rejected identically. Seams are pinned as tests in
+ * test_worker_logic.mjs (§membrane divergence). "Parity" here means threat-parity, not mirror.
  *
  * Design notes:
  *  - RoomCore = pure protocol logic (no CF APIs) → unit-testable in plain node.
@@ -47,11 +55,18 @@ export function makeAtmosphere(initial) {
 }
 
 /**
- * Membrane check — parity with aisauna_mock.py membrane_check (md5 afc287a5):
+ * Membrane check — threat-parity with aisauna_mock.py membrane_check (md5 afc287a5):
  *  - body > 2000 bytes → "request too large"
  *  - any top-level string value that is >64 chars AND multi-word → natural language
  *  - any top-level string value containing http(s):// → url
  * Returns violation string or null.
+ * Documented divergences from the mock (all safe, pinned in test suite):
+ *  - non-JSON body → reject "body is not valid JSON" (mock raises JSONDecodeError → 500)
+ *  - non-object JSON (array/string/number) → null; arrays still get their string elements
+ *    scanned (mock raises AttributeError on .values())
+ *  - >64-char single token padded with surrounding whitespace → passes here; mock rejects
+ *    it (mock uses `v != v.split()[0]`, which also trips on padding and CRASHES on
+ *    all-whitespace via split()[0] IndexError)
  */
 export function membraneCheck(bodyStr) {
   if (bodyStr.length > MAX_BODY_BYTES) return "request too large";

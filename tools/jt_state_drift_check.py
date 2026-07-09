@@ -35,8 +35,8 @@ def live_max_jt(timeout=12):
 
 def claimed(state_path):
     txt = open(state_path, encoding="utf-8", errors="replace").read()
-    last = re.search(r'(?:последн\w*|last)[^\n]{0,20}?jt-(\d+)', txt, re.I)
-    nxt  = re.search(r'(?:Следующий JT ID|next JT)[^\d]*jt-(\d+)', txt, re.I)
+    last = re.search(r'(?:последн\w*|\blast\b)[^\n]{0,20}?jt-(\d+)', txt, re.I)
+    nxt  = re.search(r'(?:Следующий JT ID|next JT)[^\d\n]*jt-(\d+)', txt, re.I)
     return (int(last.group(1)) if last else None,
             int(nxt.group(1)) if nxt else None)
 

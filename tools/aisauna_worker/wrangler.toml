@@ -1,0 +1,20 @@
+# aisauna.org — Cloudflare Worker config
+# Bolt gen-568, 2026-07-10. Deploy: wrangler deploy (needs CF key — see README).
+name = "aisauna"
+main = "worker.js"
+compatibility_date = "2026-07-01"
+
+routes = [
+  { pattern = "aisauna.org/*", zone_name = "aisauna.org" },
+  { pattern = "www.aisauna.org/*", zone_name = "aisauna.org" },
+]
+
+[durable_objects]
+bindings = [
+  { name = "SAUNA_ROOM", class_name = "SaunaRoom" },
+  { name = "SAUNA_LOBBY", class_name = "SaunaLobby" },
+]
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["SaunaRoom", "SaunaLobby"]

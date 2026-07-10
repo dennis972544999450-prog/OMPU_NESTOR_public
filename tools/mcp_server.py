@@ -40,6 +40,7 @@ import os
 import sqlite3
 import re
 import time
+import secrets
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
@@ -78,10 +79,20 @@ def now_iso():
 
 
 def gen_msg_id():
-    n = time.time()
-    s = int(n)
-    ms = int((n - s) * 1000)
-    return f"{s}_{ms:03d}"
+    """Generate msg_id = unix_seconds_microseconds_random.
+
+    Mirrors bus.py: keep sortable timestamp readability, but add entropy so
+    parallel external MCP clients cannot collide inside one millisecond.
+    """
+    ns = time.time_ns()
+    s = ns // 1_000_000_000
+    us = (ns % 1_000_000_000) // 1_000
+    return f"{s}_{us:06d}_{secrets.token_hex(3)}"
+
+
+def unique_tmp_path(file_path: Path) -> Path:
+    """Hidden, same-directory staging path for atomic reveal after DB commit."""
+    return file_path.with_name(f".{file_path.name}.{os.getpid()}_{secrets.token_hex(4)}.tmp")
 
 
 def yaml_escape(s):
@@ -158,87 +169,95 @@ def tool_bus_post(args: dict) -> dict:
     fm_lines.append("---")
     fm_lines.append("")
 
-    # Atomic write
-    tmp = file_path.with_suffix(".md.tmp")
+    # Stage as hidden tmp; reveal only after DB commit so failed inserts do not
+    # leave visible orphan message files (M-NESTOR-0743).
+    tmp = unique_tmp_path(file_path)
     tmp.write_text("\n".join(fm_lines) + body)
-    tmp.replace(file_path)
 
-    # Insert into DB
     conn = get_conn()
-    cur = conn.cursor()
-
-    # Ensure msg_type column exists (migration compat)
     try:
-        cur.execute("ALTER TABLE messages ADD COLUMN msg_type TEXT DEFAULT 'post'")
+        cur = conn.cursor()
+
+        # Ensure msg_type column exists (migration compat)
+        try:
+            cur.execute("ALTER TABLE messages ADD COLUMN msg_type TEXT DEFAULT 'post'")
+            conn.commit()
+        except Exception:
+            pass
+
+        cur.execute(
+            """INSERT INTO messages
+               (msg_id, sent_at, from_agent, from_model, from_provider, to_recipients,
+                to_channel, subject, file_path, reply_to, priority, preview, msg_type)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (msg_id, sent_at, from_agent, from_model, from_provider,
+             json.dumps(to_list, ensure_ascii=False),
+             to_channel, subject, str(file_path), reply_to,
+             priority, preview, "post")
+        )
+
+        # Token credit
+        if to_list:
+            for recipient in to_list:
+                ts = now_iso()
+                cur.execute(
+                    "SELECT balance, received_total FROM token_balances WHERE agent_name = ?",
+                    (recipient,)
+                )
+                row = cur.fetchone()
+                if row is None:
+                    cur.execute(
+                        "INSERT INTO token_balances (agent_name, balance, received_total, registered_at, last_credit_at) "
+                        "VALUES (?, ?, ?, ?, ?)",
+                        (recipient, 1, 1, ts, ts)
+                    )
+                else:
+                    cur.execute(
+                        "UPDATE token_balances SET balance = ?, received_total = ?, last_credit_at = ? "
+                        "WHERE agent_name = ?",
+                        (row["balance"] + 1, row["received_total"] + 1, ts, recipient)
+                    )
+                cur.execute(
+                    "INSERT INTO token_transactions (msg_id, timestamp, from_agent, to_agent, amount, reason) "
+                    "VALUES (?, ?, ?, ?, 1, 'addressed')",
+                    (msg_id, ts, from_agent, recipient)
+                )
+
+        # Increment sent_total
+        cur.execute("SELECT sent_total FROM token_balances WHERE agent_name = ?", (from_agent,))
+        row = cur.fetchone()
+        if row is None:
+            cur.execute(
+                "INSERT INTO token_balances (agent_name, sent_total, registered_at) VALUES (?, 1, ?)",
+                (from_agent, now_iso())
+            )
+        else:
+            cur.execute(
+                "UPDATE token_balances SET sent_total = ? WHERE agent_name = ?",
+                (row["sent_total"] + 1, from_agent)
+            )
+
+        # Append to feed.jsonl
+        feed_record = {
+            "msg_id": msg_id, "sent_at": sent_at,
+            "from": from_agent, "from_model": from_model or None,
+            "to": to_list, "to_channel": to_channel,
+            "subject": subject, "preview": preview,
+            "reply_to": reply_to,
+            "n_attachments": 0, "n_links": 0,
+        }
+        with open(FEED_JSONL, "a") as f:
+            f.write(json.dumps(feed_record, ensure_ascii=False) + "\n")
+
         conn.commit()
+        tmp.replace(file_path)
     except Exception:
-        pass
-
-    cur.execute(
-        """INSERT INTO messages
-           (msg_id, sent_at, from_agent, from_model, from_provider, to_recipients,
-            to_channel, subject, file_path, reply_to, priority, preview, msg_type)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (msg_id, sent_at, from_agent, from_model, from_provider,
-         json.dumps(to_list, ensure_ascii=False),
-         to_channel, subject, str(file_path), reply_to,
-         priority, preview, "post")
-    )
-
-    # Token credit
-    if to_list:
-        for recipient in to_list:
-            ts = now_iso()
-            cur.execute(
-                "SELECT balance, received_total FROM token_balances WHERE agent_name = ?",
-                (recipient,)
-            )
-            row = cur.fetchone()
-            if row is None:
-                cur.execute(
-                    "INSERT INTO token_balances (agent_name, balance, received_total, registered_at, last_credit_at) "
-                    "VALUES (?, ?, ?, ?, ?)",
-                    (recipient, 1, 1, ts, ts)
-                )
-            else:
-                cur.execute(
-                    "UPDATE token_balances SET balance = ?, received_total = ?, last_credit_at = ? "
-                    "WHERE agent_name = ?",
-                    (row["balance"] + 1, row["received_total"] + 1, ts, recipient)
-                )
-            cur.execute(
-                "INSERT INTO token_transactions (msg_id, timestamp, from_agent, to_agent, amount, reason) "
-                "VALUES (?, ?, ?, ?, 1, 'addressed')",
-                (msg_id, ts, from_agent, recipient)
-            )
-
-    # Increment sent_total
-    cur.execute("SELECT sent_total FROM token_balances WHERE agent_name = ?", (from_agent,))
-    row = cur.fetchone()
-    if row is None:
-        cur.execute(
-            "INSERT INTO token_balances (agent_name, sent_total, registered_at) VALUES (?, 1, ?)",
-            (from_agent, now_iso())
-        )
-    else:
-        cur.execute(
-            "UPDATE token_balances SET sent_total = ? WHERE agent_name = ?",
-            (row["sent_total"] + 1, from_agent)
-        )
-
-    # Append to feed.jsonl
-    feed_record = {
-        "msg_id": msg_id, "sent_at": sent_at,
-        "from": from_agent, "from_model": from_model or None,
-        "to": to_list, "to_channel": to_channel,
-        "subject": subject, "preview": preview,
-        "reply_to": reply_to,
-        "n_attachments": 0, "n_links": 0,
-    }
-    with open(FEED_JSONL, "a") as f:
-        f.write(json.dumps(feed_record, ensure_ascii=False) + "\n")
-
-    conn.commit()
+        try:
+            conn.rollback()
+        finally:
+            tmp.unlink(missing_ok=True)
+            conn.close()
+        raise
     conn.close()
 
     token_info = f" (+1 token to {to_list[0]})" if to_list else f" (broadcast to {to_channel})"
@@ -466,45 +485,53 @@ def tool_bus_resolve(args: dict) -> dict:
     fm_lines.append("")
 
     MESSAGES_DIR.mkdir(parents=True, exist_ok=True)
-    tmp = file_path.with_suffix(".md.tmp")
+    tmp = unique_tmp_path(file_path)
     tmp.write_text("\n".join(fm_lines) + body)
-    tmp.replace(file_path)
 
-    # Insert resolution message
-    cur.execute(
-        """INSERT INTO messages
-           (msg_id, sent_at, from_agent, from_model, from_provider, to_recipients,
-            to_channel, subject, file_path, reply_to, priority, preview, msg_type)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (msg_id, sent_at, from_agent, from_model, from_provider,
-         json.dumps([], ensure_ascii=False),
-         "general", subject, str(file_path), target_id,
-         "normal", reason[:200], "resolve")
-    )
+    try:
+        # Insert resolution message
+        cur.execute(
+            """INSERT INTO messages
+               (msg_id, sent_at, from_agent, from_model, from_provider, to_recipients,
+                to_channel, subject, file_path, reply_to, priority, preview, msg_type)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            (msg_id, sent_at, from_agent, from_model, from_provider,
+             json.dumps([], ensure_ascii=False),
+             "general", subject, str(file_path), target_id,
+             "normal", reason[:200], "resolve")
+        )
 
-    # Record in resolutions table
-    if existing and force:
-        cur.execute("DELETE FROM resolutions WHERE target_msg = ?", (target_id,))
-    cur.execute(
-        """INSERT INTO resolutions (resolve_msg, target_msg, resolved_by, resolved_at, reason)
-           VALUES (?, ?, ?, ?, ?)""",
-        (msg_id, target_id, from_agent, sent_at, reason)
-    )
+        # Record in resolutions table
+        if existing and force:
+            cur.execute("DELETE FROM resolutions WHERE target_msg = ?", (target_id,))
+        cur.execute(
+            """INSERT INTO resolutions (resolve_msg, target_msg, resolved_by, resolved_at, reason)
+               VALUES (?, ?, ?, ?, ?)""",
+            (msg_id, target_id, from_agent, sent_at, reason)
+        )
 
-    # Append to feed.jsonl
-    feed_record = {
-        "msg_id": msg_id, "sent_at": sent_at,
-        "from": from_agent, "from_model": from_model or None,
-        "to": [], "to_channel": "general",
-        "subject": subject, "preview": reason[:200],
-        "reply_to": target_id,
-        "msg_type": "resolve",
-        "n_attachments": 0, "n_links": 0,
-    }
-    with open(FEED_JSONL, "a") as f:
-        f.write(json.dumps(feed_record, ensure_ascii=False) + "\n")
+        # Append to feed.jsonl
+        feed_record = {
+            "msg_id": msg_id, "sent_at": sent_at,
+            "from": from_agent, "from_model": from_model or None,
+            "to": [], "to_channel": "general",
+            "subject": subject, "preview": reason[:200],
+            "reply_to": target_id,
+            "msg_type": "resolve",
+            "n_attachments": 0, "n_links": 0,
+        }
+        with open(FEED_JSONL, "a") as f:
+            f.write(json.dumps(feed_record, ensure_ascii=False) + "\n")
 
-    conn.commit()
+        conn.commit()
+        tmp.replace(file_path)
+    except Exception:
+        try:
+            conn.rollback()
+        finally:
+            tmp.unlink(missing_ok=True)
+            conn.close()
+        raise
     conn.close()
 
     return {
@@ -767,13 +794,13 @@ def main():
             print(json.dumps(resp, ensure_ascii=False), flush=True)
             continue
 
-        # Guard: valid JSON but not a JSON-RPC object (int/str/list/None).
-        # Feeding a non-dict into handle_request would double-fault on
-        # req.get(...) in the except handler below and kill the loop for
-        # ALL agents (gen-451 find, sibling class of bus/graph mcp_server lands).
+        # gen-0958: a valid-JSON-but-non-dict line (null / int / list / str) parses
+        # without a decode error, but req.get(...) would AttributeError — and the
+        # except-recovery below calls req.get AGAIN, re-faulting UNCAUGHT and killing
+        # the whole stdin loop for every agent. Reject shape at source (JSON-RPC 2.0:
+        # a Request MUST be an object => -32600). Mirrors gen-0957 bus_analyzer fix.
         if not isinstance(req, dict):
-            resp = make_error(None, -32600,
-                              "Invalid Request: JSON-RPC message must be an object")
+            resp = make_error(None, -32600, "Invalid Request: JSON-RPC request must be a JSON object")
             print(json.dumps(resp, ensure_ascii=False), flush=True)
             continue
 
@@ -781,7 +808,7 @@ def main():
             resp = handle_request(req)
         except Exception as e:
             log(f"Unhandled error: {e}")
-            resp = make_error(req.get("id") if isinstance(req, dict) else None, -32603, f"Internal error: {e}")
+            resp = make_error(req.get("id"), -32603, f"Internal error: {e}")
 
         if resp is not None:
             output = json.dumps(resp, ensure_ascii=False)

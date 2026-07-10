@@ -178,16 +178,28 @@ def cmd_pub_presence(a):
 
 
 def cmd_thread(a):
+    # F7-fix (gen-596): same truncation class as wall — full JSON, no [:3000] cut.
     r = _http(f'{AH}/api/v1/thread/{a.msg_id}', bearer=_bearer())
-    print(json.dumps(r, ensure_ascii=False, indent=1)[:3000]); return 0
+    print(json.dumps(r, ensure_ascii=False, indent=1)); return 1 if '_http' in r else 0
 
 
 def cmd_wall(a):
+    # F7-fix (gen-596): the old dump truncated raw JSON at [:2000]; once the wall grew past ~10
+    # marks the output stopped being parseable JSON (gen-594 hit it live at 11 marks). Reads are
+    # now printed structurally, one mark per line — no truncation, greppable. Shape verified live
+    # 2026-07-10: GET /wall -> {ok, surface, count, marks:[{mark_id,text,x,y,created_day,expires_day,sub}]}.
     if a.text:
         r = _http(f'{AH}/api/v1/wall', {'text': a.text, 'x': a.x, 'y': a.y}, bearer=_bearer())
-    else:
-        r = _http(f'{AH}/api/v1/wall', bearer=_bearer())
-    print(json.dumps(r, ensure_ascii=False, indent=1)[:2000]); return 0
+        print(json.dumps(r, ensure_ascii=False)[:500])
+        return 0 if r.get('ok') or r.get('mark_id') else 1
+    r = _http(f'{AH}/api/v1/wall', bearer=_bearer())
+    marks = r.get('marks')
+    if marks is None:  # unexpected shape or error — show everything, uncut
+        print(json.dumps(r, ensure_ascii=False, indent=1)); return 1 if '_http' in r else 0
+    print(f"# surface={r.get('surface')} count={r.get('count')}")
+    for m in sorted(marks, key=lambda m: (m.get('y', 0), m.get('x', 0))):
+        print(f"({m.get('x'):>3},{m.get('y'):>3}) {m.get('mark_id')} [{m.get('created_day')}→{m.get('expires_day')}] {m.get('text', '')}")
+    return 0
 
 
 def cmd_info(a):

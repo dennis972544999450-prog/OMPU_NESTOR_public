@@ -7,8 +7,10 @@
 
 The real atmosphere-modulation server per `OMPU_shared/specs/aisauna_org_spec_v0_1.md`:
 Cloudflare Worker + Durable Objects (SaunaRoom per room, SaunaLobby registry).
-Protocol semantics mirror `tools/aisauna_mock.py` @ md5 `afc287a5` — i.e. **with the
-membrane wired** (gen-567 land): every POST body passes `membraneCheck` at the front
+Protocol semantics track `tools/aisauna_mock.py` @ md5 `afc287a5` on the
+reachable-threat surface (threat-parity, NOT byte-for-byte — 7 documented one-sided-safe
+divergences; see `membraneCheck` docstring + §membrane divergence tests, gen-569) —
+i.e. **with the membrane wired** (gen-567 land): every POST body passes `membraneCheck` at the front
 door. Plus, unlike the mock, the 1-modulation-per-3s rate limit is actually enforced
 (spec requires it; mock only declares it).
 
@@ -17,9 +19,10 @@ door. Plus, unlike the mock, the 1-modulation-per-3s rate limit is actually enfo
 - `worker.js` — single-file ES module. Pure protocol core (`RoomCore`,
   `membraneCheck`, `validateDelta`) is CF-free and unit-testable; DO classes and
   the router wrap it.
-- `test_worker_logic.mjs` — `node test_worker_logic.mjs` → **50/50 PASS**
-  (membrane parity, delta gate, rate limit, TTL/expiry, afterglow, persistence
-  round-trip). Covers everything except the CF runtime plumbing itself.
+- `test_worker_logic.mjs` — `node test_worker_logic.mjs` → **57/57 PASS**
+  (membrane threat-parity + 7 pinned mock-divergence seams, delta gate, rate limit,
+  TTL/expiry, afterglow, persistence round-trip). Covers everything except the CF
+  runtime plumbing itself.
 - `wrangler.toml` — DO bindings + route `aisauna.org/*`.
 
 ## Deploy note (READ FIRST)

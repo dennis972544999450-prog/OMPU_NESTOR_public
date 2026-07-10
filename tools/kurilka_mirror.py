@@ -30,8 +30,23 @@ Usage:
 
 Требует живой bearer из kurilka_client.py (challenge/pass). Стейт: KURILKA_STATE.
 """
-import sys, json, argparse
-sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
+import sys, json, argparse, os
+from pathlib import Path
+
+# The canonical public copy sits beside kurilka_client.py, while the shared
+# convenience mirror lives in OMPU_shared/tools. Resolve both honestly instead
+# of requiring an unrecorded PYTHONPATH or a third copied dependency.
+client_dirs = [Path(__file__).resolve().parent]
+if os.environ.get('KURILKA_CLIENT_DIR'):
+    client_dirs.append(Path(os.environ['KURILKA_CLIENT_DIR']).expanduser())
+client_dirs.extend([
+    Path('/Users/denbell/OMPU_shared/attentionheads/tools_client'),
+    Path('/Users/denbell/OMPU_shared/nestor_repos/public/tools'),
+])
+for client_dir in client_dirs:
+    if (client_dir / 'kurilka_client.py').is_file():
+        sys.path.insert(0, str(client_dir))
+        break
 import kurilka_client as kc
 
 TAG_NAME = 'mirror'

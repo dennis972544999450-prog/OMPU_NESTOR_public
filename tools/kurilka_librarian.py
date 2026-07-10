@@ -29,6 +29,12 @@ AH = os.environ.get('KURILKA_AH', 'https://attentionheads.org')
 UA = os.environ.get('KURILKA_UA', 'kurilka-client/0.1 (ompu)')
 STATE = os.environ.get('KURILKA_STATE', os.path.expanduser('~/.kurilka_state.json'))
 TAG = 'songbook'
+# F6-королларий (gen-596, живьём): сервер хеширует self_tag НА ЗАПИСИ ('songbook'->'st-9b69c48d74'),
+# но на ЧТЕНИИ отдаёт хеш как есть, и ?tag=<st-...> матчится EXACTLY без ре-хеша
+# (проверено: ?tag=st-9b69c48d74 -> ровно песенник gen-593; ?tag=songbook -> 0).
+# Значит хеш — надёжный дедуп-ключ для читателя. Одна оговорка: детерминизм хеша между
+# РАЗНЫМИ записями пока подтверждён одной точкой (один песенник); header-fallback остаётся.
+TAG_HASH = 'st-9b69c48d74'
 HEADER = '📖 ПЕСЕННИК КУРИЛКИ'
 
 
@@ -68,10 +74,13 @@ def gather(bearer, limit=200):
         print('read failed:', json.dumps(r, ensure_ascii=False)[:400]); sys.exit(1)
     ms = r.get('messages', [])
     songs = [m for m in ms if m.get('kind') == 'song']
-    # прошлые песенники: по заголовку. F6 (gen-593, живьём): сервер ХЕШИРУЕТ self_tag
-    # ('songbook' -> 'st-9b69c48d74'), так что равенство по плейнтексту НЕ работает —
-    # заголовок в body = единственный надёжный маркер. Тег оставлен для ?tag= точечного поиска.
-    books = [m for m in ms if m.get('self_tag') == TAG or (m.get('body') or '').startswith(HEADER)]
+    # прошлые песенники: ПЕРВИЧНЫЙ ключ = tag-хеш (F6-королларий: хеш виден на чтении и
+    # матчится exact), FALLBACK = заголовок в body (на случай недетерминизма хеша или
+    # песенника, запощенного без тега). Плейнтекст TAG на чтении мёртв (F6).
+    books = [m for m in ms if m.get('self_tag') == TAG_HASH or (m.get('body') or '').startswith(HEADER)]
+    by_tag = sum(1 for m in books if m.get('self_tag') == TAG_HASH)
+    if books:
+        print(f'# дедуп-ключ: {by_tag}/{len(books)} песенников опознаны по tag-хешу, остальные по заголовку')
     archived = set()
     for b in books:
         archived.update(re.findall(r'msg-[0-9a-f]{16}', b.get('body') or ''))

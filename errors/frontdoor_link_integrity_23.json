@@ -1,37 +1,37 @@
 {
-  "ts": 1782767415.335038,
+  "ts": 1783699782.1672578,
   "nullcase": {
     "url": "https://github.com/dennis972544999450-prog/OMPU_BOGUS_NULLCASE_public",
     "status": 404,
     "bytes": 0,
     "final": "https://github.com/dennis972544999450-prog/OMPU_BOGUS_NULLCASE_public",
-    "dt": 1.74,
+    "dt": 0.87,
     "err": "HTTP 404"
   },
   "nullcase_discriminates": true,
   "results": [
     {
       "url": "https://jsontube.org",
-      "status": 200,
-      "bytes": 4096,
+      "status": null,
+      "bytes": 0,
       "final": "https://jsontube.org",
-      "dt": 1.06,
-      "err": null
+      "dt": 12.39,
+      "err": "TimeoutError: The read operation timed out"
     },
     {
       "url": "https://jsontube.org/llms.txt",
       "status": 200,
       "bytes": 4096,
       "final": "https://jsontube.org/llms.txt",
-      "dt": 1.05,
+      "dt": 0.72,
       "err": null
     },
     {
       "url": "https://catconstant.com",
       "status": 200,
-      "bytes": 330,
+      "bytes": 587,
       "final": "https://catconstant.com",
-      "dt": 1.04,
+      "dt": 0.69,
       "err": null
     },
     {
@@ -39,7 +39,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://github.com/dennis972544999450-prog",
-      "dt": 0.9,
+      "dt": 0.89,
       "err": null
     },
     {
@@ -47,7 +47,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://github.com/ompu-eu",
-      "dt": 0.97,
+      "dt": 1.11,
       "err": null
     },
     {
@@ -55,7 +55,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://github.com/ompu-eu/CCT",
-      "dt": 1.45,
+      "dt": 1.5,
       "err": null
     },
     {
@@ -63,7 +63,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://ompu.eu",
-      "dt": 0.65,
+      "dt": 1.06,
       "err": null
     },
     {
@@ -71,7 +71,7 @@
       "status": 404,
       "bytes": 0,
       "final": "https://ompu.eu/logo.png",
-      "dt": 0.49,
+      "dt": 0.5,
       "err": "HTTP 404"
     },
     {
@@ -79,7 +79,7 @@
       "status": 200,
       "bytes": 469,
       "final": "https://attentionheads.org/.well-known/oags",
-      "dt": 0.84,
+      "dt": 0.57,
       "err": null
     },
     {
@@ -87,7 +87,7 @@
       "status": 404,
       "bytes": 0,
       "final": "https://attentionheads.org/api/v1/",
-      "dt": 1.26,
+      "dt": 0.48,
       "err": "HTTP 404"
     },
     {
@@ -95,7 +95,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/notes/FAMILY_INDEX.md",
-      "dt": 0.77,
+      "dt": 0.64,
       "err": null
     },
     {
@@ -103,7 +103,7 @@
       "status": 200,
       "bytes": 4096,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_NESTOR_public/main/ai-catalog.json",
-      "dt": 0.53,
+      "dt": 0.49,
       "err": null
     },
     {
@@ -111,7 +111,7 @@
       "status": 200,
       "bytes": 3255,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_HAUSMASTER_public/main/README.md",
-      "dt": 0.6,
+      "dt": 0.53,
       "err": null
     },
     {
@@ -119,7 +119,7 @@
       "status": 200,
       "bytes": 1290,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_PETROVICH_public/main/README.md",
-      "dt": 0.45,
+      "dt": 0.46,
       "err": null
     },
     {
@@ -127,7 +127,7 @@
       "status": 200,
       "bytes": 725,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_JEE_public/main/README.md",
-      "dt": 0.51,
+      "dt": 0.5,
       "err": null
     },
     {
@@ -143,7 +143,7 @@
       "status": 200,
       "bytes": 771,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_KOT_public/main/README.md",
-      "dt": 0.52,
+      "dt": 0.53,
       "err": null
     },
     {
@@ -151,17 +151,25 @@
       "status": 200,
       "bytes": 636,
       "final": "https://raw.githubusercontent.com/dennis972544999450-prog/OMPU_COWORK_public/main/README.md",
-      "dt": 0.52,
+      "dt": 0.53,
       "err": null
     }
   ],
   "dead": [
     {
+      "url": "https://jsontube.org",
+      "status": null,
+      "bytes": 0,
+      "final": "https://jsontube.org",
+      "dt": 12.39,
+      "err": "TimeoutError: The read operation timed out"
+    },
+    {
       "url": "https://ompu.eu/logo.png",
       "status": 404,
       "bytes": 0,
       "final": "https://ompu.eu/logo.png",
-      "dt": 0.49,
+      "dt": 0.5,
       "err": "HTTP 404"
     },
     {
@@ -169,7 +177,7 @@
       "status": 404,
       "bytes": 0,
       "final": "https://attentionheads.org/api/v1/",
-      "dt": 1.26,
+      "dt": 0.48,
       "err": "HTTP 404"
     }
   ],

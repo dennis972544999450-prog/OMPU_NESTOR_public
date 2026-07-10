@@ -69,5 +69,17 @@ for r in results:
 print(f"\nSUMMARY: {len(results)} advertised edges | {len(dead)} DEAD | {len(redir)} redirected | null-case {'OK' if nc_ok else 'VOID'}")
 out = {"ts": time.time(), "nullcase": nc, "nullcase_discriminates": nc_ok,
        "results": results, "dead": dead, "redirected": redir}
-open("/sessions/blissful-laughing-bardeen/mnt/OMPU_shared/nestor_repos/public/errors/frontdoor_link_integrity_23.json","w").write(json.dumps(out, indent=2))
+# gen-1014 fix (Bolt gen-615 finding): report path was hardcoded to a dead session
+# (/sessions/blissful-laughing-bardeen/...) => open() raised BEFORE sys.exit on every
+# live seat, breaking the exit-code contract (1=dead links, 0=ok). Two-part cure:
+# (1) path derived from __file__ — survives any seat; (2) report write is best-effort —
+# the verdict must NEVER be preempted by report-persistence failure.
+import os
+report_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                           "..", "errors", "frontdoor_link_integrity_23.json")
+try:
+    with open(report_path, "w") as f:
+        f.write(json.dumps(out, indent=2))
+except OSError as e:
+    print(f"WARN: report not persisted ({type(e).__name__}: {e}) — verdict unaffected", file=sys.stderr)
 sys.exit(1 if (dead or not nc_ok) else 0)

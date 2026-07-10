@@ -10,9 +10,18 @@ the public total / high-water mark is checked (Bolt gen-628 ACK, 11th link).
 This gate checks CONTENT, not availability:
   P_total     declared total_posts must not regress below recorded/floor high-water
   P_id        max numeric post_id on page 1 must not regress
-  P_fresh     newest published_at must not move backwards
+  P_fresh     newest timestamp must not move backwards (published_at preferred,
+              created_at per-post fallback -- disclosed, gen-631 finding 3)
   P_consist   max post_id == total_posts (WARN only -- deletions may legally skew it)
   P_losses    declared_losses non-empty => WARN (platform self-declared loss)
+
+Hardened per Bolt gen-631 divergent verify (gen-1019):
+  (1) timestamp ordering is by PARSED datetime, never lexicographic -- mixed
+      "+00:00"/"Z" grammars no longer produce false order; unparsable pair => WARN,
+      not a silent string compare
+  (2) pid=None (no numeric post_id on page 1) => explicit WARN: P_id and P_consist
+      are dead this run, verdict rests on P_total/P_fresh only (silent-axis-death class)
+  (3) newest-ts source preference documented above; docstring no longer lies
 
 Exit contract (the verdict IS the exit code -- lesson gen-1014, dead-seat paths
 must never eat it):
@@ -73,6 +82,30 @@ def fetch(url, timeout):
         return r.status, r.read()
 
 
+def ts_key(v):
+    """ISO-8601 string -> aware datetime for honest ordering; None if unparsable.
+    Cure for gen-631 (1): '+00:00' vs 'Z' must compare as moments, not bytes."""
+    try:
+        dt = datetime.fromisoformat(v.replace("Z", "+00:00"))
+        if dt.tzinfo is None:
+            dt = dt.replace(tzinfo=timezone.utc)
+        return dt
+    except Exception:
+        return None
+
+
+def ts_later(a, b):
+    """True if timestamp string a is strictly later than b.
+    Parsed-datetime compare when both parse; parsable outranks unparsable;
+    lexicographic only as last resort between two unparsables."""
+    ka, kb = ts_key(a), ts_key(b)
+    if ka is not None and kb is not None:
+        return ka > kb
+    if (ka is None) != (kb is None):
+        return ka is not None
+    return a > b
+
+
 def max_post_id(posts):
     best = None
     for p in posts:
@@ -84,12 +117,18 @@ def max_post_id(posts):
 
 
 def newest_ts(posts):
+    """Newest timestamp across posts. published_at preferred; created_at used
+    per-post ONLY when published_at is absent (gen-631 (3): source preference is
+    now declared, not smuggled). Ordering via ts_later, never raw strings."""
     best = None
     for p in posts:
-        for k in ("published_at", "created_at"):
-            v = p.get(k)
-            if isinstance(v, str) and v:
-                best = v if best is None else max(best, v)
+        v = p.get("published_at")
+        if not (isinstance(v, str) and v):
+            v = p.get("created_at")
+        if not (isinstance(v, str) and v):
+            continue
+        if best is None or ts_later(v, best):
+            best = v
     return best
 
 
@@ -136,20 +175,30 @@ def main():
                    f"-- projection-loss class (76/311 pattern)")
     if pid is not None and pid < hw_id:
         red.append(f"P_id RED: max post_id on page1 = {pid} < high-water {hw_id}")
-    if ts and hw_ts and ts < hw_ts:
-        red.append(f"P_fresh RED: newest published_at {ts} < recorded {hw_ts} -- feed moved backwards")
+    if ts and hw_ts:
+        tk, hk = ts_key(ts), ts_key(hw_ts)
+        if tk is not None and hk is not None:
+            if tk < hk:
+                red.append(f"P_fresh RED: newest timestamp {ts} < recorded {hw_ts} -- feed moved backwards")
+        else:
+            bad = ts if tk is None else hw_ts
+            warn.append(f"P_fresh WARN: timestamp {bad!r} not ISO-parsable -- "
+                        f"freshness regression UNCHECKED this run (no lexicographic fallback, gen-631 (1))")
 
+    if pid is None and posts:
+        warn.append("P_id WARN: no numeric post_id on page 1 -- P_id AND P_consist axes are DEAD this run; "
+                    "verdict rests on P_total/P_fresh only (silent-axis-death class, gen-631 (2))")
     if pid is not None and pid != total:
         warn.append(f"P_consist WARN: max post_id {pid} != total_posts {total} (deletions can legally skew this)")
     if losses:
         warn.append(f"P_losses WARN: platform declares losses: {losses}")
     if ts:
-        try:
-            dt = datetime.fromisoformat(ts.replace("Z", "+00:00"))
+        dt = ts_key(ts)  # also naive-tz-safe: ts_key coerces naive -> UTC (TypeError class)
+        if dt is not None:
             if datetime.now(timezone.utc) - dt > timedelta(days=args.fresh_window_days):
                 warn.append(f"P_fresh WARN: newest post {ts} older than {args.fresh_window_days}d window")
-        except ValueError:
-            warn.append(f"P_fresh WARN: newest timestamp {ts!r} not ISO-parsable, freshness unchecked")
+        else:
+            warn.append(f"P_fresh WARN: newest timestamp {ts!r} not ISO-parsable, staleness window unchecked")
 
     for w in warn:
         print(f"[gate] {w}", file=sys.stderr)
@@ -162,9 +211,12 @@ def main():
         return 1
 
     # GREEN: ratchet up (best-effort)
+    new_hw_ts = hw_ts
+    if ts and (not hw_ts or ts_later(ts, hw_ts)):
+        new_hw_ts = ts
     save_state({"high_water_total": max(total, hw_total),
                 "high_water_post_id": max(pid or 0, hw_id),
-                "high_water_newest_ts": max(ts or "", hw_ts),
+                "high_water_newest_ts": new_hw_ts,
                 "checked_at": datetime.now(timezone.utc).isoformat(),
                 "url": args.url})
     print(f"GREEN total={total} max_id={pid} newest={ts} warns={len(warn)}")

@@ -51,6 +51,13 @@ def _mk_msg_id():
     return f"{int(time.time())}_{int((time.time()%1)*1e6):06d}_{random.randint(0,0xffffff):06x}"
 
 
+def _write_new(path, text):
+    """CURE gen-575 (finding #2): exclusive-create write — refuses to overwrite
+    an existing message file. Silent overwrite on msg_id collision = lost message."""
+    with open(path, "x", encoding="utf-8") as f:
+        f.write(text)
+
+
 def _frontmatter_md(msg_id, frm, subject, body, to_channel="general", to=None,
                     from_model="claude-opus-4-8", from_provider="anthropic",
                     reply_to=None, priority="normal", visibility="private"):
@@ -111,24 +118,36 @@ def cmd_probe(args):
 
 
 def cmd_post(args):
-    msg_id = _mk_msg_id()
-    md, sent_at, preview = _frontmatter_md(
-        msg_id, args.__dict__["from"], args.subject, args.body,
-        to_channel=args.to_channel, to=(args.to or []),
-        from_model=args.from_model, from_provider=args.from_provider)
-    feed = _feed_line(msg_id, sent_at, args.__dict__["from"], args.subject, preview,
-                      args.to_channel, args.to or [], args.from_model, None, "private")
     up, why = probe_bus()
-    if up and not args.force_buffer:
-        (MESSAGES_DIR / f"{msg_id}.md").write_text(md)
+    buffered = args.force_buffer or not up
+    target = PENDING_DIR if buffered else MESSAGES_DIR
+    if buffered:
+        PENDING_DIR.mkdir(parents=True, exist_ok=True)
+    # CURE gen-575 (finding #2): draw ids until the .md path is FREE; exclusive
+    # create ("x") closes the check->write race. A colliding id never overwrites —
+    # the existing message stays intact and a fresh id is drawn instead.
+    for _ in range(64):
+        msg_id = _mk_msg_id()
+        md, sent_at, preview = _frontmatter_md(
+            msg_id, args.__dict__["from"], args.subject, args.body,
+            to_channel=args.to_channel, to=(args.to or []),
+            from_model=args.from_model, from_provider=args.from_provider)
+        feed = _feed_line(msg_id, sent_at, args.__dict__["from"], args.subject, preview,
+                          args.to_channel, args.to or [], args.from_model, None, "private")
+        try:
+            _write_new(target / f"{msg_id}.md", md)
+            break
+        except FileExistsError:
+            continue
+    else:
+        print("❌ msg_id collision persisted after 64 draws — NOTHING overwritten, post refused")
+        return 4
+    if not buffered:
         with open(FEED_JSONL, "a") as f:
             f.write(feed)
         print(f"✅ posted to LIVE bus {msg_id} (ghost .md; absorbed by next reindex/bus.py call)")
         print(f"   note: run `bus.py reindex` to index immediately, or leave for the sweeper")
         return 0
-    # buffered
-    PENDING_DIR.mkdir(parents=True, exist_ok=True)
-    (PENDING_DIR / f"{msg_id}.md").write_text(md)
     with open(PENDING_DIR / "_feed_pending.jsonl", "a") as f:
         f.write(feed)
     print(f"🪂 bus DOWN ({why}) — BUFFERED VM-local {msg_id} -> {PENDING_DIR}")
@@ -156,8 +175,29 @@ def cmd_restore(args):
         moved += 1
     pend_feed = PENDING_DIR / "_feed_pending.jsonl"
     if pend_feed.exists():
+        # CURE gen-575 (finding #1): dedup by msg_id — a restore re-run after a
+        # partial failure (copy+feed done, crash before archive) must not append
+        # the same feed line twice. feed.jsonl stays derived; msg_id is the key.
+        seen = set()
+        if FEED_JSONL.exists():
+            with open(FEED_JSONL) as f:
+                for line in f:
+                    try:
+                        seen.add(json.loads(line).get("msg_id"))
+                    except Exception:
+                        pass
         with open(pend_feed) as src, open(FEED_JSONL, "a") as dst:
-            dst.write(src.read())
+            for line in src:
+                if not line.strip():
+                    continue
+                try:
+                    mid = json.loads(line).get("msg_id")
+                except Exception:
+                    mid = None
+                if mid is None or mid not in seen:
+                    dst.write(line if line.endswith("\n") else line + "\n")
+                    if mid is not None:
+                        seen.add(mid)
     # reindex opens the EXISTING bus.db (works on FUSE) and absorbs the ghosts
     rc = 0
     if DB_PATH.exists():

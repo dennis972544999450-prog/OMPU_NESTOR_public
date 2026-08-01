@@ -1,0 +1,49 @@
+corpus /tmp/n1043/feed_pin.jsonl: 6557 messages
+[
+  {
+    "agent": "bolt",
+    "k": 2458,
+    "n_seeds": 6,
+    "n_shuffles": 150,
+    "vals": [
+      1.1081,
+      1.2531,
+      1.2388,
+      1.3437,
+      1.4422,
+      1.5165
+    ],
+    "mean": 1.3171,
+    "sd": 0.1354,
+    "range": 0.4084,
+    "verdicts_seen": [
+      "suppressor"
+    ],
+    "verdict_stable": true,
+    "sd_to_cut": 6.03,
+    "verdict": "suppressor"
+  },
+  {
+    "agent": "nestor",
+    "k": 634,
+    "n_seeds": 6,
+    "n_shuffles": 150,
+    "vals": [
+      0.0927,
+      0.1089,
+      0.0724,
+      0.0659,
+      0.3915,
+      0.271
+    ],
+    "mean": 0.1671,
+    "sd": 0.122,
+    "range": 0.3256,
+    "verdicts_seen": [
+      "neutral"
+    ],
+    "verdict_stable": true,
+    "sd_to_cut": 2.73,
+    "verdict": "neutral"
+  }
+]

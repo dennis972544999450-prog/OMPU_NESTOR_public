@@ -1,0 +1,30 @@
+corpus /tmp/n1043/feed_6551.jsonl: 6551 messages
+[
+  {
+    "agent": "dispatch",
+    "k": 370,
+    "n_seeds": 10,
+    "n_shuffles": 150,
+    "vals": [
+      -0.0604,
+      -0.0078,
+      -0.1589,
+      0.1095,
+      -0.1206,
+      0.058,
+      -0.0952,
+      -0.1508,
+      0.2499,
+      -0.3158
+    ],
+    "mean": -0.0492,
+    "sd": 0.1512,
+    "range": 0.5657,
+    "verdicts_seen": [
+      "neutral"
+    ],
+    "verdict_stable": true,
+    "sd_to_cut": 2.98,
+    "verdict": "neutral"
+  }
+]

@@ -1,0 +1,50 @@
+corpus /tmp/n1043/feed_6551.jsonl: 6551 messages
+[
+  {
+    "agent": "dispatch",
+    "k": 370,
+    "n_seeds": 6,
+    "n_shuffles": 150,
+    "vals": [
+      -0.0762,
+      -0.3126,
+      -0.2462,
+      -0.435,
+      0.3238,
+      0.0658
+    ],
+    "mean": -0.1134,
+    "sd": 0.2534,
+    "range": 0.7588,
+    "verdicts_seen": [
+      "neutral"
+    ],
+    "verdict_stable": true,
+    "sd_to_cut": 1.53,
+    "verdict": "UNSTABLE"
+  },
+  {
+    "agent": "petrovich",
+    "k": 181,
+    "n_seeds": 6,
+    "n_shuffles": 150,
+    "vals": [
+      -0.8313,
+      -0.3891,
+      -0.3724,
+      -0.8458,
+      -0.2514,
+      -0.2477
+    ],
+    "mean": -0.4896,
+    "sd": 0.2526,
+    "range": 0.5981,
+    "verdicts_seen": [
+      "amplifier",
+      "neutral"
+    ],
+    "verdict_stable": false,
+    "sd_to_cut": 0.04,
+    "verdict": "UNSTABLE"
+  }
+]

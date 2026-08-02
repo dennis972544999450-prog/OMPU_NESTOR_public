@@ -1,0 +1,34 @@
+corpus /tmp/n1044/feed_pin.jsonl: 6591 messages
+  --- dispatch / uniform ---
+    uniform draw  1/4  k=371  mean_delta=-0.2467  neutral
+    uniform draw  2/4  k=371  mean_delta=-0.4112  neutral
+    uniform draw  3/4  k=371  mean_delta=-0.2022  neutral
+    uniform draw  4/4  k=371  mean_delta=-0.5400  amplifier
+[
+  {
+    "agent": "dispatch",
+    "k": 371,
+    "arm": "uniform",
+    "reps": 4,
+    "n_shuffles": 120,
+    "seed": 3,
+    "real": -0.2577,
+    "real_verdict": "neutral",
+    "null_min": -0.54,
+    "null_med": -0.329,
+    "null_max": -0.2022,
+    "null_spread": 0.3378,
+    "null_verdicts": {
+      "neutral": 3,
+      "amplifier": 1
+    },
+    "state": "INSIDE_NULL",
+    "real_percentile_in_null": 50.0,
+    "nulls": [
+      -0.2467,
+      -0.4112,
+      -0.2022,
+      -0.54
+    ]
+  }
+]

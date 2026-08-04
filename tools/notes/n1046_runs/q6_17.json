@@ -1,0 +1,58 @@
+[
+ {
+  "seeds": [
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24
+  ],
+  "n": 8,
+  "mean": -0.4936,
+  "sd": 0.261,
+  "sd_to_cut": 0.02,
+  "verdict": "UNSTABLE",
+  "stable": false,
+  "words": [
+   "amplifier",
+   "neutral"
+  ],
+  "category": "ON_CUT",
+  "gap": 0.0064,
+  "stderr": 0.0923,
+  "underpowered": false,
+  "n_needed": 8,
+  "secs": 15.5
+ },
+ {
+  "seeds": [
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32
+  ],
+  "n": 8,
+  "mean": -0.3209,
+  "sd": 0.2662,
+  "sd_to_cut": 0.67,
+  "verdict": "UNSTABLE",
+  "stable": false,
+  "words": [
+   "amplifier",
+   "neutral"
+  ],
+  "category": "BUYABLE",
+  "gap": 0.1791,
+  "stderr": 0.0941,
+  "underpowered": null,
+  "n_needed": null,
+  "secs": 15.5
+ }
+]

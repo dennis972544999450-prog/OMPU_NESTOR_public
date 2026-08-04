@@ -1,0 +1,42 @@
+[
+ {
+  "n": 2,
+  "mean": -0.3739,
+  "sd": 0.0686,
+  "gap": 0.1261,
+  "stderr": 0.0485,
+  "n_star": 0.3,
+  "category": "BUYABLE",
+  "underpowered": null
+ },
+ {
+  "n": 3,
+  "mean": -0.4604,
+  "sd": 0.1575,
+  "gap": 0.0396,
+  "stderr": 0.0909,
+  "n_star": 15.82,
+  "category": "ON_CUT",
+  "underpowered": true
+ },
+ {
+  "n": 4,
+  "mean": -0.4142,
+  "sd": 0.1583,
+  "gap": 0.0858,
+  "stderr": 0.0791,
+  "n_star": 3.4,
+  "category": "BUYABLE",
+  "underpowered": null
+ },
+ {
+  "n": 5,
+  "mean": -0.4544,
+  "sd": 0.1639,
+  "gap": 0.0456,
+  "stderr": 0.0733,
+  "n_star": 12.92,
+  "category": "ON_CUT",
+  "underpowered": true
+ }
+]

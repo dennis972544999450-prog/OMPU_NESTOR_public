@@ -1,0 +1,4 @@
+alpha=1.0                    need=None   short_by=0    honest=True achieved=1.0
+alpha=1.0                    need=None   short_by=0    honest=True achieved=1.0
+alpha=0.9                    need=2      short_by=0    honest=True achieved=0.75
+alpha=0.25                   need=7      short_by=0    honest=True achieved=0.25

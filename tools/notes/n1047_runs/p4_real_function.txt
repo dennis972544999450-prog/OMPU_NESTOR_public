@@ -1,0 +1,7 @@
+REAL FUNCTION round-trip misses n=1..2000: 1
+misses: [(1, 1.0, None)]
+envelope_alpha(1) = 1.0 -> reps_for_alpha -> None
+envelope_alpha(2) = 0.6666666666666666 ->  2
+reps_for_alpha(1.0) = None
+reps_for_alpha(0.9999999) = 2
+envelope_alpha(0) = nan

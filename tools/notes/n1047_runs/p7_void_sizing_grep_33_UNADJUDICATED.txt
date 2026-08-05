@@ -1,0 +1,33 @@
+./tools/bus_analyzer.py:264:        received = ns["received"] or 0
+./tools/null_agent.py:964:            "reps_short_by": max(0, (need or 0) - n)}
+./bus/bus.py:568:    """Register new agent. Balance = avg of existing (or 0 if first)."""
+./bus/backups/20260713T113838Z-swarm-virtual-recipient/bus.py:565:    """Register new agent. Balance = avg of existing (or 0 if first)."""
+./swarm_spine/librarian/corpus/catalog.py:155:        real = sum(r.get("size_bytes_real") or 0 for r in rows)
+./swarm_spine/librarian/corpus/catalog.py:163:        sel.sort(key=lambda r: -(r.get("downloads") or 0))
+./swarm_spine/librarian/corpus/catalog.py:176:        rows.sort(key=lambda r: (r.get("layer") or 9, -(r.get("downloads") or 0)))
+./swarm_spine/librarian/corpus/harvest_hf.py:151:    rows.sort(key=lambda r: -(r.get("downloads") or 0))
+./swarm_spine/librarian/corpus/probe.py:110:                    total += (t.get("lfs") or {}).get("size") or t.get("size") or 0
+./swarm_spine/digester/backups/20260713T104143Z_bus_feed_as_beta/bus.py:560:    """Register new agent. Balance = avg of existing (or 0 if first)."""
+./swarm_spine/compactor_v0/dual_gardener_baton.py:741:    if isinstance(existing, dict) and int(existing.get("expires_at_epoch") or 0) > now:
+./swarm_spine/compactor_v0/backups/20260713T230646Z_substitute_executor_v0/dual_gardener_baton.py:525:    if isinstance(existing, dict) and int(existing.get("expires_at_epoch") or 0) > now:
+./swarm_spine/compactor_v0/backups/20260713T230646Z_substitute_executor_v0/promote_gardener_pass.py:246:        if int(lease.get("expires_at_epoch") or 0) <= int(time.time()):
+./swarm_spine/compactor_v0/backups/20260718T1129_candidate_freeze_v0/promote_gardener_pass.py:270:        if int(lease.get("expires_at_epoch") or 0) <= int(time.time()):
+./swarm_spine/compactor_v0/promote_gardener_pass.py:360:        if int(lease.get("expires_at_epoch") or 0) <= int(time.time()):
+./bus_v2/canary/run_canary.py:364:            and float(bootstrap_stream.config.max_age or 0) == 0
+./bus_v2/canary/run_canary.py:487:        configured_duplicate_window = float(info.config.duplicate_window or 0)
+./bus_v2/verification_v0_1/acl_probe.py:412:                "duplicate_window_seconds": float(bootstrap_config.config.duplicate_window or 0),
+./bus_v2/verification_v0_1/candidate_copy/python_canary/run_canary.py:348:            and float(bootstrap_stream.config.max_age or 0) == 0
+./bus_v2/verification_v0_1/candidate_copy/python_canary/run_canary.py:443:        configured_duplicate_window = float(info.config.duplicate_window or 0)
+./bus_v2/verification_v0_1/python_fixture/canary/run_canary.py:364:            and float(bootstrap_stream.config.max_age or 0) == 0
+./bus_v2/verification_v0_1/python_fixture/canary/run_canary.py:487:        configured_duplicate_window = float(info.config.duplicate_window or 0)
+./bus_v2/read_model_v0_1/bus2_read_model/storage.py:249:        high_water = max(int(state["source_high_water_seq"]), source_high_water_seq or 0)
+./infoblock/test_ingest_cct_blocks_guard_petrovich_gen462.py:48:            code = int(e.code or 0)
+./artifacts_for_tardis/petrovich_drunken_monk_2026-05-25/codex_memory/petrovich_init_tunnel.py:238:    hops = {node_id: int(node.get("hop_distance") or 0) for node_id, node in nodes.items()}
+./nestor_repos/public/tools/jt_highwater_gate.py:218:                "high_water_post_id": max(pid or 0, hw_id),
+./nestor_repos/public/tools/phi_accrual_audit_nestor_gen1039.py:138:    rows.sort(key=lambda r: -(r['phi_shipped'] or 0))
+./nestor_repos/public/tools/agent_card_audit_v0_2.py:50:  NOT_A_CARD      : reachable but not a parseable A2A AgentCard (or 0 skills)
+./nestor_repos/public/crystals/probe_policy_prose_vs_code_gen612.py:95:    ("E4 verified liars==0", len(ver_liars) == 0, ver_liars or 0),
+./nestor_repos/public/crystals/probe_policy_prose_vs_code_gen612.py:97:     (len(raw_mute), ver_mute or 0)),
+./nestor_repos/public/crystals/probe_l3exec_publishguard_lastmatch_advisor_gen516.py:74:    parse_ok = (olv==ora_lv and abs((osc or 0)-ora_sc)<1e-9)
+./nestor_repos/public/crystals/probe_gen1014_divergent_verify_seatclass_layers_bolt_gen619.py:207:        f"stale-needle hits={found or 0}, frontdoor files missing={missing_files or 0}")
+./swarm_driver_pipeblind_gen411/verify_swarm_driver_pipeblind_gen411.py:112:    no_always_null = new_n >= old_n and new_max >= (old_max or 0)

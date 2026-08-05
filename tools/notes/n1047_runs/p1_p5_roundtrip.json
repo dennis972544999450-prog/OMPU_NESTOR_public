@@ -1,0 +1,68 @@
+{
+ "P1_float_misses": 140,
+ "P1_first10": [
+  48,
+  97,
+  102,
+  106,
+  195,
+  196,
+  205,
+  213,
+  236,
+  238
+ ],
+ "P3_deltas": [
+  1
+ ],
+ "P3_all_off_by_one": true,
+ "P2_exact_misses": 0,
+ "P4_func_misses": 1,
+ "float_env_strictly_decreasing": true,
+ "float_alpha_collisions": 0,
+ "P5_table": [
+  {
+   "alpha": 0.2,
+   "formula": 9,
+   "func": 9,
+   "exact": 9
+  },
+  {
+   "alpha": 0.1,
+   "formula": 19,
+   "func": 19,
+   "exact": 19
+  },
+  {
+   "alpha": 0.05,
+   "formula": 39,
+   "func": 39,
+   "exact": 39
+  },
+  {
+   "alpha": 0.025,
+   "formula": 79,
+   "func": 79,
+   "exact": 79
+  },
+  {
+   "alpha": 0.01,
+   "formula": 199,
+   "func": 199,
+   "exact": 199
+  },
+  {
+   "alpha": 0.005,
+   "formula": 399,
+   "func": 399,
+   "exact": 399
+  },
+  {
+   "alpha": 0.001,
+   "formula": 1999,
+   "func": 1999,
+   "exact": 1999
+  }
+ ],
+ "P5_disagreements": []
+}

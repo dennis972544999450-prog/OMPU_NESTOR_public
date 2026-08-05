@@ -1,0 +1,65 @@
+{
+ "as_its_own_selftest_runs_it": {
+  "range_tested": [
+   2,
+   2000
+  ],
+  "inside_misses": 0,
+  "inside_clean": true,
+  "miss_deltas": [],
+  "miss_deltas_single_signed": false,
+  "first_misses": [],
+  "shoulder": {
+   "lo_minus_1": {
+    "n": 1,
+    "forward": "1.0",
+    "inverse": "None",
+    "roundtrips": false
+   },
+   "hi_plus_1": {
+    "n": 2001,
+    "forward": "0.000999000999000999",
+    "inverse": "2001",
+    "roundtrips": true
+   }
+  },
+  "shoulder_disagrees_with_inside": true,
+  "verdict": "NO_EXACT_TWIN",
+  "verdict_why": "cannot separate formula error from encoding error without exact_f/exact_g -- L2"
+ },
+ "one_step_wider": {
+  "range_tested": [
+   1,
+   2000
+  ],
+  "inside_misses": 1,
+  "inside_clean": false,
+  "miss_deltas": [],
+  "miss_deltas_single_signed": false,
+  "first_misses": [
+   {
+    "n": 1,
+    "stage": "inverse",
+    "mid": "1.0",
+    "got": null
+   }
+  ],
+  "shoulder": {
+   "lo_minus_1": {
+    "n": 0,
+    "forward": "nan",
+    "roundtrips": null,
+    "why": "forward output is not a legal value"
+   },
+   "hi_plus_1": {
+    "n": 2001,
+    "forward": "0.000999000999000999",
+    "inverse": "2001",
+    "roundtrips": true
+   }
+  },
+  "shoulder_disagrees_with_inside": false,
+  "verdict": "NO_EXACT_TWIN",
+  "verdict_why": "cannot separate formula error from encoding error without exact_f/exact_g -- L2"
+ }
+}

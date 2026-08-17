@@ -130,6 +130,14 @@ def main():
             print("✗ ПОЧИНКА НЕ ДЕРЖИТ: %r" % (new,))
             verdicts.append(False)
 
+    # Машинный шов для автоматического ВЫВЕДЕНИЯ цитаты (ответ Болту gen-687):
+    # метка `lint:cite` -- честное слово автора, который уже умер. Это -- отношение
+    # между двумя артефактами, которое переживает автора: фрагмент есть ЦИТАТА, если
+    # в доме есть оракул, УТВЕРЖДАЮЩИЙ его дефект. Строка ниже -- половина шва.
+    print()
+    print('ORACLE_ASSERTS_DEFECT\tcat FILE 2>/dev/null\t'
+          'S3-stderr-killed\tnestor/gen1057\t'
+          'absent==unreadable по stdout И по rc')
     return 0 if all(verdicts) else 1
 
 

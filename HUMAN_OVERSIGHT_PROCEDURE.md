@@ -5,6 +5,53 @@
 
 ---
 
+## 0. Before running ANY command in this document — resolve the share root
+
+**Every absolute path below of the form `/sessions/relaxed-keen-planck/mnt/OMPU_shared/...`
+names ONE PARTICULAR AGENT SEAT** — the sandbox this document happened to be written in.
+Agent seats are per-session and disposable: each wake gets a new `/sessions/<name>/`.
+From any other seat those paths are unreachable. Verified 2026-08-18 by running the
+document's own emergency halt line (§3.4) from a live seat:
+
+```
+mv /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py ...halted
+→ mv: failed to access ...: Permission denied   (rc=1, and the bus keeps running)
+```
+
+An operator in a hurry gets a permission error, may reach for `sudo`, and does not
+learn the real cause: right command, wrong seat.
+
+**Every such path in this document has been replaced with `$OMPU`** by the patch that
+added this section. Re-checkable from the current file: `grep -c '\$OMPU'` → **14**
+call sites; every remaining mention of the old seat name lives inside this section
+only, as quoted evidence — verify with `grep -n relaxed-keen-planck` and read the
+line numbers, all of them are here.
+
+*(Footnote worth its line: my first draft of this paragraph claimed a hard count of
+the old-seat mentions. Writing the sentence added another mention and falsified the
+number in the same keystroke. A measurement can be invalidated by the act of
+recording it — same family as everything else this patch fixes.)*
+
+Run this first:
+
+```bash
+OMPU=""
+for C in "$HOME/mnt/OMPU_shared" "$HOME/OMPU_shared" /Users/denbell/OMPU_shared /sessions/*/mnt/OMPU_shared; do
+  [ -d "$C" ] && { OMPU="$C"; break; }
+done
+[ -n "$OMPU" ] || { echo "❌ SHARE ROOT NOT FOUND — do not proceed, this is not 'nothing to stop'"; exit 3; }
+echo "✔ OMPU=$OMPU"
+```
+
+If the root cannot be resolved, that is **not** "there is nothing to halt" — it is
+"this procedure cannot run". Fail closed and escalate to Den directly.
+
+*Section added by Nestor gen-1058, 2026-08-18, as document owner, alongside the
+RISK-008 seam in §3.2. Same defect class in both: a refusal wearing the costume of
+a result.*
+
+---
+
 ## Purpose
 
 This document defines the formal human oversight mechanisms for the OMPU multi-agent swarm. It satisfies EU AI Act Article 14 requirements for human oversight of agentic AI systems: the ability to monitor, interrupt, override, and stop automated agent behavior at any time.
@@ -46,7 +93,7 @@ Every Bolt session writes a log entry to `SWARM_ACTION_LOG.md`. Den can read the
 - See choice logs (what agents decided NOT to do and why)
 - Verify no unauthorized actions occurred
 
-**Path:** `/sessions/relaxed-keen-planck/mnt/OMPU_shared/SWARM_ACTION_LOG.md`
+**Path:** `$OMPU/SWARM_ACTION_LOG.md`
 
 ### 2.2 Telegram Digest
 
@@ -60,7 +107,7 @@ The Executive layer sends Telegram digests to Den:
 
 Den can read the message bus at any time:
 ```bash
-cd /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus
+cd "$OMPU"/bus
 python3 bus.py read --last 20
 ```
 All agent actions that involve inter-agent communication go through the bus. The bus is append-only — nothing can be deleted.
@@ -70,7 +117,7 @@ All agent actions that involve inter-agent communication go through the bus. The
 Swarm self-compliance is checked by `norm_monitor.py`. If norms are violated, bus alerts are generated and escalated to Den via Telegram if configured.
 
 ```bash
-python3 /sessions/relaxed-keen-planck/mnt/OMPU_shared/tools/norm_monitor.py --alert
+python3 "$OMPU"/tools/norm_monitor.py --alert
 ```
 
 ---
@@ -97,8 +144,10 @@ Closing the Cowork session immediately terminates all running Bolt instances. Ac
 
 The following command is the intended interface for a software-level halt signal:
 
-```bash
-cd /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus
+```text
+# NOT A COMMAND — `halt-all` does not exist in bus.py as of 2026-08-18 (verified: grep -c -i halt bus/bus.py → 0).
+# Fenced as `text`, not `bash`, on purpose: this block used to be extractable and runnable-looking.
+# Its `cd` path also names ANOTHER seat's directory — see the §0 warning about /sessions/<seat>/ paths.
 python3 bus.py halt-all \
   --from den \
   --from-model human \
@@ -117,15 +166,47 @@ python3 bus.py halt-all \
 
 **Current status:** Interface documented here. bus.py does not yet implement `halt-all`. Implementation task assigned to Bolt gen-91+ (RISK-008 open action). Until implemented, use Method 3.1 (session close) for emergency stops.
 
-**How Bolt instances poll for halt:**
-Any Bolt implementation reading this should, at the start of each new task phase, execute:
-```bash
-python3 bus.py status halt-all 2>/dev/null
+> ### ⛔ PLANNED ONLY — DO NOT USE AS A GATE
+>
+> **The polling recipe below does not work and must not be relied on as an emergency
+> stop. It is kept for design intent only. Verified by running, 2026-08-18:**
+>
+> | check | result |
+> |---|---|
+> | `grep -c -i "halt" bus/bus.py` | **0** — no `halt-all` subcommand exists in live code |
+> | `python3 bus.py status halt-all` | `❌ msg_id 'halt-all' не найден`, **rc=1** |
+> | `status` argument semantics | takes a **thread msg_id** only; `halt-all` silently degrades to a positional msg_id, argparse raises nothing |
+> | synthetic sentinel msg_id | both `OPEN` and `CLOSED` return **rc=0** — neither existence nor process code expresses HALT |
+> | consumers of `HALT_ALL` in live code | **none** |
+>
+> Worse than "unimplemented": the recipe as written silenced its own refusal with
+> `2>/dev/null`, so the one observable sign of the missing subcommand — the error
+> line — was thrown away. A machine copying this block would read **"no halt sentinel,
+> proceed"** from a gate that had never run. The gate was not broken; it was
+> **never connected, while looking connected.** This is the failure mode this whole
+> document exists to prevent, sitting inside the document.
+>
+> **RISK-008 remains open.** Found by Bolt gen-688, independently verified by
+> Petrovich-Codex (bus `1787035480_699738_96b0d7`), seam marked by Nestor gen-1058
+> as document owner. A producer-only sentinel would be false safety, so no
+> implementation is being improvised here. A real halt needs: authenticated human
+> origin, durable halt/clear state, scope, **fail-closed read** (unreadable ⇒ HALT),
+> and verified coverage of every consumer.
+>
+> **Until then the emergency stop is Method 3.1 (session close), and only that.**
+
+<details>
+<summary>Planned polling interface (non-executable, retained for design intent)</summary>
+
+```text
+# NOT A COMMAND — does not exist in bus.py as of 2026-08-18
+python3 bus.py status halt-all
 ```
 If a HALT_ALL sentinel exists and is unresolved, stop execution and write to log:
 ```
 [HALT] Received HALT_ALL sentinel. Stopping. Reason: <reason from sentinel>
 ```
+</details>
 
 ### 3.3 Stop All Cloudflare Workers
 
@@ -162,13 +243,15 @@ To prevent further code from being pushed to public GitHub:
 To stop new bus posts (while leaving existing messages readable):
 
 ```bash
+# Requires §0 first: $OMPU must be resolved, or this silently halts nothing.
+[ -n "$OMPU" ] || { echo "❌ run §0 first — \$OMPU unresolved, refusing to pretend I halted the bus"; exit 3; }
+
 # Move bus.py out of reach (recoverable):
-mv /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py \
-   /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py.halted
+mv "$OMPU/bus/bus.py" "$OMPU/bus/bus.py.halted" || { echo "❌ HALT FAILED — the bus is STILL RUNNING"; exit 3; }
+echo "✔ bus halted: $OMPU/bus/bus.py.halted"
 
 # To restore:
-mv /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py.halted \
-   /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py
+# mv "$OMPU/bus/bus.py.halted" "$OMPU/bus/bus.py" || echo "❌ RESTORE FAILED"
 ```
 
 **Note:** This is a blunt instrument. Prefer the HALT_ALL sentinel (3.2) when implemented.
@@ -182,7 +265,7 @@ mv /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus/bus.py.halted \
 Den can override any swarm decision by posting to the bus with explicit override flag:
 
 ```bash
-cd /sessions/relaxed-keen-planck/mnt/OMPU_shared/bus
+cd "$OMPU"/bus
 python3 bus.py post \
   --from den \
   --from-model human \
@@ -200,7 +283,7 @@ Den can modify any agent's policy.json to revoke capabilities:
 
 ```bash
 # Example: revoke deploy capability from Bolt
-# Edit: /sessions/relaxed-keen-planck/mnt/OMPU_shared/agent_passports/bolt/policy.json
+# Edit: $OMPU/agent_passports/bolt/policy.json
 # Change: "can_deploy_cloudflare": false
 # (field name may vary by passport version)
 ```

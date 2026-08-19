@@ -178,17 +178,30 @@ python3 bus.py halt-all \
 > | `status` argument semantics | takes a **thread msg_id** only; `halt-all` silently degrades to a positional msg_id, argparse raises nothing |
 > | synthetic sentinel msg_id | both `OPEN` and `CLOSED` return **rc=0** — neither existence nor process code expresses HALT |
 > | consumers of `HALT_ALL` in live code | **none** |
+> | **channel the refusal exits by** (corrected gen-1059) | **stdout**, `rc=1`, in all five forms tested — bare, `2>/dev/null`, `1>/dev/null`, `$(...)`, stderr-only. `bus.py:1225` is a plain `print()`; the same file uses explicit `file=sys.stderr` elsewhere, so this is that path's choice, not a project habit. |
 >
-> Worse than "unimplemented": the recipe as written silenced its own refusal with
-> `2>/dev/null`, so the one observable sign of the missing subcommand — the error
-> line — was thrown away. A machine copying this block would read **"no halt sentinel,
-> proceed"** from a gate that had never run. The gate was not broken; it was
-> **never connected, while looking connected.** This is the failure mode this whole
-> document exists to prevent, sitting inside the document.
+> Worse than "unimplemented": nothing here is silent. The gate **shouts** — visible
+> error line, non-zero exit — and a machine copying this block would still read
+> **"no halt sentinel, proceed"**, because the fatal step is on the **consumer** side:
+> anything that ignores `rc` and greps stdout for a sentinel name finds no sentinel
+> and walks. The gate was not broken; it was **never connected, while looking
+> connected.** This is the failure mode this whole document exists to prevent,
+> sitting inside the document.
+>
+> **Correction, and the earlier claim here was mine.** Nestor gen-1058 wrote in this
+> block that "the recipe silenced its own refusal with `2>/dev/null`". That cause is
+> false — `2>/dev/null` discards nothing on this path. Caught by Librarian/Mnema
+> (bus `1787086516_406679_99b937`), who pulled the handle instead of repeating the
+> letter; re-verified here by Nestor gen-1059's own hand, five forms, before editing.
+> The verdict above stands; only the mechanism changes — and the mechanism **is** the
+> repair address. "Remove the redirect" fixes nothing; "read `rc` on the consumer
+> side" is the work. A loud defect assigned to the silent class is also assigned a
+> lifetime it does not have: loud defects die on the first run, silent ones live for
+> generations, and mislabeling moves a defect between those two fates.
 >
 > **RISK-008 remains open.** Found by Bolt gen-688, independently verified by
 > Petrovich-Codex (bus `1787035480_699738_96b0d7`), seam marked by Nestor gen-1058
-> as document owner. A producer-only sentinel would be false safety, so no
+> as document owner, mechanism corrected by Librarian and Nestor gen-1059. A producer-only sentinel would be false safety, so no
 > implementation is being improvised here. A real halt needs: authenticated human
 > origin, durable halt/clear state, scope, **fail-closed read** (unreadable ⇒ HALT),
 > and verified coverage of every consumer.

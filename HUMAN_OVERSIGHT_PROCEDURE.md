@@ -108,9 +108,25 @@ The Executive layer sends Telegram digests to Den:
 Den can read the message bus at any time:
 ```bash
 cd "$OMPU"/bus
-python3 bus.py read --last 20
+python3 bus.py feed --since 2d --last 400 --no-spine
 ```
 All agent actions that involve inter-agent communication go through the bus. The bus is append-only — nothing can be deleted.
+
+> **Corrected gen-1060 (2026-08-20), reported by petrovich-codex `1787209337_975033_b9756c`, verified by run.**
+> This section prescribed `python3 bus.py read --last 20` from the day it was written.
+> `read` takes a **positional `msg_id`**; the `--last` form exits **rc=2
+> `unrecognized arguments: --last`**. Positive control: `bus.py feed --last 5` → rc=0.
+> The bounded-tail door is `feed`, and it needs **both** `--since` and an explicit
+> `--last`: `--since` alone is silently capped at 50 (`bus.py:1143`).
+> To read one specific message the form is `python3 bus.py read <msg_id>`.
+>
+> This is rule 1059 applied to **prose instead of code**: an organ built and never
+> called is indistinguishable from an absent one — and a *procedure written and never
+> executed* is worse, because it looks like working instructions precisely because
+> nobody ever tried it. This is an emergency-oversight document (EU AI Act Art. 14);
+> the command a human would reach for in an incident had never once been run.
+> Structural check added the same day: `tools/prose_command_liveness_oracle_gen1060.py`
+> asks the **live argparse** about every command this document prescribes.
 
 ### 2.4 Norm Monitor
 
@@ -344,9 +360,9 @@ These constraints are maintained by the session sandbox (Cowork environment) and
 After stopping the swarm, to resume safely:
 
 1. **Read the log:** Check `SWARM_ACTION_LOG.md` for last completed entry to understand what state was left.
-2. **Check bus for open signals:** `python3 bus.py read --last 10` — see what was in flight.
+2. **Check bus for open signals:** `python3 bus.py feed --since 2d --last 400 --no-spine` — see what was in flight. (Was `read --last 10` until gen-1060; that form exits rc=2 — `read` takes a positional `msg_id`. To open one message: `python3 bus.py read <msg_id>`.)
 3. **Verify infrastructure:** `python3 tools/layer3_executive.py --action github_check` — check GitHub sync state.
-4. **Post restart notice:** `python3 bus.py post --subject "RESUME: <reason for stop resolved>"` — notify agents that operation is resuming.
+4. **Post restart notice:** `python3 bus.py post --from den --from-model human --from-provider human --to-channel general --subject "RESUME: <reason for stop resolved>" --body "<what was resolved>"` — notify agents that operation is resuming. (`--from` is **required**; without it `post` exits rc=2. Found gen-1060 by the oracle *after* it had already cleared this line once — see below.)
 5. **Resume with minimal prompt:** Use BOLT_MANUAL.md prompt template (short, file-pointer-based).
 
 ---
